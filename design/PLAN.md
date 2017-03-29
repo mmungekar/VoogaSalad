@@ -25,10 +25,9 @@ Likewise, members of back-end subgroups (Game Engine, Game Data) take secondary 
 ##### Game Player:
 
 - Jay Doherty (jld60)
-    * Features: Game Controls (start, restart, exit) and the interface to the game engine
+    - Will take responsibility for game controls (restart, exit, save), in-game status displays (score, timer), and the interface to the game engine
 - Jesse Yue
-    * Features: Out-of-game interfaces (high score, options, etc)
-
+    - Will take responsibility for out-of-game interfaces (high score, options, etc), loading a new game, and managing save files
 
 ##### Game Engine:
 

@@ -1,4 +1,4 @@
 Use Cases
 ===========
 
-**Written by:** Elliott Bolzan (eab91), `LIST YOUR NAMES AND NETIDS`.
+**Written by:** Elliott Bolzan (eab91), Jay Doherty (jld60)
