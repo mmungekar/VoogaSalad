@@ -1,11 +1,9 @@
 Design Specifications
 ===========
 
-<<<<<<< HEAD
-**Written by:** Elliott Bolzan (eab91), Matthew Barbano (meb100), Jimmy Shackford (jas199).
-=======
-**Written by:** Elliott Bolzan (eab91), Matthew Barbano (meb100), Nikita Zemlevskiy (naz7).
->>>>>>> f158d99a68a7cc1a3f0fd19baed425f41ec281e3
+
+**Written by:** Elliott Bolzan (eab91), Matthew Barbano (meb100), Nikita Zemlevskiy (naz7), Jimmy Shackford (jas199), Jesse Yue (jty4).
+
 
 ## Introduction
 
@@ -167,6 +165,53 @@ The entity editor will allow the user to create a new **Entity**. The user shoul
 - Seeking to delete the game's only existing level.
 
 3\. **The Game Player**
+
+The Game Player will load a main menu with buttons that are appropriate for the games. It will have 5 options:
+
+1. Back
+2. Load Game
+3. Highscores
+4. Options
+5. Game Data
+
+- **Back**
+This button just returns to the main starting window, or if in any of the menus it will return to the Game Player starting window.
+
+- **Load Game**
+This button leads to a menu of all the available games for the user to select.
+Upon selecting a game they will be given the option of starting from the beginning or from a previous save point. 
+
+- **Highscores**
+This button leads to a menu of all the highscores in every available game.
+
+- **Options**
+This button leads to a menu where the user can adjust things like audio volume, in game controls, etc.
+
+- **Game Data**
+This button leads to a menu that holds descriptions of each game. This is a hub that holds useful information for a game, backstory, character data, or anything the game developer wants to include.
+
+Inside the actual game, there will be a toolbar at the top with 5 controls:
+
+1. Exit
+2. Save
+3. Restart
+4. Play/Pause
+5. Options
+
+- **Exit**
+Exits the game and takes you back to the Game Player main menu. From there the user can load a new game or change
+
+- **Save**
+Saves the game into a data file for continued play. Up to 5 saves per game, once there are more than 5 saves the oldest one will be overwritten.
+
+- **Restart**
+Restarts the game from the very beginning. Reloads the data file.
+
+- **Play/Pause**
+Pauses or plays the game.
+
+- **Options**
+Allows user to change settings of the particular game while in the game without going back to the main menu.
 
 ## Design Details
 

@@ -27,6 +27,7 @@ Likewise, members of back-end subgroups (Game Engine, Game Data) take secondary 
 - Jay Doherty (jld60)
 
 - Jesse Yue
+	- Will take responsibility of things outside of the actual game, such as highscores, options etc.
 
 ##### Game Engine:
 
