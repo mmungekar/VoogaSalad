@@ -79,6 +79,64 @@ INSERT DIAGRAM RELATING MODULES HERE    //TODO<-------------
 
 ## User Interface
 
+The User Interface for this project will be composed of three primary units:
+
+1. The Starter Window.
+2. The Authoring Environment.
+3. The Game Player.
+
+These three units are described below:
+
+1\. **The Starter Window**
+
+2\. **The Authoring Environment**
+
+The Authoring Environment will be further subdivided into three parts:
+
+1. The Settings (on the left in the image below).
+2. The Canvas (in the center in the image below).
+3. The Entity Panel (on the right in the image below).
+
+![](images/authoring.png)
+
+- **The Settings**
+
+The **Settings** panel will harbor all game-wide settings. 
+
+These settings may include: the scrolling platformer's orientation, whether the game scrolls automatically or when prompted by the character, the game's song, etc.
+
+In addition, the Settings will contain a `Save` button, that allows for the saving of the designed game to file. 
+
+Generally speaking, this section will only include "traditional" user interface elements: there should be no surprises in how the user should interact with the Settings.
+
+- **The Canvas**
+
+The **Canvas** is the section in which the constructed game will be visualized. 
+
+The **Canvas** will be tabbed: each tab will correspond to one **Level** in the game. Furthermore, any new **Level** should be created as a duplicate of the current **Level**, in order to minimize the user's design time.
+
+The user will be able to add **Entities** to the **Canvas** by clicking on an **Entity** in the **Entity Panel** and then clicking on the **Canvas**. Once the **Entity** is added to the **Canvas**, the user will be able to move it to its appropriate location by dragging it.
+
+Clicking on an existing **Entity** will open it in the **Entity Panel**'s editor.
+
+The **Canvas** should be able to extend infinitely, either horizontally or vertically. This way, the user can create games of any size. 
+
+- **The Entity Panel**
+
+This component's purpose is the creation, display, and editing of **Entities**, the basic building blocks of games. This component is split into two parts: the created entity display, and the entity editor.
+
+The created entity display will show the user which entities have been created, and provide a way for creating new entities. Upon clicking on an entity, the user will be able to click on the **Canvas** to add that entity to the game. 
+
+The entity editor will allow the user to create a new **Entity**. The user should be able to set the type of this new object; its image; and **Events** to which this **Entity** responds, associated to **Actions**. Most of the game's functionality should be created from this subpanel.
+
+*Errors will be indicated to the user through a JavaFX Dialog. Possible errors include*:
+
+- Incorrect parameters when an **Action** is created.
+- Incorrect parameters for game-wide settings.
+- Seeking to delete the game's only existing level.
+
+3\. **The Game Player**
+
 ## Design Details
 
 ## Example Games
