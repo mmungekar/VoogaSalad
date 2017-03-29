@@ -1,9 +1,44 @@
 Design Specifications
 ===========
 
+<<<<<<< HEAD
+**Written by:** Elliott Bolzan (eab91), Matthew Barbano (meb100), Jimmy Shackford (jas199).
+=======
 **Written by:** Elliott Bolzan (eab91), Matthew Barbano (meb100), Nikita Zemlevskiy (naz7).
+>>>>>>> f158d99a68a7cc1a3f0fd19baed425f41ec281e3
 
 ## Introduction
+
+Our team is trying to solve the following problems:
+*	Allow a user to create their own platform scroller game through a game authoring environment
+*	Allow a user to edit a previously created game
+*	Allow a user to play a game that they created
+
+The design/flexibility goals of the project are:
+*	Allow future programmers to add new types of field objects
+*	Easily allow users to change the actions that occur for each of the following cases:
+    *	Mouse interactions (mouse click, drag, move, etc.)
+    *	Object collisions from multiple directions (ex. mario collides with a block from the bottom)
+    *	Timer expirations (game clock runs out, koopa shell turns into koopa monster after certain amount of time)
+*	Easily allow users to save the state of the game
+*	Easily allow users to save/load a game they created in the authoring environment
+*	Add animations to objects.
+*	Add different levels to a game that has already been created.
+
+The closed/open portions of the design architecture are:
+*	Open (change these classes to allow for future extensibility): 
+    *	Field object inheritance structure so that new ones can be added
+    *	Actions (for mouse interactions, object collisions, timer expirations)
+    *	The game display in the game player
+    *	Game settings
+*	Closed (don't need to change these classes to allow for future extensibility):
+    *	How the game authoring environment saves/loads a created game
+    *	Adding a new element to the game through the authoring environment
+    *	Selecting actions in the authoring environment to assign to a certain event
+    
+The scrolling platformer game genre is one where the screen is focused on a main character, who is in a stage much larger than the screen depicts at a given moment. As the character moves, the screen moves around with the character to depict other parts of the stage. Within the game, there are elements that the main character can interact with (blocks that the user can hit to get power-ups, a floor which the main character can run on, etc.). Moreover, there are certain winning/losing conditions. Our game will need to support interactions between different objects, interactions between the mouse and the field, and the win/lose conditions. Moreover, we will need to design the game to support a screen which moves with the character. In some scolling platformer games, the background moves at different speeds than the foreground. Thus, we will need to support the addition of multiple foreground/background layers.
+
+At a very high-level, we need to have a game-authoring environment which allows users to create their own games/levels and store them to a file. Then, we need to be able to load these levels and play them within a game player. The game engine determines how the game changes when certain buttons or pressed or certain actions occur.  
 
 ## Overview
 
@@ -13,7 +48,7 @@ On the highest level, our project will include the standard four subgroups, each
 *	Game Player
 *	Game Data Manager
 
-The Game Player, which will play a game with a configuration that the user has saved, will communicate with the Game Engine to obtain data for running the game. It will not communicate with any other of the four subgroups. The Game Engine will communicate with both the Game Authoring Environment, which will take care of updating the UI, and the Game Data Manager, which will save games that the user has created. 
+The Game Player, which will play a game with a configuration that the user has saved, will communicate with the Game Engine to obtain data for running the game. It will not communicate with any other of the four subgroups. The Game Engine will communicate with both the Game Authoring Environment, which will take care of updating the UI, and the Game Data Manager, which will save games that the user has created.
 
 The Game Engine will be divided into the following modules:
 *	Game Module– The highest-level module, manages the flow of time, organization of levels, and interaction with the Game Player. It will contain the following classes:
