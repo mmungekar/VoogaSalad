@@ -1,9 +1,44 @@
 Design Specifications
 ===========
 
-**Written by:** Elliott Bolzan (eab91), Matthew Barbano (meb100), .
+<<<<<<< HEAD
+**Written by:** Elliott Bolzan (eab91), Matthew Barbano (meb100), Jimmy Shackford (jas199).
+=======
+**Written by:** Elliott Bolzan (eab91), Matthew Barbano (meb100), Nikita Zemlevskiy (naz7).
+>>>>>>> f158d99a68a7cc1a3f0fd19baed425f41ec281e3
 
 ## Introduction
+
+Our team is trying to solve the following problems:
+*	Allow a user to create their own platform scroller game through a game authoring environment
+*	Allow a user to edit a previously created game
+*	Allow a user to play a game that they created
+
+The design/flexibility goals of the project are:
+*	Allow future programmers to add new types of field objects
+*	Easily allow users to change the actions that occur for each of the following cases:
+    *	Mouse interactions (mouse click, drag, move, etc.)
+    *	Object collisions from multiple directions (ex. mario collides with a block from the bottom)
+    *	Timer expirations (game clock runs out, koopa shell turns into koopa monster after certain amount of time)
+*	Easily allow users to save the state of the game
+*	Easily allow users to save/load a game they created in the authoring environment
+*	Add animations to objects.
+*	Add different levels to a game that has already been created.
+
+The closed/open portions of the design architecture are:
+*	Open (change these classes to allow for future extensibility): 
+    *	Field object inheritance structure so that new ones can be added
+    *	Actions (for mouse interactions, object collisions, timer expirations)
+    *	The game display in the game player
+    *	Game settings
+*	Closed (don't need to change these classes to allow for future extensibility):
+    *	How the game authoring environment saves/loads a created game
+    *	Adding a new element to the game through the authoring environment
+    *	Selecting actions in the authoring environment to assign to a certain event
+    
+The scrolling platformer game genre is one where the screen is focused on a main character, who is in a stage much larger than the screen depicts at a given moment. As the character moves, the screen moves around with the character to depict other parts of the stage. Within the game, there are elements that the main character can interact with (blocks that the user can hit to get power-ups, a floor which the main character can run on, etc.). Moreover, there are certain winning/losing conditions. Our game will need to support interactions between different objects, interactions between the mouse and the field, and the win/lose conditions. Moreover, we will need to design the game to support a screen which moves with the character. In some scolling platformer games, the background moves at different speeds than the foreground. Thus, we will need to support the addition of multiple foreground/background layers.
+
+At a very high-level, we need to have a game-authoring environment which allows users to create their own games/levels and store them to a file. Then, we need to be able to load these levels and play them within a game player. The game engine determines how the game changes when certain buttons or pressed or certain actions occur.  
 
 ## Overview
 
@@ -13,7 +48,7 @@ On the highest level, our project will include the standard four subgroups, each
 *	Game Player
 *	Game Data Manager
 
-The Game Player, which will play a game with a configuration that the user has saved, will communicate with the Game Engine to obtain data for running the game. It will not communicate with any other of the four subgroups. The Game Engine will communicate with both the Game Authoring Environment, which will take care of updating the UI, and the Game Data Manager, which will save games that the user has created. 
+The Game Player, which will play a game with a configuration that the user has saved, will communicate with the Game Engine to obtain data for running the game. It will not communicate with any other of the four subgroups. The Game Engine will communicate with both the Game Authoring Environment, which will take care of updating the UI, and the Game Data Manager, which will save games that the user has created.
 
 The Game Engine will be divided into the following modules:
 *	Game Module– The highest-level module, manages the flow of time, organization of levels, and interaction with the Game Player. It will contain the following classes:
@@ -138,3 +173,18 @@ The entity editor will allow the user to create a new **Entity**. The user shoul
 ## Example Games
 
 ## Design Considerations
+
+- Events and actions<br>
+One of the points that was actively discussed by our team was the basic structure of games. The goal was to create a design that was general enough to support many kinds of scrolling platformer games, while being flexible and extensible. We identified that a game can be expressed by several things. Entities (objects that are in the game) and how these `Entity` elements interact. The interaction can be very different depending on what causes it (ie user input vs collision) and can be different per game. Thus, a general but flexible design was created. Interactions, called `Action`s will be triggered by `Event`s. Thus, an `Entity` owns a number of `Events`, which trigger their respective `Actions` when they occur. Examples of this can be seen in the use cases for the game engine. This is a flexible design, as it accounts for many aspects of games at once. This way, user input, collisions, clock events can all be some kind of `Event` in that hierarchy. If an extendor needs to add a new kind of event games might want to respond to, one would just extend the `Event` superclass. The `Action` hierarchy is flexible and extensible in a similar way. `Action`s could be winning a game, releasing a powerup (if the object is block), dying, etc. It is equally easy to add new `Action`s to the game engine if desired.
+
+- Where to keep JavaFX Nodes<br>
+Another point of discussion of our whole team was where to keep and generate JavaFX Nodes. Our initial idea was to have JavaFX Nodes stored or generated inside of every `Entity`. The advantage of this design is that no outside classes would have to know about the inner workings of each `Entity`. An initial idea about this design was that there would be less code duplication, since otherwise both the authoring environment and the gameplay environment would have to make their own JavaFX  Nnodes representing the `Entity` objects. The design our group chose in the end was to make a `NodeFactory` class, which would generate JavaFX Nodes out of `Entity` objects. Utilizing the Factory design pattern we were able to avoid mixing backend and frontend code, which seemed like a bad idea from the start. Additionally, we could add functionality that is needed for these nodes specifically for the authoring environment and gameplay environment after the nodes have been already generated by the `NodeFactory`. For example, if we need to add `onClick` functionality for the authoring environment but not for the gameplay, we can do that after making the node. This design streamlined the creation and transformation of `Entities` to nodes.
+
+- How much responsibility to give the Player (related to the above)<br>
+Our team discussed how much functionality to embed in the player. At first, our idea was to generate all JavaFX components in the game engine. Under this design, the Player (the gameplay environment, not the user) would only have play, pause, and other such functionality. However, this seemed like an unreasonable distribution of responsibility due to the reasons outlined above. In order to avoid mixing backend and frontend code as much as possible, our team opted for a design that gave more functionlaity to the Player. Now, the Player is responsible for getting the JavaFX Nodes from the `NodeFactory` and placing them correctly in the visualization. In addition to the responsibilities the Player had before, it has to also talk to the `Game` in the game engine about running the game and recieve updates that resulted from the screen scrolling, from user input, and from gameplay collisions. This design will result in a cleaner, more closed and more organized code. Separating the model from the view according to the MVC design pattern is one of the goals of this project's design.
+
+- Where to do creation of entities<br>
+There was a question about where to create the entities. There are two options. Either the `Entity` objects that make up levels in the game will be created directly by the authoring environment when a user is making a game and when a game is being loaded from a saved file, or the `Entity` objects can be created in the game engine by a `EntityFactory`, and the authoring environment and the game data loader will just call a method `getEntity` in the `EntityFactory` when these components identify that an `Entity` is required. The second design was chosen, for the reason of avoiding duplicated code. The disadvantage of the first design is that the authoring environment and game data loader would contain similar functionality, which is avoided through the second design. A possible disadvantage of the second design is that it requires passing strings to the game engine, which could lead to magic values in the code. However, the use of reflection will solve that problem and both reduce the `if` statements in the `EntityFactory` code, and will streamline the creation of `Entity` objects when a string is given.
+
+- Should `Action`s and `Event`s have parameters<br>
+A point of debate was whether actions and events have parameters, or whether there should be a separate action and event for every possible parameter. The original design was following the latter idea, where `Action` and `Event` would be subclassed numerous times to capture all possible combinations of user input when creating games (within reasonable bounds, for instance). However, this design was quickly debunked when the idea of the timer being an `Event` that triggers an `Action` (which would work according to our flexible design of `Action`s and `Event`s) was brought up. This design would require creating an event for every possible millisecond to allow the user to select any amount of time as the maximum amount for a level that is being created. This was absurd, and the point was proven that `Action` and `Event` instances should have parameters. For example, when the user clicks the up arrow, there should be an option of how much to move the character (if the move up `Action` is selected). This has implications for communicating between the authoring environment and the game engine as well, as the authoring environment needed a way to see all of the parameters that needed to be set for a given `Action` or `Event`. This was solved by providing `getParams` and `setParams` methods in both classes. This design is the better one, as it is more extensible and flexible, and will surely result in much less code duplication and clutter.
