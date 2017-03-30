@@ -131,6 +131,12 @@ public interface AuthoringInternalAPI {
 	public void handleMouseHover();
 
 	/**
+	 * Returns the Entity that the user has selected in the Entity panel.
+	 * @return the currently selected Entity.
+	 */
+	public Entity getSelectedEntity();
+
+	/**
 	 * Let the user pick game-wide song. Implemented using a FileChooser. The
 	 * resulting File is sent to the Game Data module for saving.
 	 */
