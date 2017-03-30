@@ -25,7 +25,7 @@ Matthew Barbano (meb100)
 Nikita Zemlevskiy (naz7)
 
 ##### Game Data:
-Dennis Ling 
+Dennis Ling (dl186)
 
 Michael Li (mxl3)
 
