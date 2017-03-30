@@ -44,7 +44,7 @@ Likewise, members of back-end subgroups (Game Engine, Game Data) take secondary 
 
 ##### Game Data:
 
-- Dennis Ling 
+- Dennis Ling (dl186)
 
 - Michael Li (mxl3)
 
