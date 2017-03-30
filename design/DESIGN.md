@@ -227,7 +227,10 @@ Allows user to change settings of the particular game while in the game without 
 
     Space Shooters is also an infinite scrolling game. In this scenario, a space ship flies horizontally through space, and has to both shoot down enemies, and avoid asteroids. The spaceship has a set amount of lives, and if it collides into an asteroid, or if an enemy shoots down and/or collides with the spaceship, then the spaceship loses a life. If the spaceship runs out of lives, then the player loses. Once the spaceship reaches the end of the game, the game is won, and the game ends.
 
-    The 
+    A randomization engine is still necessary for this game, and different objects are now necessary. The primary objects would be bullets, enemies, asteroids, and spacheship. The spaceship would have no gravity component, and would have a component that is simply an integer, called "lives". Bullets would have a collision event, where both the bullets themselves, and the things they collide themselves, would be destroyed. Enemies would have their own behavior, where they would move in a certain pattern, and they would shoot (instantiate) bullets that move forward. If these bullets collide with the spaceship, the spaceship loses a life. Asteroids have a simple moving behavior, and only destroy themselves if they collide with a bullet and/or the spaceship. Once the spaceship travels a set amount of distance (in pixels), then the win state object is instantiated, and once the spaceship collides with that, the person wins the game. However, if the lives component of the spaceship reaches 0, then the person loses the game, and has to start over.
+    
+    
+    
 -   **Super Mario Bros** 
 
 
