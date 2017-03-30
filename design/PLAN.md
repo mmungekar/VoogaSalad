@@ -19,15 +19,18 @@ Likewise, members of back-end subgroups (Game Engine, Game Data) take secondary 
 	- Will take responsibility for the layout of the Authoring Environment's user interface: collapsible windows, the use of `SplitPanes`, etc.
 
 - Mina Mungekar (mem94)
+	- Will create Settings panel in Authoring Environment
+	- Will account for use cases which involve changing properties of Entities (i.e., setting orientation)
+	- Will take responsibility for communicating changes with the back-end
 
 - Jimmy Shackford (jas199)
 
 ##### Game Player:
 
 - Jay Doherty (jld60)
-
+    - Will take responsibility for game controls (restart, exit, save), in-game status displays (score, timer), and the interface to the game engine
 - Jesse Yue (jty4)
-	- Will take responsibility of things outside of the actual game, such as highscores, options etc.
+    - Will take responsibility for out-of-game interfaces (high score, options, etc), loading a new game, and managing save files
 
 ##### Game Engine:
 
