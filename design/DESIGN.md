@@ -233,6 +233,8 @@ Allows user to change settings of the particular game while in the game without 
     
 -   **Super Mario Bros** 
 
+    Super Mario Bros. is a scrolling platformer where Mario has to traverse past enemies and obstacles in order to reach the end, which is a flag. Mario has to make sure not to fall off the edge, nor get killed by enemies, such as turtles and goombas. In order to kill enemies, Mario jumps on them, which causes them to flatten, and disappear. Once Mario reaches the end, a flag animation pops up, and he raises a flag. Mario can also jump under power-up blocks, causing powerups such as mushrooms to appear. 1-up mushroom grant mario an extra life, and regular mushroom causes mario to grow, and prevents him from dying once if he gets hit.
+
 
 ## Design Considerations
 
