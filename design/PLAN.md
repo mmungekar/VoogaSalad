@@ -19,6 +19,9 @@ Likewise, members of back-end subgroups (Game Engine, Game Data) take secondary 
 	- Will take responsibility for the layout of the Authoring Environment's user interface: collapsible windows, the use of `SplitPanes`, etc.
 
 - Mina Mungekar (mem94)
+	- Will create Settings panel in Authoring Environment
+	- Will account for use cases which involve changing properties of Entities (i.e., setting orientation)
+	- Will take responsibility for communicating changes with the back-end
 
 - Jimmy Shackford (jas199)
 
