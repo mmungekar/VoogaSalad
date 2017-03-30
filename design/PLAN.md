@@ -43,12 +43,8 @@ Likewise, members of back-end subgroups (Game Engine, Game Data) take secondary 
 - Nikita Zemlevskiy (naz7)
 
 ##### Game Data:
-<<<<<<< HEAD
-Dennis Ling (dl186)
-=======
->>>>>>> master
 
-- Dennis Ling 
+- Dennis Ling (dl186)
 
 - Michael Li (mxl3)
 
