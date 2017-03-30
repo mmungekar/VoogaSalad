@@ -1,7 +1,7 @@
 Use Cases
 ===========
 
-**Written by:** Elliott Bolzan (eab91), Jesse Yue (jty4), Jay Doherty (jld60), Mina Mungekar(mem94)
+**Written by:** Elliott Bolzan (eab91), Jesse Yue (jty4), Jay Doherty (jld60), Mina Mungekar(mem94), Nikita Zemlevskiy (naz7)
 
 ---------------
 
@@ -131,5 +131,23 @@ Michael Li (mxl3)
 
 - 'GameSaver' will, given a filepath, compress the game folder into a zip file
 - The zip file filepath is returned
+
+------------
+
+Nikita Zemlevskiy (naz7)
+The following use cases focus on the functionality of the game engine and assume other parts of the project are functioning as expected.
+
+- The user presses a key to throw a moving object in the game.<br>
+The `Player` module will handle the user input. Since all key presses will be bound to a `handleKeyPressed` method in the backend, this method will get triggered automatically. This method will identify all entities that have an event corresponding to that key being pressed. Next, those events will be triggered, and their respective actions will `act`. In this case, some kind of new entity will be created, and it's speed will be set accordingly to the action. This way, the moving object will be created and will fly off as expected.
+
+
+- The moving object thrown goes off of the screen.<br>
+When the moving object (such as a turtle on the screen in the case of mario) is moving toward one side, it will fly off of the screen at some point. It will continue to be updated on every call of the game loop (step), even though it is not within the range of the screen. The screen will begin at the position determined by the `Camera` and will end at that position + width (height) of screen.
+
+- User creates a block that releases a powerup on a collision with a character (and the character is reflected to the direction opposite his initial direction of motion).<br>
+The game authoring environment will create the appropriate `Entity` object. These include the character entity and the block entity. Next, the user will select an event which corresponds to the desired behavior. In this example, two `CollisionEvent` objects will be created. One will be the collision from the perspective of the block, and the other will be from the perspective of the character. These events will have their respective `Collision` objects, which differentiate the two. Next, the desired behavior will be added by creating the appropriate `Action` objects and attaching them to the `Event` objects that were just created. In this example, these are releasing a powerup for the block, and bouncing back for the character. The events will then be added to the respective `Entity` objects, which completes the use case.
+
+- The above collision happens.<br>
+When a collision happens, it will be detected in the game engine. This will set off the appropriate `Event`s in the appropriate entities. In this example, the game engine will detect that the above collision occured, and will check if those entities have an event to respond to that collision. If they do (which they do), these events will be triggered, and the `act` methods of the respective `Action` objects contained in the `Event` objects will be called to complete the actions requested. Here, the character will be reflected to the opposite way (speed will be changed accordingly) and the block will spawn a new `Entity` with the respective `Event` and `Action` objects attached (give the powerup to the character when colliding with the character). This behavior will have to be preset by the user in the authoring environment.
 
 
