@@ -112,19 +112,24 @@ Michael Li (mxl3)
 
 **Save a particular Entity**
 
-- The Entity will be passed through a constructor 'Saver' class
-- Something
+- The Entity will be saved by 'GameSaver'
+- saveDefaultEntity(Entity entity) will save the Entity into a serialization
 
 **Loading a game file (gameauthoring environment, collection of objects)**
 
--Something
+- The class 'GameLoader' would take in a string of the filepath, from the constructor
+- This string will load the collection of Entities, and turn them into a level
+- The Level class is returned
 
 **Saving a game into a game folder**
 
-- Something
+- The Level, which is a collection of Entities, is serialized, and saved into a folder
+- All necessary files (images, sound files, etc.) are also saved into the respective folders
+- All this is done through 'GameSaver'
 
 **Exporting a zip game folder**
 
-- Something
+- 'GameSaver' will, given a filepath, compress the game folder into a zip file
+- The zip file filepath is returned
 
 
