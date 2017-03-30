@@ -6,10 +6,14 @@ Use Cases
 ---------------
 
 Jesse Yue
-* Starting a New Game
+* Starting a Game
+To start a new game the user will click the Load Game button in the Game Player. This will lead to a new sub menu where the user can either choose to start a new game or choose a save file.
 * Pausing the Game
-* Exit the Game
-* Loading a Game
+Within the game there will be a button at the top that will stop the Game Loop when clicked.
+* Changing a Setting
+Click the Options button in the Game Player and from there change any options for any game. These are tied to the data files of each game.
+* Exiting the Game
+There will be a button at the top of the Game window to exit the game. Upon clicking it will prompt the user if they want to save their progress. When closed it will return to the Game Player main menu.
 
 -------------
 
@@ -74,13 +78,6 @@ FileChooser` he or she is presented with.
 - By double-clicking on individual `Entities`, `Events`, and `Actions` in the corresponding subpanels, the user is brought to a window in which he or she can edit the object.
 - Once the object in question is edited and saved, `Entities` that are affected by the change are modified within the game.
 - Each of these subpanels also gives the option to create a new object.
-- 
-
-
-
-
-
-
 
 
 Michael Li (mxl3)
@@ -101,4 +98,5 @@ Michael Li (mxl3)
 
 
 **Exporting a zip game folder
+
 
