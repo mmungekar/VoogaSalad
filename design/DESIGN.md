@@ -81,17 +81,14 @@ The Game Engine will be divided into the following modules:
     *	Movement. - This includes the physics of jumping/gravity.
     *  	Note: Obtains the list of these Actions through reflection.
 
-The GAE will be divided into the following modules (some of which have counterparts in the Game Engine, others of which do not):
+The GAE will be divided into the following modules:
 
-* Entity Module - counterpart to the Entity module in Game Engine
-        *   Contains counterparts for all three categories (Character, Block, and Background) for drawing JavaFX objects.
-* Action Module - counterpart to the Action module in the Game Engine
-        *	Contains counterparts to ALL of the Game Engine classes in this module for updating the level Scene appropriately.
+* Entity Display Module:
+        *   Displays Entities that the user has created. Allows the user to edit these Entities, or to request the creation of new ones. 
+* Entity Editing Module:
+        *	A module that closely relates to the Entity module. Here, the user will have the opportunity to create and edit Entities by assigning Events and Actions to them.
 *	Settings Module - For editing game-wide settings and saving the game to disk.
-
 *	Canvas Module - For visualizing the Entities added to the game and interacting with them. The user should be able to move these Entities around.
-
-*	Entity Module - For creating, displaying, and editing Entities. The user should be able to assign specific Events and corresponding Actions to each created Entitity.
 
 The Game Player will consist of two modules:
 
@@ -226,15 +223,15 @@ Allows user to change settings of the particular game while in the game without 
 
 **Game Authoring Environment**
 
-* The Canvas Module will be the canvas on which the user edits and creates the game. It will provide the functionality of adding multiple backgrounds/foregrounds to the game as well as serving as a visual interface for the user to add and modify entities. The Canvas Module will directly communicate with the Entity Module-- once an entity has been customized, the user should directly be able to add it to the canvas while maintaining its user-defined properties.
+* The `Canvas Module` will be the canvas on which the user edits and creates the game. It will provide the functionality of adding multiple backgrounds/foregrounds to the game as well as serving as a visual interface for the user to add and modify entities. The `Canvas Module` will directly communicate with the `Entity Display Module` and the `Entity Editing Module` -- once an entity has been customized, the user should directly be able to add it to the canvas while maintaining its user-defined properties.
 
-* The Action/Event Module
+* The `Entity Editing Module` will serve as a creation point for Entities. In this panel, the user will be able to mix and match Events and Actions, before assigning them to the Entity being created. Once an Entity is created in this module, it will appear in the `Entity Display Module`. Likewise, an Entity in the `Entity Display Module` should be editable using this module.
 
-* The Entity Module will provide the user with the ability to select and drag entities to the canvas.
+* The `Entity Display Module` will provide the user with the ability to select and drag entities to the canvas. In addition, the module will give the user the option of launching the `Entity Editing Module` to edit an existing Entity, and will also allow the user to delete a created Entity.
 
-* The Settings Module will allow the user to change game-wide settings. It contains a save button that directly communicates to the Game Data module (through a listener) when a game needs to be written to an XML file. The Settings Module will be different from the other modules in the sense that whatever is selected through it will be applied to the entire game (i.e., background music and scrolling direction). New settings can be added to the module through the addition of specific text fields/combo-boxes that directly reference valid features of the game. 
+* The `Settings Module` will allow the user to change game-wide settings. It contains a save button that directly communicates to the Game Data module (through a listener) when a game needs to be written to an XML file. The Settings Module will be different from the other modules in the sense that whatever is selected through it will be applied to the entire game (i.e., background music and scrolling direction). New settings can be added to the module through the addition of specific text fields/combo-boxes that directly reference valid features of the game. 
 
-* All information contained in the authoring environment (game layout, custom entities created, etc...) will be passed to Game Data and saved. This way, not only will the user be able to access a saved game, he/she would also be able to save anything customized in the authoring environment. 
+* All information contained in the authoring environment (game layout, custom entities created, etc.) will be passed to `Game Data` and saved. This way, not only will the user be able to access a saved game, he/she would also be able to save anything customized in the authoring environment. 
 
 **Game Player**
 Has 2 modules
@@ -267,8 +264,7 @@ The only other module it interacts with is the Game Engine, where it gets all th
     Space Shooters is also an infinite scrolling game. In this scenario, a space ship flies horizontally through space, and has to both shoot down enemies, and avoid asteroids. The spaceship has a set amount of lives, and if it collides into an asteroid, or if an enemy shoots down and/or collides with the spaceship, then the spaceship loses a life. If the spaceship runs out of lives, then the player loses. Once the spaceship reaches the end of the game, the game is won, and the game ends.
 
     A randomization engine is still necessary for this game, and different objects are now necessary. The primary objects would be bullets, enemies, asteroids, and spacheship. The spaceship would have no gravity component, and would have a component that is simply an integer, called "lives". Bullets would have a collision event, where both the bullets themselves, and the things they collide themselves, would be destroyed. Enemies would have their own behavior, where they would move in a certain pattern, and they would shoot (instantiate) bullets that move forward. If these bullets collide with the spaceship, the spaceship loses a life. Asteroids have a simple moving behavior, and only destroy themselves if they collide with a bullet and/or the spaceship. Once the spaceship travels a set amount of distance (in pixels), then the win state object is instantiated, and once the spaceship collides with that, the person wins the game. However, if the lives component of the spaceship reaches 0, then the person loses the game, and has to start over.
-    
-    
+   
     
 -   **Super Mario Bros** 
 
