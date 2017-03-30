@@ -74,3 +74,31 @@ FileChooser` he or she is presented with.
 - By double-clicking on individual `Entities`, `Events`, and `Actions` in the corresponding subpanels, the user is brought to a window in which he or she can edit the object.
 - Once the object in question is edited and saved, `Entities` that are affected by the change are modified within the game.
 - Each of these subpanels also gives the option to create a new object.
+- 
+
+
+
+
+
+
+
+
+Michael Li (mxl3)
+
+
+**Save a particular Entity
+
+
+-The Entity will be passed through a constructor 'Saver' class
+-t
+
+
+
+**Loading a game file (gameauthoring environment, collection of objects)
+
+
+**Saving a game into a game folder
+
+
+**Exporting a zip game folder
+
