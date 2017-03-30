@@ -218,8 +218,16 @@ Allows user to change settings of the particular game while in the game without 
 
 -   **Doodle Jump**
 
-    Doodle Jump is an infinite scrolling game that randomizes the blocks as the player progresses. The player progresses vertically, and is affected by gravity. If the player lands on a block, the player jumps, and progresses upwards.
+    Doodle Jump is an infinite scrolling game that randomizes the blocks as the player progresses. The player progresses vertically, and is affected by gravity. If the player lands on a block, the player jumps, and progresses upwards. With each bounce, more blocks appears, and as the player progresses, their score increases. Powerups can also cause the player to fly up, and blocks exist that suddenly disappear when jumped on. If the player misses a block, and falls down the stage, then the player loses. There is no win state in Doodle Jump. Instead, the point is to rack up as many points as possible.
+    
+    To implement this, the GameAuthoring environment has to support randomization in such a way where it is still possible to progress. In order to do so, we use a randomization engine that esbalishes the possible bounds in which "blocks" can be randomized. From there, each block will have an event, which is the collision of the doodle character with the block, and that will cause the block to do its own respective behavior, and also cause the doodle jump character to bounce. At the bottom of the stage, we have an invisible object that, where if the character collides with the invisible object, the lose state of the game is reached. Not only that, but the doodle character player will have a gravity component. Any powerup collisions will do its respective powerup action. For example, a "helicopter hat" powerup causes the doodle-jump character to hover for a set period of time. To implement this with our game creator, a collision with the helicopter hat causes a change in the visual appearance of the game character, and causes an upward movement of the game character for a set amount of seconds. As the doodle jump character progresses upwards, a "high score" object will increase in score, increasing the character's score.
+    
+    
 -   **Space Shooter**
+
+    Space Shooters is also an infinite scrolling game. In this scenario, a space ship flies horizontally through space, and has to both shoot down enemies, and avoid asteroids. The spaceship has a set amount of lives, and if it collides into an asteroid, or if an enemy shoots down and/or collides with the spaceship, then the spaceship loses a life. If the spaceship runs out of lives, then the player loses. Once the spaceship reaches the end of the game, the game is won, and the game ends.
+
+    The 
 -   **Super Mario Bros** 
 
 
