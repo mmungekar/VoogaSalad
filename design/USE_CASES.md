@@ -79,24 +79,52 @@ FileChooser` he or she is presented with.
 - Once the object in question is edited and saved, `Entities` that are affected by the change are modified within the game.
 - Each of these subpanels also gives the option to create a new object.
 
+------------
+
+Jay Doherty (jld60)
+
+**Player earns points in game**
+
+- The game engine detects that the user does something to earn points
+- The game engine calls `Scoreboard.setScore(int points)`
+- The `Scoreboard` updates the score to be displayed visually
+
+**Player beats their high score**
+
+- The game engine detects that the game ends, and calls `Scoreboard.addFinalScore()`
+- The `Scoreboard` checks the new score against previous scores
+- The score gets added to the top of the high score list
+
+**Clearing the high score list**
+
+- The user navigates to the high score menu
+- The user presses the Clear button to reset all high scores to zero
+
+**Saving progress for later**
+
+- The player presses the save button within the `GameRunner`
+- This calls `ProgressSaver.saveToFile()`
+- `ProgressSaver` writes out the state of the game to be loaded later from a file
+
+------------
 
 Michael Li (mxl3)
 
+**Save a particular Entity**
 
-**Save a particular Entity
+- The Entity will be passed through a constructor 'Saver' class
+- Something
 
+**Loading a game file (gameauthoring environment, collection of objects)**
 
--The Entity will be passed through a constructor 'Saver' class
--t
+-Something
 
+**Saving a game into a game folder**
 
+- Something
 
-**Loading a game file (gameauthoring environment, collection of objects)
+**Exporting a zip game folder**
 
-
-**Saving a game into a game folder
-
-
-**Exporting a zip game folder
+- Something
 
 

@@ -94,8 +94,13 @@ The GAE will be divided into the following modules (some of which have counterpa
 *	Entity Module - For creating, displaying, and editing Entities. The user should be able to assign specific Events and corresponding Actions to each created Entitity.
 
 The Game Player will consist of two modules:
-*	I/O Module - For sending user input to the Game Engine and receiving user output from the Game Engine.
-*	Play Module - For displaying the game and any auxiliary GUI components. This includes the actual display for the game as well as displays for saving, loading, and seeing high-scores.
+
+*	I/O Module – For sending user input to the Game Engine and receiving user output from the Game Engine.
+
+*	Save Progress Module - For saving the users progress in the game.
+
+*	Play Module – For displaying the game and any auxiliary GUI components. This includes the actual display for the game as well as displays for saving, loading, and seeing high-scores.
+
 
 The Game Data will consist of the following modules:
 *	Input Module
