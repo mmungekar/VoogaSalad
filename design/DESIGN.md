@@ -215,6 +215,14 @@ Allows user to change settings of the particular game while in the game without 
 
 ## Example Games
 
+
+-   **Doodle Jump**
+
+    Doodle Jump is an infinite scrolling game that randomizes the blocks as the player progresses. The player progresses vertically, and is affected by gravity. If the player lands on a block, the player jumps, and progresses upwards.
+-   **Space Shooter**
+-   **Super Mario Bros** 
+
+
 ## Design Considerations
 
 - Events and actions<br>
