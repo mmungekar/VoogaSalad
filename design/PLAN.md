@@ -24,6 +24,8 @@ Likewise, members of back-end subgroups (Game Engine, Game Data) take secondary 
 	- Will take responsibility for communicating changes with the back-end
 
 - Jimmy Shackford (jas199)
+    - Will take responsibility for **Layering** in the Authoring Environment. **Layering** includes adding multiple foregrounds, multiple backgrounds, and determining how fast they scroll based on the character movement.
+    - Will take responsibility for **Tiling* within the Authoring Environment.
 
 ##### Game Player:
 
