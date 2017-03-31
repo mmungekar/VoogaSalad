@@ -1,11 +1,8 @@
 Use Cases
 ===========
 
-<<<<<<< HEAD
-**Written by:** Elliott Bolzan (eab91), Jesse Yue (jty4), Jay Doherty (jld60), Mina Mungekar(mem94), Nikita Zemlevskiy (naz7), Jimmy Shackford (jas199), Kyle Finke (kwf10), Dennis Ling (dl186)
-=======
-**Written by:** Elliott Bolzan (eab91), Jesse Yue (jty4), Jay Doherty (jld60), Mina Mungekar(mem94), Nikita Zemlevskiy (naz7), Jimmy Shackford (jas199), Kyle Finke (kwf10), Matthew Barbano (meb100)
->>>>>>> master
+
+**Written by:** Elliott Bolzan (eab91), Jesse Yue (jty4), Jay Doherty (jld60), Mina Mungekar(mem94), Nikita Zemlevskiy (naz7), Jimmy Shackford (jas199), Kyle Finke (kwf10), Matthew Barbano (meb100), Dennis Ling (dl186)
 
 ---------------
 
@@ -213,7 +210,6 @@ occurs is that the bottom y value of the character now remains at the top y valu
 The main character reaches the end of a level by contacting a special object placed determined by the user when they create the level. This contact is found in the collision
 detection class and handled by the proper 'Event' within the special end-of-level object 'Entity'. This 'Event' calls an 'Action' which either sets up the next level or ends
 the game if no next level exists.
-<<<<<<< HEAD
  
 ------------
 
