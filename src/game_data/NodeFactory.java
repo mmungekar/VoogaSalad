@@ -6,5 +6,5 @@ import engine.Entity;
 import javafx.scene.Node;
 
 public interface NodeFactory{
-	Collection<Node> getNodesFromEntities(Collection<Entity> entities);//: takes Entity and returns Node.
+	Collection<Node> getNodesFromEntities(Collection<Entity> entities);//: takes Entity and returns Node. bind all nodes to 
 }
