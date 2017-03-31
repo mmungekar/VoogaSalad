@@ -1,6 +1,8 @@
 package engine;
 
-public interface Entity {
+import engine.game.eventobserver.ObservableEntity;
+
+public interface Entity extends ObservableEntity{
 	//external
 	void setEvent(Event event);
 	

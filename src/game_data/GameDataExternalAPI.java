@@ -1,6 +1,9 @@
 package game_data;
 import java.util.Collection;
 import java.util.List;
+
+import engine.Entity;
+import engine.Level;
 import javafx.scene.Node;
 import object_mockups.*;
 
