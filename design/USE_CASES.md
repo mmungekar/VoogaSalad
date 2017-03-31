@@ -1,7 +1,7 @@
 Use Cases
 ===========
 
-**Written by:** Elliott Bolzan (eab91), Jesse Yue (jty4), Jay Doherty (jld60), Mina Mungekar(mem94), Nikita Zemlevskiy (naz7), Jimmy Shackford (jas199)
+**Written by:** Elliott Bolzan (eab91), Jesse Yue (jty4), Jay Doherty (jld60), Mina Mungekar(mem94), Nikita Zemlevskiy (naz7), Jimmy Shackford (jas199), Kyle Finke (kwf10)
 
 ---------------
 
@@ -182,3 +182,31 @@ Jimmy Shackford (jas199)<br>
 - This creates a saved file that can be re-loaded at a later time to edit again.
 - Note: Alternatively, the game will be saved to the file after each change the user has made to the game. 
 
+------------
+
+Kyle Finke (kwf10)
+
+**Main character collides with the side of an enemy**
+
+When the main character collides with the side of an enemy, the collision detection class notifies both the main character 'Entity' and the enemy 'Entity' that the
+collision has occured. This collision is handled by an 'Event' within each 'Entity' through the use of an 'Action'. For the main character, this 'Action' decreases the
+health of the character. If the character's health decreases below zero, a life is lost. If there are still lives remaining afterward, the character is reset to the previous
+checkpoint. If no lives remain, then the game ends causing the screen to clear of its 'Entities'.
+
+**Block moves across the screen as the character moves**
+
+The Camera class follows along the Scene while each block 'Entity' remains stationary in a single location within the Scene. Thus, the movement of the blocks across the
+screen is simulated through the movement of the Camera that tracks across the screen to represent the scrolling action of a game.
+
+**Character jumps onto platform**
+
+When a character jumps onto a platform, a collision occurs between the top of the platform and the bottom of the character. The collision detection clas notifies the platform
+'Entity' and the character 'Entity' about this collision. These two 'Entities' handle the collision with an 'Event' that calls a proper 'Action'. The resulting action that 
+occurs is that the bottom y value of the character now remains at the top y value of the platform until the character jumps or falls off of the platform.
+
+**Main character reaches the end of the level**
+
+The main character reaches the end of a level by contacting a special object placed determined by the user when they create the level. This contact is found in the collision
+detection class and handled by the proper 'Event' within the special end-of-level object 'Entity'. This 'Event' calls an 'Action' which either sets up the next level or ends
+the game if no next level exists.
+ 
