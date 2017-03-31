@@ -24,6 +24,10 @@ Likewise, members of back-end subgroups (Game Engine, Game Data) take secondary 
 	- Will take responsibility for communicating changes with the back-end
 
 - Jimmy Shackford (jas199)
+    - Will take responsibility for the **Display Panel** in the Authoring Environment.
+    - Will take responsibility for **Multiple Layers** within the Display Panel (foregrounds, backgrounds, etc.)
+    - Will take responsibility for **Grid Tiling** within the **Display Panel**.
+    - Will take responsibility for **Multiple Tabs**  within the Authoring Environment (editing multiple levels at once)
 
 ##### Game Player:
 
