@@ -2,6 +2,7 @@ package starter;
 
 import java.util.ResourceBundle;
 
+import authoring.AuthoringEnvironment;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -63,7 +64,7 @@ public class StartMenu extends BorderPane {
 	}
 	
 	private void newGame() {
-		//TODO: launch GAE for new game
+		new AuthoringEnvironment();
 	}
 	
 	private void chooseGame() {
@@ -71,7 +72,7 @@ public class StartMenu extends BorderPane {
 	}
 	
 	private void editGame() {
-		//TODO: launch GAE with chosen game
+		new AuthoringEnvironment();
 	}
 	
 	private void playGame() {
