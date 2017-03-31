@@ -103,7 +103,11 @@ The Game Data will consist of the following modules:
 *	Input Module
 *	Output Module
 
-INSERT DIAGRAM RELATING MODULES HERE    //TODO<------------- (want to wait for things to be more finalized before I draw...)
+Diagram of Modules and Their Relationships:
+
+![](images/VoogaModules.png)
+
+
 
 ## User Interface
 
