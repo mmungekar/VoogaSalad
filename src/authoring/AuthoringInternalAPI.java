@@ -1,12 +1,15 @@
 package authoring;
+
 import java.util.List;
 
+import engine.Action;
 import engine.Entity;
+import engine.Event;
 import javafx.scene.Node;
-import object_mockups.*;
 
 /**
  * @author Elliott Bolzan
+ * @author Jimmy Shackford
  *
  *         This interface represents the main methods that will be used by the
  *         Authoring Environment internally. These methods will be used in the
@@ -15,7 +18,8 @@ import object_mockups.*;
  *         Event, and Action creating, editing, and saving; and the visualizing
  *         of Entities on the Canvas.
  */
-public interface AuthoringInternalAPI {
+public interface AuthoringInternalAPI
+{
 
 	/**
 	 * Adds a Node representing an Entity to the Canvas for visualization and
@@ -27,13 +31,24 @@ public interface AuthoringInternalAPI {
 	public void addNodeToCanvas(Node node);
 
 	/**
+	 * Creates an Entity from its name using reflection
+	 * 
+	 * @param entityName
+	 *            the name of the Entity to be created
+	 * @return an Entity
+	 */
+	public Entity createEntity(String entityName);
+
+	/**
 	 * Creates an Entity from its name using reflection.
 	 * 
 	 * @param entityName
 	 *            the name of the Entity to be created.
+	 * @param layer
+	 *            the layer to which the Entity will be added.
 	 * @return an Entity.
 	 */
-	public Entity createEntity(String entityName);
+	public Entity createEntity(String entityName, int layer);
 
 	/**
 	 * Creates an Event from its name using reflection.
@@ -113,13 +128,19 @@ public interface AuthoringInternalAPI {
 	public void newLevel();
 
 	/**
+	 * Creates a new layer. The layer's number is one plus the last layer's
+	 * number. The default foreground's layer number is 0.
+	 */
+	public void newLayer();
+
+	/**
 	 * Save the game to file. Makes use of the Game Data module.
 	 */
 	public void saveGame();
 
 	/**
 	 * Detect a mouse click on the Canvas. Necessary to add new Entities to the
-	 * Canvas: when the user has selected an Entity and clicks on the Canvas,
+	 * Canvas: when the user has selected an Entity and clicks on the Canvas.
 	 * the Entity should be added to the Canvas at that location.
 	 */
 	public void handleMouseClick();
@@ -133,6 +154,7 @@ public interface AuthoringInternalAPI {
 
 	/**
 	 * Returns the Entity that the user has selected in the Entity panel.
+	 * 
 	 * @return the currently selected Entity.
 	 */
 	public Entity getSelectedEntity();
