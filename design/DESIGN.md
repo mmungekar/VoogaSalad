@@ -1,7 +1,7 @@
 Design Specifications
 ===========
 
-**Written by:** Elliott Bolzan (eab91), Matthew Barbano (meb100), Jimmy Shackford (jas199), Nikita Zemlevskiy (naz7), Jay Doherty (jld60), Jesse Yue (jty4), Mina Mungekar (mem94).
+**Written by:** Elliott Bolzan (eab91), Matthew Barbano (meb100), Jimmy Shackford (jas199), Nikita Zemlevskiy (naz7), Jay Doherty (jld60), Jesse Yue (jty4), Mina Mungekar (mem94), Kyle Finke (kwf10).
 
 ## Introduction
 

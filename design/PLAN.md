@@ -1,7 +1,7 @@
 Plan
 ====
 
-**Written by:** Elliott Bolzan (eab91), Jay Doherty (jld60), Nikita Zemlevskiy (naz7), Jimmy Shackford (jas199).
+**Written by:** Elliott Bolzan (eab91), Jay Doherty (jld60), Nikita Zemlevskiy (naz7), Jimmy Shackford (jas199), Kyle Finke (kwf10).
 
 #### Project Subgroups
 
