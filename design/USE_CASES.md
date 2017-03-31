@@ -150,4 +150,33 @@ The game authoring environment will create the appropriate `Entity` object. Thes
 - The above collision happens.<br>
 When a collision happens, it will be detected in the game engine. This will set off the appropriate `Event`s in the appropriate entities. In this example, the game engine will detect that the above collision occured, and will check if those entities have an event to respond to that collision. If they do (which they do), these events will be triggered, and the `act` methods of the respective `Action` objects contained in the `Event` objects will be called to complete the actions requested. Here, the character will be reflected to the opposite way (speed will be changed accordingly) and the block will spawn a new `Entity` with the respective `Event` and `Action` objects attached (give the powerup to the character when colliding with the character). This behavior will have to be preset by the user in the authoring environment.
 
+Jimmy Shackford (jas199)
+**Add a character to the game and allow them to move**
+- The user goes to the `Entity Panel` in the right-side menu of the Authoring Environment.
+- The user creates an `Entity` for the character.
+- In this same right-panel, the user creates `Action-Event` pairs for each type of movement.
+    - 1. `Event` : On left key pressed. `Action`: Character `Entity` moves left for specified duration of time at specified speed.
+    - 2. `Event` : On right key pressed. `Action`: Character `Entity` moves right.
+    - 3. `Event` : On up key pressed. `Action`: Character `Entity` moves upwards, and moves back down from specified gravity.
+- By clicking on the entities in this panel, the user can then add them to the actual game.
+
+**Add a background to the game and specify the speed it moves at**
+- The user goes to the `Entity Panel` on the right-side menu of the Authoring Environment.
+- The user creates a new `Layer` and titles it
+- The user adds a `Background Image` to this layer
+- On the side menu, the user specifies how fast the layer scrolls at—the `Background Scroll Speed`
+
+**Add a wall to the game and specify that a user cannot move through it**
+- The user goes to the `Entity Panel` on the right-side menu of the Authoring Environment.
+- The user creates a wall `Entity`.
+- In this same right-panel, the user creates the following `Action-Event` pairs
+	- If the wall is a vertical wall: `Action`: On intersection between wall and character. `Event`: Character’s x-velocity is set to 0.
+	- If the wall is a horizontal wall (ground): ‘Action’: On intersection between wall and character. ‘Event’: Character’s y-velocity is set to 0.
+- By clicking on this entity in the side panel, the user can add it to the actual game my moving the mouse.
+
+**Save a game that was created within the Game Authoring Environment**
+- After a level has been created, the user goes to the `Settings Panel` on the left-side menu of the Authoring Environment.
+- The user clicks the `Save` button in this panel and specifies the name of the level to be saved.
+- This creates a saved file that can be re-loaded at a later time to edit again.
+- Note: Alternatively, the game will be saved to the file after each change the user has made to the game. 
 
