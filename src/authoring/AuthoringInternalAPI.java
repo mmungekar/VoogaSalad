@@ -1,6 +1,7 @@
 package authoring;
 import java.util.List;
 
+import engine.Entity;
 import javafx.scene.Node;
 import object_mockups.*;
 
