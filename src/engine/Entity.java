@@ -1,9 +1,26 @@
 package engine;
 
-public interface Entity {
-	//external
+import java.util.List;
+
+import engine.game.eventobserver.ObservableEntity;
+
+public interface Entity extends ObservableEntity
+{
+	// external
 	void setEvent(Event event);
-	
-	//internal
-	void checkEvents(); // will call act on each event it has, if the event is taking place
-}	
+
+	// internal
+	List<Event> getEvents();
+
+	void setYAcceleration(double accel);
+
+	void setXAcceleration(double accel);
+
+	void setYSpeed(double speed);
+
+	void setXSpeed(double speed);
+
+	void setY(double y);
+
+	void setX(double x);
+}

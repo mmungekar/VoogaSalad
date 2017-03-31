@@ -1,7 +1,7 @@
 Design Specifications
 ===========
 
-**Written by:** Elliott Bolzan (eab91), Matthew Barbano (meb100), Jimmy Shackford (jas199), Nikita Zemlevskiy (naz7), Jay Doherty (jld60), Jesse Yue (jty4), Mina Mungekar (mem94).
+**Written by:** Elliott Bolzan (eab91), Matthew Barbano (meb100), Jimmy Shackford (jas199), Nikita Zemlevskiy (naz7), Jay Doherty (jld60), Jesse Yue (jty4), Mina Mungekar (mem94), Kyle Finke (kwf10).
 
 ## Introduction
 
@@ -48,52 +48,20 @@ The Game Player, which will play a game with a configuration that the user has s
 
 The Game Engine will be divided into the following modules:
 *	Game Module- The highest-level module, manages the flow of time, organization of levels, and interaction with the Game Player. It will contain the following classes:
-   *	TimingManager - Information about the current time.
-   *	PlayerManager - Information about players. Manages their interactions, if multiplayer. See the Player module below.
-   *	GameLoop - Game loop.
-   *	LevelManager - Contains a Collection of all existing levels. Responsible for creating/deleting new levels.
-   *	Level - Contains classes from Player and Object modules pertaining to that level. Manages interaction between Players and Objects. Will likely be extended into inheritance hierarchy for creation of new types of levels, and each level will be divided into multiple classes. Also contains information about Settings:
-        *	Orientation.
-        *	Scrolling speed.
-        *	Background scrolling speed.
-        *	Whether scrolling is determined by character or by game.
-*   Player Module - Contains information such a lives left and points earned for the human game player. Does not manage character appearing on screen (allows for games where human can switch between characters).
 *	Entity Module. - Anything drawn on the game screen.
-    *	GamerControlledEntity - The character(s) controlled by the human player. Separate from the human player (in case can switch between characters), but interacts with the Player module. 
-    *	ComputerControlledEntity - Anything appearing on screen not controlled by the human player. This includes wall, blocks, and enemies. Divided between those that move (the user will be able to choose left/right, or up/down and the distance), and those that do not.
-    *	Background.
-    *	Note: For GamerControlledEntity and ComputerControlledEntity, contains inheritance hierarchies for different types. Also attaches Events to each object to handle interactions between Characters and Blocks. Contains a single class for the Background.
 *   Event Module (attached to Object). Defined as one of the following:
-    *	User input.
-    *	Collision (each side, to distinguish between possible ones). 
-    *	Timer.
-    *	Example: Mario hits a block. The block releases a prize. The block has an event; Mario also has an event.  They each have an event from their own point-of-view.
 *	Action Module (attached to Event). - The consequence of each Event. Examples are:
-    *	Instantiate new object.
-    *	Destroy (character or other object).
-    *	Win. 
-    *	Lose (life or game).
-    *	Bounce (move).
-    *	Change image.
-    *   Power-up.
-    *	Next level.
-    *	Make sound.
-    *	Movement. - This includes the physics of jumping/gravity.
-    *  	Note: Obtains the list of these Actions through reflection.
 
-The GAE will be divided into the following modules (some of which have counterparts in the Game Engine, others of which do not):
+The GAE will be divided into the following modules:
 
-* Entity Module - counterpart to the Entity module in Game Engine
-        *   Contains counterparts for all three categories (Character, Block, and Background) for drawing JavaFX objects.
-* Action Module - counterpart to the Action module in the Game Engine
-        *	Contains counterparts to ALL of the Game Engine classes in this module for updating the level Scene appropriately.
+* Entity Display Module:
+        *   Displays Entities that the user has created. Allows the user to edit these Entities, or to request the creation of new ones. 
+* Entity Editing Module:
+        *	A module that closely relates to the Entity module. Here, the user will have the opportunity to create and edit Entities by assigning Events and Actions to them.
 *	Settings Module - For editing game-wide settings and saving the game to disk.
-
 *	Canvas Module - For visualizing the Entities added to the game and interacting with them. The user should be able to move these Entities around.
 
-*	Entity Module - For creating, displaying, and editing Entities. The user should be able to assign specific Events and corresponding Actions to each created Entitity.
-
-The Game Player will consist of two modules:
+The Game Player will consist of three modules:
 
 *	I/O Module – For sending user input to the Game Engine and receiving user output from the Game Engine.
 
@@ -106,7 +74,11 @@ The Game Data will consist of the following modules:
 *	Input Module
 *	Output Module
 
-INSERT DIAGRAM RELATING MODULES HERE    //TODO<------------- (want to wait for things to be more finalized before I draw...)
+Diagram of Modules and Their Relationships:
+
+![](images/VoogaModules.png)
+
+
 
 ## User Interface
 
@@ -121,11 +93,13 @@ These three units are described below:
 1\. **The Starter Window**
 
 The Starter Window is a very simple window that has the title and 5 buttons:
-1. A New button that opens up the Game Authoring Environment fron scratch.
+1. A New button that opens up the Game Authoring Environment from scratch.
 2. A Choose Game button that allows the user to choose an existing game to edit or play.
 3. An Edit button to go into the GAE with the chosen game.
 4. A Play button that goes into the Game Player with the chosen game.
 5. An Exit button that closes the program.
+
+![](images/starter.png)
 
 2\. **The Authoring Environment**
 
@@ -183,6 +157,7 @@ The Game Player will load a main menu with buttons that are appropriate for the 
 4. Options
 5. Game Data
 
+
 - **Back**
 This button just returns to the main starting window, or if in any of the menus it will return to the Game Player starting window.
 
@@ -199,6 +174,8 @@ This button leads to a menu where the user can adjust things like audio volume, 
 - **Game Data**
 This button leads to a menu that holds descriptions of the game. This is a hub that holds useful information for a game, backstory, character data, or anything the game developer wants to include.
 
+![](images/mainmenu.png)
+
 Inside the actual game, there will be a toolbar at the top with 5 controls:
 
 1. Exit
@@ -206,6 +183,7 @@ Inside the actual game, there will be a toolbar at the top with 5 controls:
 3. Restart
 4. Play/Pause
 5. Options
+
 
 - **Exit**
 Exits the game and takes you back to the Game Player main menu.
@@ -222,25 +200,28 @@ Pauses or plays the game.
 - **Options**
 Allows user to change settings of the particular game while in the game without going back to the main menu.
 
+![](images/gamerunner.png)
+
 ## Design Details
 
 **Game Authoring Environment**
 
-* The Canvas Module will be the canvas on which the user edits and creates the game. It will provide the functionality of adding multiple backgrounds/foregrounds to the game as well as serving as a visual interface for the user to add and modify entities. The Canvas Module will directly communicate with the Entity Module-- once an entity has been customized, the user should directly be able to add it to the canvas while maintaining its user-defined properties.
+* The `Canvas Module` will be the canvas on which the user edits and creates the game. It will provide the functionality of adding multiple backgrounds/foregrounds to the game as well as serving as a visual interface for the user to add and modify entities. The `Canvas Module` will directly communicate with the `Entity Display Module` and the `Entity Editing Module` -- once an entity has been customized, the user should directly be able to add it to the canvas while maintaining its user-defined properties.
 
-* The Action/Event Module
+* The `Entity Editing Module` will serve as a creation point for Entities. In this panel, the user will be able to mix and match Events and Actions, before assigning them to the Entity being created. Once an Entity is created in this module, it will appear in the `Entity Display Module`. Likewise, an Entity in the `Entity Display Module` should be editable using this module.
 
-* The Entity Module will provide the user with the ability to select and drag entities to the canvas.
+* The `Entity Display Module` will provide the user with the ability to select and drag entities to the canvas. In addition, the module will give the user the option of launching the `Entity Editing Module` to edit an existing Entity, and will also allow the user to delete a created Entity.
 
-* The Settings Module will allow the user to change game-wide settings. It contains a save button that directly communicates to the Game Data module (through a listener) when a game needs to be written to an XML file. The Settings Module will be different from the other modules in the sense that whatever is selected through it will be applied to the entire game (i.e., background music and scrolling direction). New settings can be added to the module through the addition of specific text fields/combo-boxes that directly reference valid features of the game. 
+* The `Settings Module` will allow the user to change game-wide settings. It contains a save button that directly communicates to the Game Data module (through a listener) when a game needs to be written to an XML file. The Settings Module will be different from the other modules in the sense that whatever is selected through it will be applied to the entire game (i.e., background music and scrolling direction). New settings can be added to the module through the addition of specific text fields/combo-boxes that directly reference valid features of the game. 
 
-* All information contained in the authoring environment (game layout, custom entities created, etc...) will be passed to Game Data and saved. This way, not only will the user be able to access a saved game, he/she would also be able to save anything customized in the authoring environment. 
+* All information contained in the authoring environment (game layout, custom entities created, etc.) will be passed to `Game Data` and saved. This way, not only will the user be able to access a saved game, he/she would also be able to save anything customized in the authoring environment. 
 
 **Game Player**
-Has 2 modules
+Has 3 modules
 
 *	I/O Module – For sending user input to the Game Engine and receiving user output from the Game Engine.
 *	Play Module – For displaying the game and any auxiliary GUI components. This includes the actual display for the game as well as displays for saving, loading, and seeing high-scores.
+*   SaveProgress Module - For saving the current state of the game and restoring it later.
 
 - The Game Player has a menu that holds all the highscores of the current game taken from a data file loaded up with the I/O module. When the user completes the game, their score will be added into the file and sorted with the rest of the highscores.
 - The HUD will be created in the Play module and is overlayed on top of the game.
@@ -251,6 +232,53 @@ Has 2 modules
 - There is an options menu in the Play module where the user can adjust preferences for the game.
 
 The only other module it interacts with is the Game Engine, where it gets all the resources it needs to run the game.
+
+**Game Engine**
+*	Game Module- The highest-level module, manages the flow of time, organization of levels, and interaction with the Game Player. It will contain the following classes:
+   *	TimingManager - Information about the current time.
+   *	PlayerManager - Information about players. Manages their interactions, if multiplayer. See the Player module below.
+   *	GameLoop - Game loop.
+   *	LevelManager - Contains a Collection of all existing levels. Responsible for creating/deleting new levels.
+   *	Level - Contains classes from Player and Object modules pertaining to that level. Manages interaction between Players and Objects. Will likely be extended into inheritance hierarchy for creation of new types of levels, and each level will be divided into multiple classes. Also contains information about Settings:
+        *	Orientation.
+        *	Scrolling speed.
+        *	Background scrolling speed.
+        *	Whether scrolling is determined by character or by game.
+    *   Module created to have a centralized location for dealing with issues beyond the scope of a single level. Unifies the processing of all existing levels with that of level-wide settings (ex: song).
+*	Entity Module. - Anything drawn on the game screen.
+    *	GamerControlledEntity - The character(s) controlled by the human player. Separate from the human player (in case can switch between characters), but interacts with the Player module. 
+    *	ComputerControlledEntity - Anything appearing on screen not controlled by the human player. This includes wall, blocks, and enemies. Divided between those that move (the user will be able to choose left/right, or up/down and the distance), and those that do not.
+    *	Background.
+    *	Note: For GamerControlledEntity and ComputerControlledEntity, contains inheritance hierarchies for different types. Also attaches Events to each object to handle interactions between Characters and Blocks. Contains a single class for the Background.
+*   Event Module (attached to Object). Defined as one of the following:
+    *	User input.
+    *	Collision (each side, to distinguish between possible ones). 
+    *	Timer.
+    *	Example: Mario hits a block. The block releases a prize. The block has an event; Mario also has an event.  They each have an event from their own point-of-view.
+*	Action Module (attached to Event). - The consequence of each Event. Examples are:
+    *	Instantiate new object.
+    *	Destroy (character or other object).
+    *	Win. 
+    *	Lose (life or game).
+    *	Bounce (move).
+    *	Change image.
+    *   Power-up.
+    *	Next level.
+    *	Make sound.
+    *	Movement. - This includes the physics of jumping/gravity.
+    *  	Note: Obtains the list of these Actions through reflection.
+
+Entity, Event, and Action modules were all created to allow single Entities to have multiple Events those in turn to have Actions. They
+are an especially good example of substitution, as a single Entity can have ANY Events, and in turn they can have ANY Action; this is
+especially important to allow for the most flexibility when designing a game.
+
+**Game Data**
+
+The Game Data will consist of the Input and Output modules, the former of which saves a game to an XML file(s), and the latter of which
+loads and recreates the data from that/those files(s). Both of these modules communicate with the Game Player's SaveProgressModule
+to save and load the game being played. With respect to design goals, these modules were created
+to separate the logic behind each task.
+
 
 ## Example Games
 
@@ -267,19 +295,17 @@ The only other module it interacts with is the Game Engine, where it gets all th
     Space Shooters is also an infinite scrolling game. In this scenario, a space ship flies horizontally through space, and has to both shoot down enemies, and avoid asteroids. The spaceship has a set amount of lives, and if it collides into an asteroid, or if an enemy shoots down and/or collides with the spaceship, then the spaceship loses a life. If the spaceship runs out of lives, then the player loses. Once the spaceship reaches the end of the game, the game is won, and the game ends.
 
     A randomization engine is still necessary for this game, and different objects are now necessary. The primary objects would be bullets, enemies, asteroids, and spacheship. The spaceship would have no gravity component, and would have a component that is simply an integer, called "lives". Bullets would have a collision event, where both the bullets themselves, and the things they collide themselves, would be destroyed. Enemies would have their own behavior, where they would move in a certain pattern, and they would shoot (instantiate) bullets that move forward. If these bullets collide with the spaceship, the spaceship loses a life. Asteroids have a simple moving behavior, and only destroy themselves if they collide with a bullet and/or the spaceship. Once the spaceship travels a set amount of distance (in pixels), then the win state object is instantiated, and once the spaceship collides with that, the person wins the game. However, if the lives component of the spaceship reaches 0, then the person loses the game, and has to start over.
-    
-    
+   
     
 -   **Super Mario Bros** 
 
     Super Mario Bros. is a scrolling platformer where Mario has to traverse past enemies and obstacles in order to reach the end, which is a flag. Mario has to make sure not to fall off the edge, nor get killed by enemies, such as turtles and goombas. In order to kill enemies, Mario jumps on them, which causes them to flatten, and disappear. Once Mario reaches the end, a flag animation pops up, and he raises a flag. Mario can also jump under power-up blocks, causing powerups such as mushrooms to appear. 1-up mushroom grant mario an extra life, and regular mushroom causes mario to grow, and prevents him from dying once if he gets hit.
-
-
+   	
     Out of all the example games, Mario would probably take the longest time to implement. We essentially have 4 objects in this game: powerups, mario, enemies, and blocks. However, there are subsets of the objects, and the manner that Mario collides with them is also important. For example, if Mario touches a goomba from the side, he loses a life. However, if he jumps on the goomba, i.e. collides with the goomba from above, the goomba is flattened, and Mario does not die. This means that the collision must also check from which side he has collided the goomba with. When Mario collides with a powerup-block, the action is fairly complicated. First, a powerup is instantiated, behind the block (the powerup is therefore in a different layer, and then transfers to the front layer). Then, the powerup follows its own behavior, which is a gravity-based horizontal movement. If Mario collides with the powerup, then the powerup action occurs. Mario also must have a set amount of lives, similar to spaceshooters.  Everything for Mario is preplanned, so no randomization is necessary.
 
 ## Design Considerations
 
-- Events and actions<br>
+- Events and Actions<br>
 One of the points that was actively discussed by our team was the basic structure of games. The goal was to create a design that was general enough to support many kinds of scrolling platformer games, while being flexible and extensible. We identified that a game can be expressed by several things. Entities (objects that are in the game) and how these `Entity` elements interact. The interaction can be very different depending on what causes it (ie user input vs collision) and can be different per game. Thus, a general but flexible design was created. Interactions, called `Action`s will be triggered by `Event`s. Thus, an `Entity` owns a number of `Events`, which trigger their respective `Actions` when they occur. Examples of this can be seen in the use cases for the game engine. This is a flexible design, as it accounts for many aspects of games at once. This way, user input, collisions, clock events can all be some kind of `Event` in that hierarchy. If an extendor needs to add a new kind of event games might want to respond to, one would just extend the `Event` superclass. The `Action` hierarchy is flexible and extensible in a similar way. `Action`s could be winning a game, releasing a powerup (if the object is block), dying, etc. It is equally easy to add new `Action`s to the game engine if desired.
 
 - Where to keep JavaFX Nodes<br>
