@@ -7,5 +7,11 @@ public interface Entity extends ObservableEntity{
 	void setEvent(Event event);
 	
 	//internal
-	void checkEvents(); // will call act on each event it has, if the event is taking place
+	List<Event> getEvents();
+
+	void setXSpeed(int i);
+
+	void setY(int i);
+
+	void setX(int i);
 }	
