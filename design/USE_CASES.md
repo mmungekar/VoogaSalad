@@ -1,7 +1,7 @@
 Use Cases
 ===========
 
-**Written by:** Elliott Bolzan (eab91), Jesse Yue (jty4), Jay Doherty (jld60), Mina Mungekar(mem94), Nikita Zemlevskiy (naz7), Jimmy Shackford (jas199), Kyle Finke (kwf10)
+**Written by:** Elliott Bolzan (eab91), Jesse Yue (jty4), Jay Doherty (jld60), Mina Mungekar(mem94), Nikita Zemlevskiy (naz7), Jimmy Shackford (jas199), Kyle Finke (kwf10), Dennis Ling (dl186)
 
 ---------------
 
@@ -210,3 +210,25 @@ The main character reaches the end of a level by contacting a special object pla
 detection class and handled by the proper 'Event' within the special end-of-level object 'Entity'. This 'Event' calls an 'Action' which either sets up the next level or ends
 the game if no next level exists.
  
+------------
+
+Dennis Ling (dl186)
+
+**Loading a particular Entity**
+- The Entity will be loaded by the class `GameLoader `
+- The Entity can be accessed publicly by the loadDefaultEntity() method, which will convert the Entity from serialization
+
+**Loading a game file as an XML file**
+- The Class `GameLoader` will take in the string of the filepath for the XML file
+- The XML file will contain the Entities that need to be loaded
+- The Level class will be created from the list of Entities
+- Level class is supplied to the game authoring side to load
+
+**Saving a game into XML file(s)**
+- The Class `GameSaver` will take in a Level of list of Levels
+- The method saveGame(List<Level> levels) will be called
+- One XML file will be created per file, with each file containing the necessary Entities per level
+
+**Changing the music for a level**
+- The class `GameLoader` will have a method `setGameSong(File name)` that takes in a file
+- The file will be parsed and the audio file will be saved to the game state in an XML file

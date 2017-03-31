@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data type="GameData">
-    <gameName> Sample Name </gameTitle>
+    <gameName> Sample Name </gameName>
     <level> 1 </level>
     <entity> Sample Character </entity>
     <entity> Sample Block1 </entity>

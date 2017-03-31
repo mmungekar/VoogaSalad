@@ -44,22 +44,22 @@ public interface GameDataExternalAPI{
 	/*
 	 * Save component
 	 */
-	public void saveComponent(Component component);
-	
-	public void setGameSong(File name);
-	
-	public void setGameOrientation(Orientation orient);
-	
-	public void setScrollingStyle(ScrollingStyle style);
+//	public void saveComponent(Component component);
+//	
+//	public void setGameSong(File name);
+//	
+//	public void setGameOrientation(Orientation orient);
+//	
+//	public void setScrollingStyle(ScrollingStyle style);
 	
 // All load methods
-	public void loadEntityForLevel(Entity, entity, int level);
-	public void loadGame(List<Level> levels);
+	public void loadEntityForLevel(Entity entity, int level);
+	public Level loadGame(String filepath);
 	public void loadDefaultEntity(Entity entity);
 	public void loadDefaultEvent(Event event);
 	public void loadDefaultAction(Action action);
-	public void loadComponent(Component component);
-	public void getGameSong(File name);
-	public void getGameOrientation(Orientation orient);
-	public void getScrollingStyle(ScrollingStyle style);
+//	public void loadComponent(Component component);
+//	public void getGameSong(File name);
+//	public void getGameOrientation(Orientation orient);
+//	public void getScrollingStyle(ScrollingStyle style);
 }
