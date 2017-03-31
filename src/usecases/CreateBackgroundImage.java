@@ -5,6 +5,12 @@ import engine.Action;
 import engine.Entity;
 import engine.Event;
 
+/**
+ * @author Jimmy Shackford
+ *
+ *         This is an implementation of the following use-case: Add a background
+ *         to the game and specify the speed it moves at
+ */
 public class CreateBackgroundImage
 {
 	/**
