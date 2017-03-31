@@ -1,7 +1,11 @@
 Use Cases
 ===========
 
+<<<<<<< HEAD
 **Written by:** Elliott Bolzan (eab91), Jesse Yue (jty4), Jay Doherty (jld60), Mina Mungekar(mem94), Nikita Zemlevskiy (naz7), Jimmy Shackford (jas199), Kyle Finke (kwf10), Dennis Ling (dl186)
+=======
+**Written by:** Elliott Bolzan (eab91), Jesse Yue (jty4), Jay Doherty (jld60), Mina Mungekar(mem94), Nikita Zemlevskiy (naz7), Jimmy Shackford (jas199), Kyle Finke (kwf10), Matthew Barbano (meb100)
+>>>>>>> master
 
 ---------------
 
@@ -209,6 +213,7 @@ occurs is that the bottom y value of the character now remains at the top y valu
 The main character reaches the end of a level by contacting a special object placed determined by the user when they create the level. This contact is found in the collision
 detection class and handled by the proper 'Event' within the special end-of-level object 'Entity'. This 'Event' calls an 'Action' which either sets up the next level or ends
 the game if no next level exists.
+<<<<<<< HEAD
  
 ------------
 
@@ -232,3 +237,42 @@ Dennis Ling (dl186)
 **Changing the music for a level**
 - The class `GameLoader` will have a method `setGameSong(File name)` that takes in a file
 - The file will be parsed and the audio file will be saved to the game state in an XML file
+
+------------
+
+Matthew Barbano (meb100)
+
+**Main character falls down an endless pit**
+- The main character Entity has one Event (in its List/Collection of Events) that is an AlwaysEvent which corresponds to the main character dying by falling into an endless pit.
+- In this Entity's checkEvents(), it is detected that the character's coordinates are below the bottom of the screen.
+- As a result, this Event's act() is called, which calls its attached Action's act().
+- In this Action's act():
+    - If any lives remain in Entity: 
+        - They are decremented. 
+        - A reference to the LevelManager calls its startCurrentLevel(), which calls the current Level's start().
+        - Level's start() iterates through all its Entities and resets them to their initial positions (say, by calling a method like setInInitialPositions() in Entity). (These are updated on the next iteration of GameLoop's step(), and since Entities are bound to JavaFX Nodes, they will be updated on screen as well).
+    - If no lives remain in Entity:
+        - A reference to the LevelManager calls its gameOver() method, which sets the current level back to the first one and then calls resetCurrentLevel() to initialize it from the beginning.
+
+**The time runs out on a given level**
+- The TimerObserver runs the updateObservables() method.
+- This method calls the TimerManager's noTimeRemaining() method, which returns true.
+- As a result, in updateObservables(), all Entities in the List of ObservableEntities in TimerObserver have their update() method called.
+- In update(), the same Event triggered in the previous use case is activated again.
+- The rest of this use case proceeds exactly the same as the previous one to make the main character lose a life or die. 
+
+**Game designer decides to make the screen scroll vertically**
+- This option is selected (say, in a ComboBox) in the Settings Module in the Game Authoring Environment.
+- The Settings Module tells the Entity Module that this change has occurred, and a field an AlwaysEvent in every existing Entity is set to correspond to scroll vertically.
+- During gameplay:
+    - In GameLoop's step(), this AlwaysEvent's act() is called (along with all others). Note that since this is automatic scrolling, this occurs on EVERY step.
+    - In act(), JavaFX is used to translate all Entities (except the main character) down by an amount correlated to the scroll speed. 
+
+**Player wins the final level and the whole game**
+- The main character Entity has an AlwaysEvent corresponding to finishing a level.
+- In this Entity's checkEvents(), it is detected that the Entity has passed the coordinate signifying the end of the level.
+- As a result, this Event's act() is called, which calls its attached Action's act().
+- In this Action's act():
+    - A reference to the LevelManager calls its progressToNextLevel(), which attempts to set the current level to the next one but discovered there are no more left.
+    - Therefore, the LevelManager's terminateGame() is called, which calls a method in the GamePlayer's I/O module to set the current scene to a title screen.
+ 
