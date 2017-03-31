@@ -150,7 +150,7 @@ The game authoring environment will create the appropriate `Entity` object. Thes
 - The above collision happens.<br>
 When a collision happens, it will be detected in the game engine. This will set off the appropriate `Event`s in the appropriate entities. In this example, the game engine will detect that the above collision occured, and will check if those entities have an event to respond to that collision. If they do (which they do), these events will be triggered, and the `act` methods of the respective `Action` objects contained in the `Event` objects will be called to complete the actions requested. Here, the character will be reflected to the opposite way (speed will be changed accordingly) and the block will spawn a new `Entity` with the respective `Event` and `Action` objects attached (give the powerup to the character when colliding with the character). This behavior will have to be preset by the user in the authoring environment.
 
-Jimmy Shackford (jas199)
+Jimmy Shackford (jas199)<br>
 **Add a character to the game and allow them to move**
 - The user goes to the `Entity Panel` in the right-side menu of the Authoring Environment.
 - The user creates an `Entity` for the character.
