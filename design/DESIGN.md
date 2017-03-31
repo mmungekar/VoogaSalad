@@ -48,38 +48,9 @@ The Game Player, which will play a game with a configuration that the user has s
 
 The Game Engine will be divided into the following modules:
 *	Game Module- The highest-level module, manages the flow of time, organization of levels, and interaction with the Game Player. It will contain the following classes:
-   *	TimingManager - Information about the current time.
-   *	PlayerManager - Information about players. Manages their interactions, if multiplayer. See the Player module below.
-   *	GameLoop - Game loop.
-   *	LevelManager - Contains a Collection of all existing levels. Responsible for creating/deleting new levels.
-   *	Level - Contains classes from Player and Object modules pertaining to that level. Manages interaction between Players and Objects. Will likely be extended into inheritance hierarchy for creation of new types of levels, and each level will be divided into multiple classes. Also contains information about Settings:
-        *	Orientation.
-        *	Scrolling speed.
-        *	Background scrolling speed.
-        *	Whether scrolling is determined by character or by game.
-*   Player Module - Contains information such a lives left and points earned for the human game player. Does not manage character appearing on screen (allows for games where human can switch between characters).
 *	Entity Module. - Anything drawn on the game screen.
-    *	GamerControlledEntity - The character(s) controlled by the human player. Separate from the human player (in case can switch between characters), but interacts with the Player module. 
-    *	ComputerControlledEntity - Anything appearing on screen not controlled by the human player. This includes wall, blocks, and enemies. Divided between those that move (the user will be able to choose left/right, or up/down and the distance), and those that do not.
-    *	Background.
-    *	Note: For GamerControlledEntity and ComputerControlledEntity, contains inheritance hierarchies for different types. Also attaches Events to each object to handle interactions between Characters and Blocks. Contains a single class for the Background.
 *   Event Module (attached to Object). Defined as one of the following:
-    *	User input.
-    *	Collision (each side, to distinguish between possible ones). 
-    *	Timer.
-    *	Example: Mario hits a block. The block releases a prize. The block has an event; Mario also has an event.  They each have an event from their own point-of-view.
 *	Action Module (attached to Event). - The consequence of each Event. Examples are:
-    *	Instantiate new object.
-    *	Destroy (character or other object).
-    *	Win. 
-    *	Lose (life or game).
-    *	Bounce (move).
-    *	Change image.
-    *   Power-up.
-    *	Next level.
-    *	Make sound.
-    *	Movement. - This includes the physics of jumping/gravity.
-    *  	Note: Obtains the list of these Actions through reflection.
 
 The GAE will be divided into the following modules:
 
@@ -90,7 +61,7 @@ The GAE will be divided into the following modules:
 *	Settings Module - For editing game-wide settings and saving the game to disk.
 *	Canvas Module - For visualizing the Entities added to the game and interacting with them. The user should be able to move these Entities around.
 
-The Game Player will consist of two modules:
+The Game Player will consist of three modules:
 
 *	I/O Module – For sending user input to the Game Engine and receiving user output from the Game Engine.
 
@@ -238,10 +209,11 @@ Allows user to change settings of the particular game while in the game without 
 * All information contained in the authoring environment (game layout, custom entities created, etc.) will be passed to `Game Data` and saved. This way, not only will the user be able to access a saved game, he/she would also be able to save anything customized in the authoring environment. 
 
 **Game Player**
-Has 2 modules
+Has 3 modules
 
 *	I/O Module – For sending user input to the Game Engine and receiving user output from the Game Engine.
 *	Play Module – For displaying the game and any auxiliary GUI components. This includes the actual display for the game as well as displays for saving, loading, and seeing high-scores.
+*   SaveProgress Module - For saving the current state of the game and restoring it later.
 
 - The Game Player has a menu that holds all the highscores of the current game taken from a data file loaded up with the I/O module. When the user completes the game, their score will be added into the file and sorted with the rest of the highscores.
 - The HUD will be created in the Play module and is overlayed on top of the game.
@@ -252,6 +224,53 @@ Has 2 modules
 - There is an options menu in the Play module where the user can adjust preferences for the game.
 
 The only other module it interacts with is the Game Engine, where it gets all the resources it needs to run the game.
+
+**Game Engine**
+*	Game Module- The highest-level module, manages the flow of time, organization of levels, and interaction with the Game Player. It will contain the following classes:
+   *	TimingManager - Information about the current time.
+   *	PlayerManager - Information about players. Manages their interactions, if multiplayer. See the Player module below.
+   *	GameLoop - Game loop.
+   *	LevelManager - Contains a Collection of all existing levels. Responsible for creating/deleting new levels.
+   *	Level - Contains classes from Player and Object modules pertaining to that level. Manages interaction between Players and Objects. Will likely be extended into inheritance hierarchy for creation of new types of levels, and each level will be divided into multiple classes. Also contains information about Settings:
+        *	Orientation.
+        *	Scrolling speed.
+        *	Background scrolling speed.
+        *	Whether scrolling is determined by character or by game.
+    *   Module created to have a centralized location for dealing with issues beyond the scope of a single level. Unifies the processing of all existing levels with that of level-wide settings (ex: song).
+*	Entity Module. - Anything drawn on the game screen.
+    *	GamerControlledEntity - The character(s) controlled by the human player. Separate from the human player (in case can switch between characters), but interacts with the Player module. 
+    *	ComputerControlledEntity - Anything appearing on screen not controlled by the human player. This includes wall, blocks, and enemies. Divided between those that move (the user will be able to choose left/right, or up/down and the distance), and those that do not.
+    *	Background.
+    *	Note: For GamerControlledEntity and ComputerControlledEntity, contains inheritance hierarchies for different types. Also attaches Events to each object to handle interactions between Characters and Blocks. Contains a single class for the Background.
+*   Event Module (attached to Object). Defined as one of the following:
+    *	User input.
+    *	Collision (each side, to distinguish between possible ones). 
+    *	Timer.
+    *	Example: Mario hits a block. The block releases a prize. The block has an event; Mario also has an event.  They each have an event from their own point-of-view.
+*	Action Module (attached to Event). - The consequence of each Event. Examples are:
+    *	Instantiate new object.
+    *	Destroy (character or other object).
+    *	Win. 
+    *	Lose (life or game).
+    *	Bounce (move).
+    *	Change image.
+    *   Power-up.
+    *	Next level.
+    *	Make sound.
+    *	Movement. - This includes the physics of jumping/gravity.
+    *  	Note: Obtains the list of these Actions through reflection.
+
+Entity, Event, and Action modules were all created to allow single Entities to have multiple Events those in turn to have Actions. They
+are an especially good example of substitution, as a single Entity can have ANY Events, and in turn they can have ANY Action; this is
+especially important to allow for the most flexibility when designing a game.
+
+**Game Data**
+
+The Game Data will consist of the Input and Output modules, the former of which saves a game to an XML file(s), and the latter of which
+loads and recreates the data from that/those files(s). Both of these modules communicate with the Game Player's SaveProgressModule
+to save and load the game being played. With respect to design goals, these modules were created
+to separate the logic behind each task.
+
 
 ## Example Games
 
