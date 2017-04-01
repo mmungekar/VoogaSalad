@@ -2,13 +2,17 @@ package authoring.canvas;
 
 import authoring.Workspace;
 import authoring.views.View;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 public class Canvas extends View
@@ -47,8 +51,9 @@ public class Canvas extends View
 		add.setFill(Color.RED);
 		layer.getChildren().add(add);
 		scrollScreen.setContent(layer);
-		// setupGrid();
+//		setupGrid();
 		this.setCenter(scrollScreen);
 	}
+
 
 }
