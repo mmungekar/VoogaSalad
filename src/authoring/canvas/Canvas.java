@@ -90,8 +90,6 @@ public class Canvas extends View
 				node.setTranslateX(
 						((int) (event.getSceneX() - settingsWidth + horizontalScrollAmount) / TILE_SIZE) * TILE_SIZE);
 				node.setTranslateY(((int) (event.getSceneY() + verticalScrollAmount) / TILE_SIZE) * TILE_SIZE);
-				System.out.println(horizontalScrollAmount);
-				System.out.println(verticalScrollAmount);
 			}
 
 		});
