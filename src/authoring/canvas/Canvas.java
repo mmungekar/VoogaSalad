@@ -7,6 +7,8 @@ import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -16,6 +18,16 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * 
+ * The Canvas is where you can drag Entities to create your own level. It can
+ * contain multiple layers for backgrounds and foregrounds. Each background and
+ * foreground can move at their own respective velocities. The Canvas is located
+ * in the center of the workspace.
+ * 
+ * @author jimmy
+ *
+ */
 public class Canvas extends View
 {
 
@@ -25,6 +37,7 @@ public class Canvas extends View
 	private Workspace workspace;
 	private final int TILE_SIZE = 25;
 
+	private TabPane tabs;
 	private ScrollPane scrollScreen;
 	private Pane layer;
 	private int width;
@@ -41,7 +54,14 @@ public class Canvas extends View
 
 	private void setup()
 	{
-		setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+		tabs = new TabPane();
+		newTab();
+		this.setCenter(tabs);
+	}
+
+	private void newTab()
+	{
+		Tab newTab = new Tab();
 		scrollScreen = new ScrollPane();
 		layer = new Pane();
 		layer.setPrefHeight(height);
@@ -57,7 +77,8 @@ public class Canvas extends View
 
 		scrollScreen.setContent(layer);
 		setupGrid();
-		this.setCenter(scrollScreen);
+		newTab.setContent(scrollScreen);
+		tabs.getTabs().add(newTab);
 	}
 
 	private void setupGrid()
@@ -74,6 +95,13 @@ public class Canvas extends View
 		}
 	}
 
+	/**
+	 * Makes the given node draggable so that you can move it around on the
+	 * canvas by dragging it. Moreover, dragging the node snaps it to the grid.
+	 * 
+	 * @param node
+	 *            Node to be made draggable
+	 */
 	private void makeDraggable(Node node)
 	{
 		node.setOnMouseDragged(new EventHandler<MouseEvent>()
@@ -85,6 +113,7 @@ public class Canvas extends View
 				Bounds scrollViewportBounds = scrollScreen.getViewportBounds();
 				double settingsWidth = workspace.getPane().getChildrenUnmodifiable().get(0).getBoundsInParent()
 						.getWidth();
+
 				double horizontalScrollAmount = scrollScreen.getHvalue() * (width - scrollViewportBounds.getMaxX());
 				double verticalScrollAmount = scrollScreen.getVvalue() * (height - scrollViewportBounds.getMaxY());
 
@@ -96,13 +125,28 @@ public class Canvas extends View
 				double newMaxX = newX + nodeWidth;
 				double newMaxY = newY + nodeHeight;
 
-				if (!(newX < 0 || newY < 0 || newMaxX > width || newMaxY > height)) {
-					node.setTranslateX(((int) newX / TILE_SIZE) * TILE_SIZE);
-					node.setTranslateY(((int) newY / TILE_SIZE) * TILE_SIZE);
-				}
+				newX = putWithinBounds(newX, 0, width - nodeWidth);
+				newY = putWithinBounds(newY, 0, height - nodeHeight);
+
+				node.setTranslateX(((int) newX / TILE_SIZE) * TILE_SIZE);
+				node.setTranslateY(((int) newY / TILE_SIZE) * TILE_SIZE);
+
+				scrollScreen.setHvalue(newX / (width - nodeWidth));
+				scrollScreen.setVvalue(newY / (height - nodeHeight));
+
 			}
 
 		});
+	}
+
+	private double putWithinBounds(double value, double minValue, double maxValue)
+	{
+		if (value < minValue) {
+			return minValue;
+		} else if (value > maxValue) {
+			return maxValue;
+		}
+		return value;
 	}
 
 }
