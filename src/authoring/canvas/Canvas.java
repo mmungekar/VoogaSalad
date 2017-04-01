@@ -87,9 +87,19 @@ public class Canvas extends View
 						.getWidth();
 				double horizontalScrollAmount = scrollScreen.getHvalue() * (width - scrollViewportBounds.getMaxX());
 				double verticalScrollAmount = scrollScreen.getVvalue() * (height - scrollViewportBounds.getMaxY());
-				node.setTranslateX(
-						((int) (event.getSceneX() - settingsWidth + horizontalScrollAmount) / TILE_SIZE) * TILE_SIZE);
-				node.setTranslateY(((int) (event.getSceneY() + verticalScrollAmount) / TILE_SIZE) * TILE_SIZE);
+
+				double nodeWidth = node.getBoundsInParent().getWidth();
+				double nodeHeight = node.getBoundsInParent().getHeight();
+
+				double newX = event.getSceneX() - settingsWidth + horizontalScrollAmount;
+				double newY = event.getSceneY() + verticalScrollAmount;
+				double newMaxX = newX + nodeWidth;
+				double newMaxY = newY + nodeHeight;
+
+				if (!(newX < 0 || newY < 0 || newMaxX > width || newMaxY > height)) {
+					node.setTranslateX(((int) newX / TILE_SIZE) * TILE_SIZE);
+					node.setTranslateY(((int) newY / TILE_SIZE) * TILE_SIZE);
+				}
 			}
 
 		});
