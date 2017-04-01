@@ -47,6 +47,7 @@ public class Settings extends CollapsibleView {
 	
 	private void configureSettings(){
 		settingsContainer = new VBox();
+		settingsContainer.setSpacing(30);
 		Button selectMusic = new ActionButton("Select Background Music", event->chooseFile((File f) ->{
 			Scanner scan;
 		}));
