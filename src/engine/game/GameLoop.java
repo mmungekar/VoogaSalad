@@ -1,12 +1,18 @@
 package engine.game;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
+
 /**
  * Manages the highest level of time flow in the game.
  * @author Matthew Barbano
  *
  */
 public class GameLoop {
+	public static final int FRAME_TIME_MILLISECONDS = 20;
 	LevelManager levelManager;
+	Timeline timeline;
 	
 	/**
 	 * currentLevelManager is instantiated in the Game Authoring Environment (probably somewhere in the authoring.settings
@@ -19,7 +25,12 @@ public class GameLoop {
 		setupTimeline();
 	}
 	private void setupTimeline(){
-		//TODO
+		//From ExampleBounce.java (will likely upgrade)
+		KeyFrame frame = new KeyFrame(Duration.millis(FRAME_TIME_MILLISECONDS),
+                e -> step());
+		timeline = new Timeline();
+		timeline.setCycleCount(Timeline.INDEFINITE);
+		timeline.getKeyFrames().add(frame);
 	}
 	
 	/**
@@ -29,10 +40,14 @@ public class GameLoop {
 	 *  - and more
 	 */
 	public void startTimeline(){
-		step();  //TODO
+		timeline.play();
 	}
 	
+	private boolean done = false;
 	private void step(){
-		levelManager.startCurrentLevel();
+		if(!done){
+			levelManager.startCurrentLevel();
+		}
+		done = true;
 	}
 }
