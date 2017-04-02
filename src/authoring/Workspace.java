@@ -10,16 +10,17 @@ import authoring.panel.EntityPanel;
 import authoring.settings.Settings;
 import authoring.utils.Factory;
 import javafx.geometry.Insets;
-import javafx.scene.control.SplitPane;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.SplitPane;
 import javafx.scene.layout.BorderPane;
 
 /**
  * @author Elliott Bolzan
  *
  */
-public class Workspace extends BorderPane {
-	
+public class Workspace extends BorderPane
+{
+
 	private ResourceBundle resources;
 	private Settings settings;
 	private Canvas canvas;
@@ -29,15 +30,17 @@ public class Workspace extends BorderPane {
 	/**
 	 * 
 	 */
-	public Workspace(ResourceBundle resources) {
-		this.resources = resources; 
+	public Workspace(ResourceBundle resources)
+	{
+		this.resources = resources;
 		setup();
 	}
 
 	/**
 	 * Initializes the Workspace's components.
 	 */
-	private void setup() {
+	private void setup()
+	{
 		pane = new SplitPane();
 		settings = new Settings(this, 0);
 		canvas = new Canvas(this);
@@ -47,16 +50,19 @@ public class Workspace extends BorderPane {
 		setPadding(new Insets(4));
 		setCenter(pane);
 	}
-	
-	public ResourceBundle getResources() {
+
+	public ResourceBundle getResources()
+	{
 		return resources;
 	}
-	
-	public SplitPane getPane() {
+
+	public SplitPane getPane()
+	{
 		return pane;
 	}
-	
-	public void showMessage(String message) {
+
+	public void showMessage(String message)
+	{
 		Factory factory = new Factory(resources);
 		factory.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message).showAndWait();
 	}
