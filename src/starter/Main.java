@@ -27,8 +27,7 @@ public class Main extends Application {
 	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		// Jay, this is where you create an instance of your starter front end, using primaryStage.
-		// I recommend to keep that starter UI code in this starter package!
+		new StartMenu(primaryStage);
 	}
 
 }

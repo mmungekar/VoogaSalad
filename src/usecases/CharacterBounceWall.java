@@ -4,7 +4,9 @@
 package usecases;
 
 import authoring.AuthoringInternalAPI;
-import object_mockups.*;
+import engine.Action;
+import engine.Entity;
+import engine.Event;
 
 /**
  * @author Elliott Bolzan
@@ -14,7 +16,8 @@ import object_mockups.*;
  *         between objects: a character hits a wall, which is destroyed as the
  *         character bounces off.
  */
-public class CharacterBounceWall {
+public class CharacterBounceWall
+{
 
 	/**
 	 * The implementation is contained in this constructor. Naturally, this
@@ -23,7 +26,8 @@ public class CharacterBounceWall {
 	 * @param authoring
 	 *            an instance of a class implementing the AuthoringInternalAPI.
 	 */
-	public CharacterBounceWall(AuthoringInternalAPI authoring) {
+	public CharacterBounceWall(AuthoringInternalAPI authoring)
+	{
 		// Create two Actions that represent destruction and bouncing.
 		Action destroyAction = authoring.createAction("Destroy");
 		Action bounceAction = authoring.createAction("Bounce");

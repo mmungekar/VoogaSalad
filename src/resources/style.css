@@ -1,0 +1,23 @@
+.root{
+    -fx-font-size: 10pt;
+    -fx-font-family: "Helvetica";
+    -fx-base: #141414;
+    -fx-background: #141414;
+    -fx-focus-color: transparent;
+}
+
+.minimize, .tab-button {
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
+
+.tab-button:hover, .minimize:hover {
+    -fx-background-color: lightgray;
+}
+
+.split-pane > .split-pane-divider {  
+    -fx-padding: 0 2 0 2;  
+    -fx-base: lightgray;
+} 
