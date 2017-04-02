@@ -13,6 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import player.PlayerMenu;
 
 public class StartMenu extends BorderPane {
 
@@ -72,11 +73,13 @@ public class StartMenu extends BorderPane {
 	}
 	
 	private void editGame() {
+		//TODO: make it so that it only works if game chosen
 		new AuthoringEnvironment();
 	}
 	
 	private void playGame() {
-		//TODO: launch GameRunner with chosen game
+		//TODO: make it so that it only works if game chosen
+		new PlayerMenu();
 	}
 	
 	private Button makeButton(String label, EventHandler<ActionEvent> handler) {
