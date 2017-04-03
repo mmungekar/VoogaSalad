@@ -23,4 +23,8 @@ public interface Entity extends ObservableEntity
 	void setY(double y);
 
 	void setX(double x);
+	
+	void setHeight(double height);
+	
+	void setWidth(double width);
 }
