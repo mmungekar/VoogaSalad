@@ -3,6 +3,7 @@ import java.util.Collection;
 import java.util.List;
 
 import engine.*;
+import engine.game.Level;
 import javafx.scene.Node;
 
 public interface GameDataExternalAPI{
