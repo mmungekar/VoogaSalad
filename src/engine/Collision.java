@@ -1,5 +1,11 @@
 package engine;
 
-public interface Collision {
-	boolean equals(Collision other);
+public class Collision implements CollisionInterface{
+
+	@Override
+	public boolean equals(CollisionInterface other) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

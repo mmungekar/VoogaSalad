@@ -1,14 +1,40 @@
 package engine;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public interface Event {
-	//external
-	void setAction(Action action);
-	Map<String, Object> getParams(); // will use reflection
-	void setParams(Map<String, Object> params); // will use reflection
+public abstract class Event implements EventInterface {
 	
-	//internal
-	void act();// tell its action to act
+	private List<Action> actions;
+	private Map<String, Object> params;
 
+	public Event(){
+		actions = new ArrayList<Action>();
+		params = new HashMap<String, Object>();
+	}
+	
+	@Override
+	public void addAction(Action action){
+		actions.add(action);
+	}
+
+	@Override
+	public Map<String, Object> getParams(){
+		return params;
+	}
+
+	@Override
+	public void setParams(Map<String, Object> params){
+		this.params = params;
+	}
+
+	@Override
+	public abstract void act();
+	
+	protected void trigger(){
+		for (Action action: actions)
+			action.act();
+	}
 }

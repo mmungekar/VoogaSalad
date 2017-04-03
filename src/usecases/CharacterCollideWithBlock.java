@@ -1,11 +1,11 @@
 package usecases;
 
-import engine.Action;
-import engine.Collision;
-import engine.CollisionEvent;
-import engine.Entity;
-import engine.Event;
-import engine.Game;
+import engine.ActionInterface;
+import engine.CollisionInterface;
+import engine.CollisionEventInterface;
+import engine.EntityInterface;
+import engine.EventInterface;
+import engine.GameInterface;
 
 /**
  * @author nikita This class contains the functions that get called when a
@@ -14,23 +14,23 @@ import engine.Game;
  *         block has been set to release a powerup.
  */
 public class CharacterCollideWithBlock {
-	public CharacterCollideWithBlock(Entity character, Entity block) {
-		Game game = null;
+	public CharacterCollideWithBlock(EntityInterface character, EntityInterface block) {
+		GameInterface game = null;
 		// collision has been detected already.
-		Collision collision = null;
+		CollisionInterface collision = null;
 		// find the event that corresponds to this collision
-		Event characterEvent = null, blockEvent = null;
+		EventInterface characterEvent = null, blockEvent = null;
 		characterEvent.act();
 			//will call the action to act
-			Action characterAction = null;
+			ActionInterface characterAction = null;
 			characterAction.act();
 			//will set the character speed and direction to opposite that which it was already going
 		blockEvent.act();
-			Action blockAction = null;
+			ActionInterface blockAction = null;
 			blockAction.act();
 			//will release a powerup.
 				// create powerup
-				Entity powerup = game.getPowerup();
+				EntityInterface powerup = game.getPowerup();
 				// set location and speed
 				powerup.setX(0);
 				powerup.setY(0);

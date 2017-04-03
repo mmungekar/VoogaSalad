@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.List;
 
 import engine.Entity;
+import engine.EntityInterface;
+import engine.LevelInterface;
 import engine.game.selectiongroup.Selectable;
 
 /**
@@ -13,7 +15,7 @@ import engine.game.selectiongroup.Selectable;
  * @author Matthew Barbano
  *
  */
-public class Level implements Selectable{
+public class Level implements LevelInterface, Selectable{
 	private List<Entity> entities;
 	
 	public Level(){
