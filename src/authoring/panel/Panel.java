@@ -9,7 +9,7 @@ import authoring.utils.Factory;
 import authoring.views.CollapsibleView;
 import authoring.views.View;
 
-public class EntityPanel extends CollapsibleView {
+public class Panel extends CollapsibleView {
 
 	private Workspace workspace;
 	private List<View> subviews;
@@ -23,7 +23,7 @@ public class EntityPanel extends CollapsibleView {
 	 *            the index of the divider that the Panel collapses to, in the
 	 *            SplitPane that owns it.
 	 */
-	public EntityPanel(Workspace workspace, int index) {
+	public Panel(Workspace workspace, int index) {
 		super(workspace, workspace.getPane(), workspace.getResources().getString("PanelTitle"), index, Direction.RIGHT,
 				true);
 		this.workspace = workspace;
@@ -40,6 +40,7 @@ public class EntityPanel extends CollapsibleView {
 			private static final long serialVersionUID = 1L;
 			{
 				add(new EntityDisplay(workspace));
+				add(new Chat(workspace));
 			}
 		};
 	}
