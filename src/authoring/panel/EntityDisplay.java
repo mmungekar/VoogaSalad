@@ -107,6 +107,7 @@ public class EntityDisplay extends View {
 		deleteColumn.setCellFactory(param -> new TableCell<Entity, Entity>() {
 			private ImageView imageView = new ImageView(new Image("resources/images/delete.png"));
 			private Button deleteButton = new Button("", imageView);
+
 			@Override
 			protected void updateItem(Entity entity, boolean empty) {
 				imageView.setPreserveRatio(true);
@@ -131,6 +132,7 @@ public class EntityDisplay extends View {
 		editColumn.setCellFactory(param -> new TableCell<Entity, Entity>() {
 			private ImageView imageView = new ImageView(new Image("resources/images/edit.png"));
 			private final Button editButton = new Button("", imageView);
+
 			@Override
 			protected void updateItem(Entity entity, boolean empty) {
 				imageView.setPreserveRatio(true);
@@ -150,7 +152,7 @@ public class EntityDisplay extends View {
 	}
 
 	private void newEntity() {
-		new EntityEditor(workspace);
+		new EntityEditor(workspace, null);
 	}
 
 	private void editEntity(Entity entity) {

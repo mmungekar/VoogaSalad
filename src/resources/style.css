@@ -21,7 +21,6 @@
 
 .split-pane > .split-pane-divider {  
     -fx-padding: 0 2 0 2;  
-    -fx-base: lightgray;
 } 
 
 #entity-table .table-column {
@@ -30,6 +29,12 @@
 
 #entity-table .table-row-cell {
     -fx-cell-size: 50px;
+}
+
+#entity-table .table-cell {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent -fx-table-cell-border-color -fx-table-cell-border-color transparent;
+    -fx-table-cell-border-color:transparent;
 }
 
 #entity-table .column-header-background {
