@@ -153,7 +153,7 @@ public class EntityDisplay extends View {
 	}
 
 	private void editEntity(Entity entity) {
-		System.out.println(entity.getName());
+
 	}
 
 }
