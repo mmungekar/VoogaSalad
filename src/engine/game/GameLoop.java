@@ -1,5 +1,6 @@
 package engine.game;
 
+import engine.Entity;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
@@ -49,5 +50,18 @@ public class GameLoop {
 			levelManager.startCurrentLevel();
 		}
 		done = true;
+		
+		//Update all Entities in current Level
+		for (Entity entity: levelManager.getCurrentLevel().getEntities()){
+			entity.update();
+		}
+		
+		/*
+		collisionObserver
+		for (Entity entity: levelManager.getCurrentLevel().getEntities()){
+			entity.update();
+		}
+		inputObserver.setNewInput(false);
+		*/
 	}
 }

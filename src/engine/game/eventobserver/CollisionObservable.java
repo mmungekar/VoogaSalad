@@ -7,9 +7,9 @@ import engine.Entity;
  * @author Matthew Barbano
  *
  */
-public class CollisionObserver extends EventObserver{
+public class CollisionObservable extends EventObserver{
 
-	public CollisionObserver() {
+	public CollisionObservable() {
 		// TODO Auto-generated constructor stub
 	}
 	

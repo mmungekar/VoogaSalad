@@ -4,7 +4,7 @@ import java.util.List;
 
 import engine.game.eventobserver.ObservableEntity;
 
-public interface Entity extends ObservableEntity
+public interface Entity
 {
 	// external
 	void setEvent(Event event);
