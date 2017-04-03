@@ -19,11 +19,15 @@ public class PlayerMenu {
 		setupScene();
 	}
 	
+	public PlayerMenu(Stage stage){
+		this.stage = stage;
+		stage.setScene(createScene());
+		setupScene();
+	}
+	
 	private void setupStage(){
 		stage = new Stage();
 		stage.setTitle(resources.getString("MainTitle"));
-		stage.setMinWidth(600);
-		stage.setMinHeight(300);
 		stage.setScene(createScene());
 		stage.show();
 	}
@@ -39,10 +43,10 @@ public class PlayerMenu {
 		Factory factory = new Factory(resources);
 		VBox menu = new VBox(8);
 		menu.getChildren().addAll(factory.makeButton("StartButton", e -> new Player(), true),
-				factory.makeButton("AchievementsButton", e -> new AchievementsMenu().display(), true),
-				factory.makeButton("OptionsButton", e -> new OptionsMenu().display(), true),
-				factory.makeButton("InfoButton", e -> new InfoMenu().display(), true),
-				factory.makeButton("ExitButton", e -> System.exit(0), true));
+				factory.makeButton("AchievementsButton", e -> stage.setScene(new AchievementsMenu().display()), true),
+				factory.makeButton("OptionsButton", e -> stage.setScene(new OptionsMenu().display()), true),
+				factory.makeButton("InfoButton", e -> stage.setScene(new InfoMenu(stage).display()), true),
+				factory.makeButton("ExitButton", e -> stage.close(), true));
 		
 		root.setCenter(menu);
 		menu.setAlignment(Pos.CENTER);
