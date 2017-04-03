@@ -1,6 +1,6 @@
 package engine;
 
-public interface Camera {
+public interface CameraInterface {
 	//SimpleIntegerProperty position
 	//internal
 	void update();
