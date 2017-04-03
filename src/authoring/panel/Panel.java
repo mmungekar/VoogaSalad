@@ -40,6 +40,7 @@ public class Panel extends CollapsibleView {
 			private static final long serialVersionUID = 1L;
 			{
 				add(new EntityDisplay(workspace));
+				add(new Chat(workspace));
 			}
 		};
 	}

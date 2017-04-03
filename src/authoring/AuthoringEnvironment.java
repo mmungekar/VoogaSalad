@@ -37,7 +37,5 @@ public class AuthoringEnvironment {
 		scene.getStylesheets().add(resources.getString("StylesheetPath"));
 		return scene;
 	}
-	
-	
 
 }

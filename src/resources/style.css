@@ -1,9 +1,10 @@
-.root{
+.root {
     -fx-font-size: 10pt;
     -fx-font-family: "Helvetica";
     -fx-base: #141414;
     -fx-background: #141414;
     -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
     -fx-accent: #6C7A89;
 }
 
@@ -42,4 +43,10 @@
     -fx-border-width: 0;
     -fx-background-radius: 0;
     -fx-background-color: transparent;
+}
+
+#thumbnail {
+	-fx-padding: 2;
+	-fx-background-color: red;
+	-fx-background-radius: 5;
 }
