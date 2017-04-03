@@ -7,7 +7,7 @@ import engine.Entity;
  * @author Matthew Barbano
  *
  */
-public class TimerObserver extends EventObserver{
+public class TimerObserver extends EventObserver<TimerEvent>{
 
 	public TimerObserver() {
 		// TODO Auto-generated constructor stub

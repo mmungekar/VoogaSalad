@@ -15,7 +15,7 @@ import engine.Entity;
  *
  */
 public abstract class EventObserver {
-	List<ObservableEntity> observables;
+	List<Entity> observables;
 
 	public EventObserver() {
 		observables = new ArrayList<>();
@@ -29,7 +29,7 @@ public abstract class EventObserver {
 	 * object in memory as originally added to the list If you want me to change
 	 * this behavior, let me know.
 	 */
-	public void attach(ObservableEntity toAttach) {
+	public void attach(Entity toAttach) {
 		observables.add(toAttach);
 	}
 
@@ -37,7 +37,7 @@ public abstract class EventObserver {
 	 * Engine External API. Removes toDetach from all Lists of
 	 * ObservableEntities that will update upon calling updateObservables().
 	 */
-	public void detach(ObservableEntity toDetach) {
+	public void detach(Entity toDetach) {
 		observables.remove(observables.indexOf(toDetach));
 	}
 
@@ -45,9 +45,5 @@ public abstract class EventObserver {
 	 * Engine External API. Iterates through the List of ObservableEntities in
 	 * the appropriate subclass and calls their update() method.
 	 */
-	public void updateObservables() {   //TODO In progress
-		for (ObservableEntity observable : observables) {
-			observable.update();
-		}
-	}
+	public abstract void updateObservables();
 }

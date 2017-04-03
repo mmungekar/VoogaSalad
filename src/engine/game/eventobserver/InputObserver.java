@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import engine.Entity;
+import engine.Event;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 
@@ -13,15 +14,41 @@ import javafx.scene.input.KeyEvent;
  * @author Matthew Barbano
  *
  */
-public class InputObserver extends EventObserver {
+public class InputObserver extends EventObserver{
 	
 	public InputObserver(){
 		super();
 	}
 	
+	
+	/*
+	 * Argument for casting here:
+	 * 1. Casting here
+	 * 2. Have separate lists of InputEvent, CollisionEvent, TimerEvent in Entity
+	 * We would like Entity to be closed (in case add new types of Events), so rather have casting here.
+	 */
 	public void updateObservables(){
-		
+		for(ObservableEntity observable : observables){
+			for(Event event : observable.getEvents()){
+				if(event instanceof InputEvent){
+					if((InputEvent)event.getTriggerKeyCode() == pressedKey){    //get pressedKey from another method in this class!
+						event.act();
+					}
+				}
+				else{
+					throw new Exception("Casting problem");
+				}
+			}
+		}
 	}
+	
+	
+	
+	
+	
+	
+	
+	
 	/*
 	public void setupInputListeners(Scene scene){
 		scene.setOnKeyPressed(event -> manageKeyInput(event.getCode()));
@@ -35,6 +62,10 @@ public class InputObserver extends EventObserver {
 			update that observable
 		}
 		*/
+	
+	
+	
+		
 	/*
 		for(ObservableEntity observable : observables){
 			 if(observable.getEvent().getTriggerKeyCode() == pressedKey){
