@@ -4,6 +4,7 @@
     -fx-base: #141414;
     -fx-background: #141414;
     -fx-focus-color: transparent;
+    -fx-accent: #6C7A89;
 }
 
 .minimize, .tab-button {
@@ -21,3 +22,24 @@
     -fx-padding: 0 2 0 2;  
     -fx-base: lightgray;
 } 
+
+#entity-table .table-column {
+ 	-fx-alignment: CENTER;
+}
+
+#entity-table .table-row-cell {
+    -fx-cell-size: 50px;
+}
+
+#entity-table .column-header-background {
+    -fx-max-height: 0;
+    -fx-pref-height: 0;
+    -fx-min-height: 0;
+}
+
+#entity-button {
+	-fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
