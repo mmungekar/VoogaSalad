@@ -9,6 +9,8 @@ import authoring.canvas.Canvas;
 import authoring.panel.Panel;
 import authoring.settings.Settings;
 import authoring.utils.Factory;
+import authoring.views.View;
+import discussion.Discussion;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.SplitPane;
@@ -18,7 +20,7 @@ import javafx.scene.layout.BorderPane;
  * @author Elliott Bolzan
  *
  */
-public class Workspace extends BorderPane {
+public class Workspace extends View {
 
 	private ResourceBundle resources;
 	private Settings settings;
@@ -30,6 +32,7 @@ public class Workspace extends BorderPane {
 	 * 
 	 */
 	public Workspace(ResourceBundle resources) {
+		super("Workspace");
 		this.resources = resources;
 		setup();
 	}

@@ -53,7 +53,6 @@ public class Receiver extends Actor implements Runnable {
 	
 	private void setupSocket() throws Exception {
 		socket = new MulticastSocket(getPort());
-		//socket.joinGroup(InetAddress.getByName(getHost()));
 		Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
 		while (interfaces.hasMoreElements()) {
 			NetworkInterface iface = interfaces.nextElement();

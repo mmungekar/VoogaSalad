@@ -1,6 +1,7 @@
 package authoring.panel;
 
 import authoring.Workspace;
+import authoring.panel.editing.EntityEditor;
 import authoring.utils.Factory;
 import authoring.views.View;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -149,11 +150,11 @@ public class EntityDisplay extends View {
 	}
 
 	private void newEntity() {
-
+		new EntityEditor(workspace);
 	}
 
 	private void editEntity(Entity entity) {
-
+		new EntityEditor(workspace, entity);
 	}
 
 }
