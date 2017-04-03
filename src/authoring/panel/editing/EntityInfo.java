@@ -8,10 +8,12 @@ import java.io.File;
 import authoring.Workspace;
 import authoring.utils.Factory;
 import authoring.views.View;
+import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -48,15 +50,14 @@ public class EntityInfo extends View {
 		
 		HBox nameBox = new HBox(8);
 		Label nameLabel = new Label(workspace.getResources().getString("TitlePrompt"));
-		// bind to entity name
 		nameField = new TextField();
 		nameField.setPrefWidth(100);
+		nameField.setText(editor.getEntity().getName());
 		nameBox.getChildren().addAll(nameLabel, nameField);
 		nameBox.setAlignment(Pos.CENTER);
 		
 		VBox imageBox = new VBox(8);
-		Image image = new Image("resources/images/mario.png");
-		// bind image to entity's path
+		Image image = new Image(editor.getEntity().getImagePath());
 		ImageView imageView = new ImageView(image);
 		imageView.setPreserveRatio(true);
 		imageView.setFitHeight(50);
@@ -71,8 +72,7 @@ public class EntityInfo extends View {
 		Button cancelButton = factory.makeButton("CancelButton", e -> cancel(), true);
 		buttonBar.getChildren().addAll(saveButton, cancelButton);
 		
-		box.getChildren().addAll(nameBox, imageBox, buttonBar);
-		box.setAlignment(Pos.CENTER);
+		box.getChildren().addAll(nameBox, new Separator(), imageBox, new Separator(), buttonBar);
 		box.setPadding(new Insets(20));
 		
 		setCenter(box);

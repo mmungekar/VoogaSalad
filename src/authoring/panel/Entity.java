@@ -9,7 +9,7 @@ public class Entity {
 		this.name = name;
 		this.imagePath = imagePath;
 	}
-
+	
 	public String getName() {
 		return name;
 	}
