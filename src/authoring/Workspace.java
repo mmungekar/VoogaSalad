@@ -6,7 +6,7 @@ package authoring;
 import java.util.ResourceBundle;
 
 import authoring.canvas.Canvas;
-import authoring.panel.EntityPanel;
+import authoring.panel.Panel;
 import authoring.settings.Settings;
 import authoring.utils.Factory;
 import javafx.geometry.Insets;
@@ -18,20 +18,18 @@ import javafx.scene.layout.BorderPane;
  * @author Elliott Bolzan
  *
  */
-public class Workspace extends BorderPane
-{
+public class Workspace extends BorderPane {
 
 	private ResourceBundle resources;
 	private Settings settings;
 	private Canvas canvas;
-	private EntityPanel entityPanel;
+	private Panel panel;
 	private SplitPane pane;
 
 	/**
 	 * 
 	 */
-	public Workspace(ResourceBundle resources)
-	{
+	public Workspace(ResourceBundle resources) {
 		this.resources = resources;
 		setup();
 	}
@@ -39,30 +37,26 @@ public class Workspace extends BorderPane
 	/**
 	 * Initializes the Workspace's components.
 	 */
-	private void setup()
-	{
+	private void setup() {
 		pane = new SplitPane();
 		settings = new Settings(this, 0);
 		canvas = new Canvas(this);
-		entityPanel = new EntityPanel(this, 1);
-		pane.getItems().addAll(settings, canvas, entityPanel);
+		panel = new Panel(this, 1);
+		pane.getItems().addAll(settings, canvas, panel);
 		pane.setDividerPositions(0.3, 0.75);
 		setPadding(new Insets(4));
 		setCenter(pane);
 	}
 
-	public ResourceBundle getResources()
-	{
+	public ResourceBundle getResources() {
 		return resources;
 	}
 
-	public SplitPane getPane()
-	{
+	public SplitPane getPane() {
 		return pane;
 	}
 
-	public void showMessage(String message)
-	{
+	public void showMessage(String message) {
 		Factory factory = new Factory(resources);
 		factory.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message).showAndWait();
 	}
