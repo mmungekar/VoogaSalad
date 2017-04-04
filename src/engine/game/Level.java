@@ -17,9 +17,11 @@ import engine.game.selectiongroup.Selectable;
  */
 public class Level implements LevelInterface, Selectable{
 	private List<Entity> entities;
+	private TimerManager timer;
 	
-	public Level(){
+	public Level(int totalSeconds){
 		entities = new ArrayList<>();
+		timer = new TimerManager(totalSeconds);
 	}
 	
 	/**

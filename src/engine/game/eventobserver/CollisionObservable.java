@@ -16,9 +16,9 @@ import engine.Entity;
  * @author Matthew Barbano
  *
  */
-public class CollisionObserver extends EventObserver {
+public class CollisionObservable extends EventObservable{
 
-	public CollisionObserver() {
+	public CollisionObservable() {
 		super();
 	}
 
@@ -75,14 +75,15 @@ public class CollisionObserver extends EventObserver {
 	 * is detected, it is added to a list of Collisions.
 	 */
 	@Override
-	public void updateObservables() {
+	public void updateObservers() {
 		List<Collision> collisions = new ArrayList<>();
-		for (Entity first : observables) {
-			for (Entity second : observables) {
+		for (Entity first : observers) {
+			for (Entity second : observers) {
 				if (first != second && isCollision(first, second)) {
 					collisions.add(new Collision(first, second, collisionSide(first, second)));
 				}
 			}
 		}
 	}
+	
 }

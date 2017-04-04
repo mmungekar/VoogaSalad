@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import authoring.Workspace;
+import authoring.settings.Settings;
 import authoring.utils.Direction;
 import authoring.utils.Factory;
 import authoring.views.CollapsibleView;
@@ -41,6 +42,7 @@ public class Panel extends CollapsibleView {
 			{
 				add(new EntityDisplay(workspace));
 				add(new Chat(workspace));
+				add (new Settings(workspace));
 			}
 		};
 	}

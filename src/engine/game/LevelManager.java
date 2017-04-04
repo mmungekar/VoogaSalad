@@ -94,12 +94,14 @@ public class LevelManager {
 	public void loadAllSavedLevels(String filename){
 		//GameDataExternalAPI gameData = new GameDataExternalAPI();
 		//levels = gameData.loadGame(filename); //TODO tell Game Data people to change this to return SelectionGroup<Level> (or List<Level>, in which case I need to convert to the Selection Group here)
-		levels.add(new Level());
-		System.out.println("Loaded a single sample level");
+		levels.add(new Level(60));   //totalSeconds set during Authoring phase
+		System.out.println("Loaded a single sample level and attached its Entities");
 	}
 
 	public void startCurrentLevel() {
 		getCurrentLevel().start();
+		
 	}
+	
 
 }
