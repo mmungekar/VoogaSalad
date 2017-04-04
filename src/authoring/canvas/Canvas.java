@@ -1,14 +1,18 @@
 package authoring.canvas;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import authoring.Workspace;
 import authoring.views.View;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
+import javafx.scene.Cursor;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -16,7 +20,6 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 
 /**
  * 
@@ -31,69 +34,94 @@ import javafx.scene.shape.Rectangle;
 public class Canvas extends View
 {
 
-	// I recommend having a tabbed structure in here, to account for multiple
-	// levels.
-
 	private Workspace workspace;
 	private final int TILE_SIZE = 25;
 
-	private TabPane tabs;
+	private Group gridNodes;
 	private ScrollPane scrollScreen;
+	private List<Node> entities;
 	private Pane layer;
-	private int width;
-	private int height;
+	private double width;
+	private double height;
 
 	public Canvas(Workspace workspace)
 	{
 		super(workspace.getResources().getString("CanvasTitle"));
-		height = 1000;
-		width = 1000;
 		this.workspace = workspace;
 		setup();
 	}
 
 	private void setup()
 	{
-		tabs = new TabPane();
-		newTab();
-		this.setCenter(tabs);
+		gridNodes = new Group();
+		entities = new ArrayList<Node>();
+		scrollScreen = createLayer();
+		this.setCenter(scrollScreen);
 	}
 
-	private void newTab()
+	private ScrollPane createLayer()
 	{
-		Tab newTab = new Tab();
 		scrollScreen = new ScrollPane();
 		layer = new Pane();
 		layer.setPrefHeight(height);
 		layer.setPrefWidth(width);
 		layer.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
 
-		Rectangle rect = new Rectangle();
-		rect.setWidth(100);
-		rect.setHeight(100);
-		rect.setFill(Color.CORAL);
-		makeDraggable(rect);
-		layer.getChildren().add(rect);
-
+		layer.getChildren().add(gridNodes);
 		scrollScreen.setContent(layer);
-		setupGrid();
-		newTab.setContent(scrollScreen);
-		tabs.getTabs().add(newTab);
+		// clickToAddEntity();
+		updateDisplay();
+		return scrollScreen;
 	}
 
-	private void setupGrid()
+	public void addEntity(Node entity)
+	{
+		this.addEntity(entity, 0, 0);
+	}
+
+	public void addEntity(Node entity, double x, double y)
+	{
+		Point2D tiledCoordinate = getTiledCoordinate(x, y);
+		entity.setTranslateX(tiledCoordinate.getX());
+		entity.setTranslateY(tiledCoordinate.getY());
+		entities.add(entity);
+		layer.getChildren().add(entity);
+		entity.setCursor(Cursor.CLOSED_HAND);
+		makeDraggable(entity);
+		updateLayerBounds();
+	}
+
+	private void drawGrid()
 	{
 		for (int i = 0; i < width / TILE_SIZE; i++) {
 			for (int j = 0; j < height / TILE_SIZE; j++) {
-				Circle gridMarker = new Circle();
-				gridMarker.setCenterX(i * TILE_SIZE);
-				gridMarker.setCenterY(j * TILE_SIZE);
-				gridMarker.setRadius(1);
-				gridMarker.setFill(Color.GREY);
-				layer.getChildren().add(gridMarker);
+				drawGridDot(i, j);
 			}
 		}
 	}
+
+	private void drawGridDot(double tileX, double tileY)
+	{
+		Circle gridMarker = new Circle();
+		gridMarker.setCenterX(tileX * TILE_SIZE);
+		gridMarker.setCenterY(tileY * TILE_SIZE);
+		gridMarker.setRadius(1);
+		gridMarker.setFill(Color.GREY);
+		gridNodes.getChildren().add(gridMarker);
+	}
+	//
+	// private void clickToAddEntity()
+	// {
+	// layer.setOnMouseClicked(e -> {
+	// if (e.isShiftDown()) {
+	// Rectangle rect = new Rectangle();
+	// rect.setWidth(100);
+	// rect.setHeight(100);
+	// rect.setFill(Color.CORAL);
+	// this.addEntity(rect, e.getX(), e.getY());
+	// }
+	// });
+	// }
 
 	/**
 	 * Makes the given node draggable so that you can move it around on the
@@ -110,43 +138,85 @@ public class Canvas extends View
 			@Override
 			public void handle(MouseEvent event)
 			{
+				node.setCursor(Cursor.NONE);
 				Bounds scrollViewportBounds = scrollScreen.getViewportBounds();
+
 				double settingsWidth = workspace.getPane().getChildrenUnmodifiable().get(0).getBoundsInParent()
 						.getWidth();
 
-				double horizontalScrollAmount = scrollScreen.getHvalue() * (width - scrollViewportBounds.getMaxX());
-				double verticalScrollAmount = scrollScreen.getVvalue() * (height - scrollViewportBounds.getMaxY());
+				double horizontalScrollAmount = scrollScreen.getHvalue() * (width - (scrollViewportBounds.getWidth()));
+				double verticalScrollAmount = scrollScreen.getVvalue() * (height - (scrollViewportBounds.getHeight()));
 
 				double nodeWidth = node.getBoundsInParent().getWidth();
 				double nodeHeight = node.getBoundsInParent().getHeight();
 
-				double newX = event.getSceneX() - settingsWidth + horizontalScrollAmount;
-				double newY = event.getSceneY() + verticalScrollAmount;
-				double newMaxX = newX + nodeWidth;
-				double newMaxY = newY + nodeHeight;
+				// double tabHeaderHeight = levelsPane.getTabMaxHeight();
 
-				newX = putWithinBounds(newX, 0, width - nodeWidth);
-				newY = putWithinBounds(newY, 0, height - nodeHeight);
+				double newX = event.getSceneX() - settingsWidth + horizontalScrollAmount - (nodeWidth / 2);
+				// double newY = event.getSceneY() - tabHeaderHeight +
+				// verticalScrollAmount - (nodeHeight / 2);
+				double newY = event.getSceneY() + verticalScrollAmount - (nodeHeight / 2);
 
-				node.setTranslateX(((int) newX / TILE_SIZE) * TILE_SIZE);
-				node.setTranslateY(((int) newY / TILE_SIZE) * TILE_SIZE);
+				if (newX < 0) {
+					newX = 0;
+				}
+				if (newY < 0) {
+					newY = 0;
+				}
 
-				scrollScreen.setHvalue(newX / (width - nodeWidth));
-				scrollScreen.setVvalue(newY / (height - nodeHeight));
+				Point2D translateAmount = getTiledCoordinate(newX, newY);
+				node.setTranslateX(translateAmount.getX());
+				node.setTranslateY(translateAmount.getY());
+
+				updateDisplay();
+
+				if (width > scrollViewportBounds.getMaxX()) {
+					scrollScreen.setHvalue(newX / (width - nodeWidth));
+				}
+				if (height > scrollViewportBounds.getMaxY()) {
+					scrollScreen.setVvalue(newY / (height - nodeHeight));
+				}
 
 			}
+		});
 
+		node.setOnMouseReleased(e -> {
+			node.setCursor(Cursor.CLOSED_HAND);
 		});
 	}
 
-	private double putWithinBounds(double value, double minValue, double maxValue)
+	private void updateDisplay()
 	{
-		if (value < minValue) {
-			return minValue;
-		} else if (value > maxValue) {
-			return maxValue;
-		}
-		return value;
+		updateLayerBounds();
+		layer.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+		gridNodes.getChildren().clear();
+		drawGrid();
+		layer.setPrefHeight(height);
+		layer.setPrefWidth(width);
 	}
 
+	private void updateLayerBounds()
+	{
+		double maxX = 0;
+		double maxY = 0;
+		for (Node entity : entities) {
+			double nodeMaxX = entity.getTranslateX() + entity.getBoundsInParent().getWidth();
+			double nodeMaxY = entity.getTranslateY() + entity.getBoundsInParent().getHeight();
+			if (nodeMaxX > maxX) {
+				maxX = nodeMaxX;
+			}
+			if (nodeMaxY > maxY) {
+				maxY = nodeMaxY;
+			}
+		}
+		this.width = maxX;
+		this.height = maxY;
+	}
+
+	private Point2D getTiledCoordinate(double x, double y)
+	{
+		double gridX = ((int) x / TILE_SIZE) * TILE_SIZE;
+		double gridY = ((int) y / TILE_SIZE) * TILE_SIZE;
+		return new Point2D(gridX, gridY);
+	}
 }

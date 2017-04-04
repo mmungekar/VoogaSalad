@@ -14,27 +14,27 @@ import javafx.collections.ObservableList;
  */
 public class CreatedEntities {
 	
-	private ObservableList<Entity> entities;
-	private Entity selected;
+	private ObservableList<EntityWrapper> entities;
+	private EntityWrapper selected;
 
 	/**
 	 * 
 	 */
 	public CreatedEntities() {
-		entities = FXCollections.observableArrayList(new ArrayList<Entity>());
-		entities.add(new Entity("Mario", "resources/images/mario.png"));
-		entities.add(new Entity("Luigi", "resources/images/luigi.png"));
+		entities = FXCollections.observableArrayList(new ArrayList<EntityWrapper>());
+		entities.add(new EntityWrapper(new ConcreteEntity("Mario", "resources/images/mario.png")));
+		entities.add(new EntityWrapper(new ConcreteEntity("Luigi", "resources/images/luigi.png")));
 	}
 	
-	public ObservableList<Entity> getEntities() {
+	public ObservableList<EntityWrapper> getEntities() {
 		return entities;
 	}
 	
-	public Entity getSelectedEntity() {
+	public EntityWrapper getSelectedEntity() {
 		return selected;
 	}
 	
-	public void setSelectedEntity(Entity entity) {
+	public void setSelectedEntity(EntityWrapper entity) {
 		this.selected = entity;
 	}
 
