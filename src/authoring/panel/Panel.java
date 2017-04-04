@@ -14,6 +14,7 @@ public class Panel extends CollapsibleView {
 
 	private Workspace workspace;
 	private List<View> subviews;
+	private EntityDisplay entityDisplay;
 
 	/**
 	 * Returns a Panel.
@@ -28,6 +29,7 @@ public class Panel extends CollapsibleView {
 		super(workspace, workspace.getPane(), workspace.getResources().getString("PanelTitle"), index, Direction.RIGHT,
 				true);
 		this.workspace = workspace;
+		entityDisplay = new EntityDisplay(workspace);
 		createSubviews();
 		setup();
 	}
@@ -37,14 +39,10 @@ public class Panel extends CollapsibleView {
 	 * Accordion.
 	 */
 	private void createSubviews() {
-		subviews = new ArrayList<View>() {
-			private static final long serialVersionUID = 1L;
-			{
-				add(new EntityDisplay(workspace));
-				add(new Chat(workspace));
-				add (new Settings(workspace));
-			}
-		};
+		subviews = new ArrayList<View>();
+		subviews.add(entityDisplay);
+		subviews.add(new Chat(workspace));
+		subviews.add(new Settings(workspace));
 	}
 
 	/**
@@ -53,6 +51,10 @@ public class Panel extends CollapsibleView {
 	private void setup() {
 		Factory factory = new Factory(workspace.getResources());
 		setCenter(factory.makeAccordion(subviews));
+	}
+	
+	public EntityDisplay getEntityDisplay() {
+		return entityDisplay;
 	}
 
 }
