@@ -6,8 +6,8 @@ package authoring.panel.editing;
 import java.io.File;
 
 import authoring.Workspace;
-import authoring.panel.Thumbnail;
-import authoring.utils.Factory;
+import authoring.utils.ComponentMaker;
+import authoring.utils.Thumbnail;
 import authoring.views.View;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -27,7 +27,7 @@ public class EntityInfo extends View {
 
 	private Workspace workspace;
 	private EntityEditor editor;
-	private Factory factory;
+	private ComponentMaker componentMaker;
 	private TextField nameField;
 	private Thumbnail thumbnail;
 
@@ -43,7 +43,7 @@ public class EntityInfo extends View {
 
 	private void setup() {
 
-		factory = new Factory(workspace.getResources());
+		componentMaker = new ComponentMaker(workspace.getResources());
 
 		VBox box = new VBox(20);
 
@@ -57,13 +57,13 @@ public class EntityInfo extends View {
 
 		VBox imageBox = new VBox(20);
 		thumbnail = new Thumbnail(editor.getEntity().getImagePath(), 50, 50);
-		Button pickButton = factory.makeButton("PickButton", e -> pickImage(), true);
+		Button pickButton = componentMaker.makeButton("PickButton", e -> pickImage(), true);
 		imageBox.getChildren().addAll(thumbnail, pickButton);
 		imageBox.setAlignment(Pos.CENTER);
 
 		HBox buttonBar = new HBox();
-		Button saveButton = factory.makeButton("SaveButtonEditor", e -> editor.save(), true);
-		Button cancelButton = factory.makeButton("CancelButton", e -> editor.dismiss(), true);
+		Button saveButton = componentMaker.makeButton("SaveButtonEditor", e -> editor.save(), true);
+		Button cancelButton = componentMaker.makeButton("CancelButton", e -> editor.dismiss(), true);
 		buttonBar.getChildren().addAll(saveButton, cancelButton);
 
 		box.getChildren().addAll(nameBox, new Separator(), imageBox, new Separator(), buttonBar);
@@ -74,7 +74,7 @@ public class EntityInfo extends View {
 	}
 
 	private void pickImage() {
-		FileChooser imageChooser = factory.makeFileChooser(System.getProperty("user.home"), "Images", "*.png", "*.jpg",
+		FileChooser imageChooser = componentMaker.makeFileChooser(System.getProperty("user.home"), "Images", "*.png", "*.jpg",
 				"*.gif");
 		File file = imageChooser.showOpenDialog(getScene().getWindow());
 		if (file != null) {
