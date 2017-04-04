@@ -6,6 +6,9 @@ package engine.game;
  * @author Matthew Barbano
  *
  */
-public interface TimerManager {
-
+public class TimerManager {
+	//IN PROGRESS
+	public TimerManager(int totalSeconds){
+		
+	}
 }

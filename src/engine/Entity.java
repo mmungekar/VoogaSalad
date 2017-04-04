@@ -87,4 +87,8 @@ public abstract class Entity implements EntityInterface {
 	public void setYAcceleration(double yAcceleration) {
 		this.yAcceleration = yAcceleration;
 	}
+	
+	public List<Event> getEvents(){
+		return events;
+	}
 }
