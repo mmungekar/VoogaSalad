@@ -7,13 +7,14 @@ import engine.Entity;
  * @author Matthew Barbano
  *
  */
-public class CollisionObserver extends EventObserver{
+public class TimerObservable extends EventObservable{
 
-	public CollisionObserver() {
-		// TODO Auto-generated constructor stub
+	public TimerObservable() {
+		super();
 	}
 	
-	public void updateObservables(){
-		
+	@Override
+	public void updateObservers() {
+		//TODO
 	}
 }

@@ -87,21 +87,25 @@ public abstract class Entity implements EntityInterface {
 	public void setYAcceleration(double yAcceleration) {
 		this.yAcceleration = yAcceleration;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public String getImagePath() {
 		return imagePath;
 	}
-	
+
 	public void setImagePath(String imagePath) {
 		this.imagePath = imagePath;
 	}
-	
+
+	public List<Event> getEvents() {
+		return events;
+	}
+
 }

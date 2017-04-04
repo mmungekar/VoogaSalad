@@ -14,11 +14,11 @@ import engine.Entity;
  * @author Matthew Barbano
  *
  */
-public abstract class EventObserver {
-	List<Entity> observables;
+public abstract class EventObservable {
+	private List<Entity> observers;
 
-	public EventObserver() {
-		observables = new ArrayList<>();
+	public EventObservable() {
+		observers = new ArrayList<>();
 	}
 
 	/**
@@ -30,7 +30,7 @@ public abstract class EventObserver {
 	 * this behavior, let me know.
 	 */
 	public void attach(Entity toAttach) {
-		observables.add(toAttach);
+		observers.add(toAttach);
 	}
 
 	/**
@@ -38,12 +38,12 @@ public abstract class EventObserver {
 	 * ObservableEntities that will update upon calling updateObservables().
 	 */
 	public void detach(Entity toDetach) {
-		observables.remove(observables.indexOf(toDetach));
+		observers.remove(observers.indexOf(toDetach));
 	}
 
 	/**
 	 * Engine External API. Iterates through the List of ObservableEntities in
 	 * the appropriate subclass and calls their update() method.
 	 */
-	public abstract void updateObservables();
+	public abstract void updateObservers();
 }

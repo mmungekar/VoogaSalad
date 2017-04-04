@@ -2,16 +2,14 @@ package engine;
 
 import java.util.List;
 
-import engine.game.eventobserver.ObservableEntity;
-
-public interface EntityInterface extends ObservableEntity
+public interface EntityInterface
 {
 	// external
 	void setEvent(EventInterface event);
 
 	// internal
 	void update();
-	List<EventInterface> getEvents();
+	List<Event> getEvents();
 
 	void setYAcceleration(double accel);
 

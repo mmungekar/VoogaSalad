@@ -3,6 +3,7 @@ package authoring.panel;
 import java.util.List;
 
 import engine.Entity;
+import engine.Event;
 import engine.EventInterface;
 
 public class ConcreteEntity extends Entity {
@@ -19,7 +20,7 @@ public class ConcreteEntity extends Entity {
 	}
 
 	@Override
-	public List<EventInterface> getEvents() {
+	public List<Event> getEvents() {
 		// TODO Auto-generated method stub
 		return null;
 	}
