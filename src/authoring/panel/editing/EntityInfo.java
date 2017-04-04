@@ -6,6 +6,7 @@ package authoring.panel.editing;
 import java.io.File;
 
 import authoring.Workspace;
+import authoring.panel.Thumbnail;
 import authoring.utils.Factory;
 import authoring.views.View;
 import javafx.beans.binding.Bindings;
@@ -57,14 +58,9 @@ public class EntityInfo extends View {
 		nameBox.setAlignment(Pos.CENTER);
 		
 		VBox imageBox = new VBox(8);
-		Image image = new Image(editor.getEntity().getImagePath());
-		ImageView imageView = new ImageView(image);
-		imageView.setPreserveRatio(true);
-		imageView.setFitHeight(50);
-		imageView.setFitWidth(50);
-		imageView.setId("thumbnail");
+		Thumbnail thumbnail = new Thumbnail(editor.getEntity().getImagePath(), 50, 50);
 		Button pickButton = factory.makeButton("PickButton", e -> pickImage(), true);
-		imageBox.getChildren().addAll(imageView, pickButton);
+		imageBox.getChildren().addAll(thumbnail, pickButton);
 		imageBox.setAlignment(Pos.CENTER);
 		
 		HBox buttonBar = new HBox();

@@ -6,15 +6,14 @@ package authoring;
 import java.util.ResourceBundle;
 
 import authoring.canvas.Canvas;
+import authoring.panel.Entity;
 import authoring.panel.Panel;
 import authoring.settings.Settings;
 import authoring.utils.Factory;
 import authoring.views.View;
-import discussion.Discussion;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.SplitPane;
-import javafx.scene.layout.BorderPane;
 
 /**
  * @author Elliott Bolzan
@@ -57,6 +56,10 @@ public class Workspace extends View {
 
 	public SplitPane getPane() {
 		return pane;
+	}
+	
+	public Entity getSelectedEntity() {
+		return panel.getEntityDisplay().getSelectedEntity();
 	}
 
 	public void showMessage(String message) {

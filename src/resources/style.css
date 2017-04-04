@@ -49,9 +49,3 @@
     -fx-background-radius: 0;
     -fx-background-color: transparent;
 }
-
-#thumbnail {
-	-fx-padding: 2;
-	-fx-background-color: red;
-	-fx-background-radius: 5;
-}

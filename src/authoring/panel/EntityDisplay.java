@@ -38,6 +38,10 @@ public class EntityDisplay extends View {
 		this.workspace = workspace;
 		setup();
 	}
+	
+	public Entity getSelectedEntity() {
+		return entities.getSelectedEntity();
+	}
 
 	@SuppressWarnings("unchecked")
 	private void setup() {
@@ -90,11 +94,8 @@ public class EntityDisplay extends View {
 				box.setPadding(new Insets(2));
 				box.setAlignment(Pos.CENTER);
 				Label name = new Label(entity.getName());
-				ImageView imageView = new ImageView(new Image(entity.getImagePath()));
-				imageView.setFitHeight(50);
-				imageView.setFitWidth(50);
-				imageView.setPreserveRatio(true);
-				box.getChildren().addAll(imageView, name);
+				Thumbnail thumbnail = new Thumbnail(entity.getImagePath(), 50, 50);
+				box.getChildren().addAll(thumbnail, name);
 				setGraphic(box);
 			}
 		});
