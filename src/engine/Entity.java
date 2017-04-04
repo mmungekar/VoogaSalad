@@ -2,8 +2,6 @@ package engine;
 
 import java.util.List;
 
-import engine.game.eventobserver.ObservableEntity;
-
 public interface Entity
 {
 	// external

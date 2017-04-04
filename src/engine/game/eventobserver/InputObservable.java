@@ -16,26 +16,22 @@ import javafx.scene.input.KeyEvent;
  * @author Matthew Barbano
  *
  */
-public class InputObservable extends EventObserver{
+public class InputObservable extends EventObservable{
 	
-	private List<Event> toAct;   //TODO will probably be refactored to superclass
-	private KeyCode lastPressedKey;
-	private boolean newInput;
+	//private List<Event> toAct;   //TODO will probably be refactored to superclass
+	//private KeyCode lastPressedKey;
 	
 	
 	public InputObservable(){
 		super();
-		toAct = new ArrayList<>();
-		lastPressedKey = null;
-		newInput = false;
+		//toAct = new ArrayList<>();
+		//lastPressedKey = null;
 	}
 	
+	
+
+	
 	/*
-	 * Argument for casting here:
-	 * 1. Casting here
-	 * 2. Have separate lists of InputEvent, CollisionEvent, TimerEvent in Entity
-	 * We would like Entity to be closed (in case add new types of Events), so rather have casting here.
-	 */
 	public void updateObservables(){
 		// if lastPressedKey != game.getInput():
 			//
@@ -59,4 +55,5 @@ public class InputObservable extends EventObserver{
 		
 		//scene.setOnMouseClicked(event -> manageMouseInput(event.getX(), event.getY()));   //TODO Mouse input is more complicated!
 	}
+	*/
 }
