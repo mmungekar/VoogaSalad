@@ -1,8 +1,11 @@
-package authoring.panel;
+package authoring.panel.display;
 
 import authoring.Workspace;
+import authoring.panel.CreatedEntities;
 import authoring.panel.editing.EntityEditor;
-import authoring.utils.Factory;
+import authoring.utils.ComponentMaker;
+import authoring.utils.EntityWrapper;
+import authoring.utils.Thumbnail;
 import authoring.views.View;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.event.EventHandler;
@@ -27,7 +30,8 @@ import javafx.scene.layout.VBox;
 public class EntityDisplay extends View {
 
 	private Workspace workspace;
-	private Factory factory;
+	private ComponentMaker componentMaker;
+	private TableView<EntityWrapper> table;
 	private CreatedEntities entities;
 
 	/**
@@ -39,11 +43,15 @@ public class EntityDisplay extends View {
 		setup();
 	}
 
+	public EntityWrapper getSelectedEntity() {
+		return entities.getSelectedEntity();
+	}
+
 	@SuppressWarnings("unchecked")
 	private void setup() {
-		factory = new Factory(workspace.getResources());
+		componentMaker = new ComponentMaker(workspace.getResources());
 		entities = new CreatedEntities();
-		TableView<Entity> table = makeTable();
+		table = makeTable();
 		table.setItems(entities.getEntities());
 		table.getColumns().addAll(makeEntityColumn(), makeEditColumn(), makeDeleteColumn());
 		setCenter(table);
@@ -54,14 +62,14 @@ public class EntityDisplay extends View {
 	 * @return a button bar.
 	 */
 	private Node createButtonBar() {
-		return new HBox(factory.makeButton("NewTitle", e -> newEntity(), true));
+		return new HBox(componentMaker.makeButton("NewTitle", e -> newEntity(), true));
 	}
 
 	/**
 	 * @return a TableView.
 	 */
-	private TableView<Entity> makeTable() {
-		TableView<Entity> table = new TableView<Entity>();
+	private TableView<EntityWrapper> makeTable() {
+		TableView<EntityWrapper> table = new TableView<EntityWrapper>();
 		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		table.setPlaceholder(new Label(workspace.getResources().getString("EmptyEntities")));
 		table.prefHeightProperty().bind(heightProperty());
@@ -75,41 +83,39 @@ public class EntityDisplay extends View {
 		return table;
 	}
 
-	private TableColumn<Entity, Entity> makeEntityColumn() {
-		TableColumn<Entity, Entity> entityColumn = new TableColumn<>("Entity");
+	private TableColumn<EntityWrapper, EntityWrapper> makeEntityColumn() {
+		TableColumn<EntityWrapper, EntityWrapper> entityColumn = new TableColumn<>("Entity");
 		entityColumn.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
-		entityColumn.setCellFactory(param -> new TableCell<Entity, Entity>() {
+		entityColumn.setCellFactory(param -> new TableCell<EntityWrapper, EntityWrapper>() {
 			@Override
-			protected void updateItem(Entity entity, boolean empty) {
+			protected void updateItem(EntityWrapper entity, boolean empty) {
 				super.updateItem(entity, empty);
 				if (entity == null) {
 					setGraphic(null);
 					return;
 				}
 				VBox box = new VBox(8);
-				box.setPadding(new Insets(2));
+				box.setPadding(new Insets(8));
 				box.setAlignment(Pos.CENTER);
-				Label name = new Label(entity.getName());
-				ImageView imageView = new ImageView(new Image(entity.getImagePath()));
-				imageView.setFitHeight(50);
-				imageView.setFitWidth(50);
-				imageView.setPreserveRatio(true);
-				box.getChildren().addAll(imageView, name);
+				Label name = new Label();
+				name.textProperty().bind(entity.getName());
+				Thumbnail thumbnail = new Thumbnail(entity.getImagePath(), 50, 50);
+				box.getChildren().addAll(thumbnail, name);
 				setGraphic(box);
 			}
 		});
 		return entityColumn;
 	}
 
-	private TableColumn<Entity, Entity> makeDeleteColumn() {
-		TableColumn<Entity, Entity> deleteColumn = new TableColumn<>("Delete");
+	private TableColumn<EntityWrapper, EntityWrapper> makeDeleteColumn() {
+		TableColumn<EntityWrapper, EntityWrapper> deleteColumn = new TableColumn<>("Delete");
 		deleteColumn.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
-		deleteColumn.setCellFactory(param -> new TableCell<Entity, Entity>() {
+		deleteColumn.setCellFactory(param -> new TableCell<EntityWrapper, EntityWrapper>() {
 			private ImageView imageView = new ImageView(new Image("resources/images/delete.png"));
 			private Button deleteButton = new Button("", imageView);
 
 			@Override
-			protected void updateItem(Entity entity, boolean empty) {
+			protected void updateItem(EntityWrapper entity, boolean empty) {
 				imageView.setPreserveRatio(true);
 				imageView.setFitHeight(20);
 				imageView.setFitWidth(20);
@@ -120,21 +126,21 @@ public class EntityDisplay extends View {
 					return;
 				}
 				setGraphic(deleteButton);
-				deleteButton.setOnAction(event -> getTableView().getItems().remove(entity));
+				deleteButton.setOnAction(event -> removeEntity(entity));
 			}
 		});
 		return deleteColumn;
 	}
 
-	private TableColumn<Entity, Entity> makeEditColumn() {
-		TableColumn<Entity, Entity> editColumn = new TableColumn<>("Edit");
+	private TableColumn<EntityWrapper, EntityWrapper> makeEditColumn() {
+		TableColumn<EntityWrapper, EntityWrapper> editColumn = new TableColumn<>("Edit");
 		editColumn.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
-		editColumn.setCellFactory(param -> new TableCell<Entity, Entity>() {
+		editColumn.setCellFactory(param -> new TableCell<EntityWrapper, EntityWrapper>() {
 			private ImageView imageView = new ImageView(new Image("resources/images/edit.png"));
 			private final Button editButton = new Button("", imageView);
 
 			@Override
-			protected void updateItem(Entity entity, boolean empty) {
+			protected void updateItem(EntityWrapper entity, boolean empty) {
 				imageView.setPreserveRatio(true);
 				imageView.setFitHeight(20);
 				imageView.setFitWidth(20);
@@ -152,12 +158,21 @@ public class EntityDisplay extends View {
 	}
 
 	private void newEntity() {
-		new EntityEditor(workspace, null);
+		new EntityEditor(workspace, this, null);
 	}
 
-	
-	private void editEntity(Entity entity) {
-		new EntityEditor(workspace, entity);
+	private void editEntity(EntityWrapper entity) {
+		new EntityEditor(workspace, this, entity);
+	}
+
+	public void addEntity(EntityWrapper entity) {
+		if (!entities.getEntities().contains(entity)) {
+			entities.getEntities().add(entity);
+		}
+	}
+
+	public void removeEntity(EntityWrapper entity) {
+		entities.getEntities().remove(entity);
 	}
 
 }

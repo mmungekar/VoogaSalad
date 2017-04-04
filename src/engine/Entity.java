@@ -10,7 +10,7 @@ public abstract class Entity implements EntityInterface {
 	private SimpleDoubleProperty x, y, width, height;
 	private double xSpeed, ySpeed, xAcceleration, yAcceleration;
 	private List<Event> events;
-	String name, imagePath;
+	private String name, imagePath;
 
 	public Entity(String name, String imagePath) {
 		events = new ArrayList<Event>();
@@ -105,6 +105,24 @@ public abstract class Entity implements EntityInterface {
 	}
 	
 	public List<Event> getEvents(){
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getImagePath() {
+		return imagePath;
+	}
+
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
+	}
+
+	public List<Event> getEvents() {
 		return events;
 	}
 }

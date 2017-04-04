@@ -21,7 +21,9 @@ public class InputEvent extends Event {
 	}	@Override
 	
 	public void act(){
+		
 		//if (there is a new input)
+		if (((InputObservable)getEventObservable()).get)
 			// if the input matches the input that i react to:
 				// then i act
 		//NOTES TO NIKITA (from Matthew):
@@ -36,9 +38,5 @@ public class InputEvent extends Event {
 		 *  Also I am assuming you will take care of getting the targetKey without me because that is set by the Authoring Environment,
 		 *  not the Game Loop.
 		 */
-	}
-	
-	public void donateInputObservable(InputObservable inputObservable){
-		this.inputObservable = inputObservable;
 	}
 }

@@ -9,7 +9,8 @@ import java.util.ResourceBundle;
 
 import authoring.canvas.LevelEditor;
 import authoring.panel.Panel;
-import authoring.utils.Factory;
+import authoring.utils.ComponentMaker;
+import authoring.utils.EntityWrapper;
 import authoring.views.View;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert.AlertType;
@@ -19,8 +20,7 @@ import javafx.scene.control.SplitPane;
  * @author Elliott Bolzan Modified by Mina Mungekar, Jimmy Shackford
  *
  */
-public class Workspace extends View
-{
+public class Workspace extends View {
 
 	private ResourceBundle resources;
 	private LevelEditor levelEditor;
@@ -30,8 +30,7 @@ public class Workspace extends View
 	/**
 	 * 
 	 */
-	public Workspace(ResourceBundle resources)
-	{
+	public Workspace(ResourceBundle resources) {
 		super("Workspace");
 		this.resources = resources;
 		setup();
@@ -40,36 +39,34 @@ public class Workspace extends View
 	/**
 	 * Initializes the Workspace's components.
 	 */
-	private void setup()
-	{
+	private void setup() {
 		pane = new SplitPane();
 		panel = new Panel(this, 0);
 		levelEditor = new LevelEditor(this);
 		pane.getItems().addAll(panel, levelEditor);
-		pane.setDividerPositions(Double.parseDouble(resources.getString("DividerPositionX")),
-				Double.parseDouble(resources.getString("DividerPositionY")));
+		pane.setDividerPositions(Double.parseDouble(resources.getString("DividerPosition")));
 		setPadding(new Insets(Integer.parseInt(resources.getString("WorkSpaceInsets"))));
 		setCenter(pane);
 	}
 
-	public ResourceBundle getResources()
-	{
+	public ResourceBundle getResources() {
 		return resources;
 	}
 
-	public SplitPane getPane()
-	{
+	public SplitPane getPane() {
 		return pane;
 	}
 
-	public void showMessage(String message)
-	{
-		Factory factory = new Factory(resources);
-		factory.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message).showAndWait();
+	public EntityWrapper getSelectedEntity() {
+		return panel.getEntityDisplay().getSelectedEntity();
 	}
 
-	public List getEntities()
-	{
+	public void showMessage(String message) {
+		ComponentMaker componentMaker = new ComponentMaker(resources);
+		componentMaker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message).showAndWait();
+	}
+
+	public List getEntities() {
 		// return canvas's entities (i.e. canvas.getLevel())
 		return new ArrayList<>();
 	}
