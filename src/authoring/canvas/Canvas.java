@@ -20,7 +20,6 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 
 /**
  * 
@@ -68,15 +67,9 @@ public class Canvas extends View
 		layer.setPrefWidth(width);
 		layer.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
 
-		Rectangle rect = new Rectangle();
-		rect.setWidth(100);
-		rect.setHeight(100);
-		rect.setFill(Color.CORAL);
-		this.addEntity(rect);
-
 		layer.getChildren().add(gridNodes);
 		scrollScreen.setContent(layer);
-		clickToAddEntity();
+		// clickToAddEntity();
 		updateDisplay();
 		return scrollScreen;
 	}
@@ -116,19 +109,19 @@ public class Canvas extends View
 		gridMarker.setFill(Color.GREY);
 		gridNodes.getChildren().add(gridMarker);
 	}
-
-	private void clickToAddEntity()
-	{
-		layer.setOnMouseClicked(e -> {
-			if (e.isShiftDown()) {
-				Rectangle rect = new Rectangle();
-				rect.setWidth(100);
-				rect.setHeight(100);
-				rect.setFill(Color.CORAL);
-				this.addEntity(rect, e.getX(), e.getY());
-			}
-		});
-	}
+	//
+	// private void clickToAddEntity()
+	// {
+	// layer.setOnMouseClicked(e -> {
+	// if (e.isShiftDown()) {
+	// Rectangle rect = new Rectangle();
+	// rect.setWidth(100);
+	// rect.setHeight(100);
+	// rect.setFill(Color.CORAL);
+	// this.addEntity(rect, e.getX(), e.getY());
+	// }
+	// });
+	// }
 
 	/**
 	 * Makes the given node draggable so that you can move it around on the
