@@ -1,10 +1,14 @@
 package authoring.canvas;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import authoring.Workspace;
 import authoring.views.View;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
@@ -38,16 +42,16 @@ public class Canvas extends View
 	private final int TILE_SIZE = 25;
 
 	private TabPane layers;
+	private Group gridNodes;
 	private ScrollPane scrollScreen;
+	private List<Node> entities;
 	private Pane layer;
-	private int width;
-	private int height;
+	private double width;
+	private double height;
 
 	public Canvas(Workspace workspace)
 	{
 		super(workspace.getResources().getString("CanvasTitle"));
-		height = 900;
-		width = 900;
 		this.workspace = workspace;
 		setup();
 	}
@@ -55,6 +59,8 @@ public class Canvas extends View
 	private void setup()
 	{
 		layers = new TabPane();
+		gridNodes = new Group();
+		entities = new ArrayList<Node>();
 		newTab();
 		this.setCenter(layers);
 	}
@@ -72,16 +78,24 @@ public class Canvas extends View
 		rect.setWidth(100);
 		rect.setHeight(100);
 		rect.setFill(Color.CORAL);
-		makeDraggable(rect);
-		layer.getChildren().add(rect);
+		this.addEntity(rect);
 
+		layer.getChildren().add(gridNodes);
 		scrollScreen.setContent(layer);
-		setupGrid();
+		updateDisplay();
 		newTab.setContent(scrollScreen);
 		layers.getTabs().add(newTab);
 	}
 
-	private void setupGrid()
+	public void addEntity(Node entity)
+	{
+		entities.add(entity);
+		layer.getChildren().add(entity);
+		makeDraggable(entity);
+		updateLayerBounds();
+	}
+
+	private void drawGrid()
 	{
 		for (int i = 0; i < width / TILE_SIZE; i++) {
 			for (int j = 0; j < height / TILE_SIZE; j++) {
@@ -97,7 +111,7 @@ public class Canvas extends View
 		gridMarker.setCenterY(tileY * TILE_SIZE);
 		gridMarker.setRadius(1);
 		gridMarker.setFill(Color.GREY);
-		layer.getChildren().add(gridMarker);
+		gridNodes.getChildren().add(gridMarker);
 	}
 
 	/**
@@ -131,11 +145,17 @@ public class Canvas extends View
 				double newX = event.getSceneX() - settingsWidth + horizontalScrollAmount;
 				double newY = event.getSceneY() - tabHeaderHeight + verticalScrollAmount;
 
-				newX = putWithinBounds(newX, 0, width - nodeWidth);
-				newY = putWithinBounds(newY, 0, height - nodeHeight);
+				if (newX < 0) {
+					newX = 0;
+				}
+				if (newY < 0) {
+					newY = 0;
+				}
 
 				node.setTranslateX(((int) newX / TILE_SIZE) * TILE_SIZE);
 				node.setTranslateY(((int) newY / TILE_SIZE) * TILE_SIZE);
+
+				updateDisplay();
 
 				if (width > scrollViewportBounds.getMaxX()) {
 					scrollScreen.setHvalue(newX / (width - nodeWidth));
@@ -149,14 +169,32 @@ public class Canvas extends View
 		});
 	}
 
-	private double putWithinBounds(double value, double minValue, double maxValue)
+	private void updateDisplay()
 	{
-		if (value < minValue) {
-			return minValue;
-		} else if (value > maxValue) {
-			return maxValue;
+		updateLayerBounds();
+		layer.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+		gridNodes.getChildren().clear();
+		drawGrid();
+		layer.setPrefHeight(height);
+		layer.setPrefWidth(width);
+	}
+
+	private void updateLayerBounds()
+	{
+		double maxX = 0;
+		double maxY = 0;
+		for (Node entity : entities) {
+			double nodeMaxX = entity.getTranslateX() + entity.getBoundsInParent().getWidth();
+			double nodeMaxY = entity.getTranslateY() + entity.getBoundsInParent().getHeight();
+			if (nodeMaxX > maxX) {
+				maxX = nodeMaxX;
+			}
+			if (nodeMaxY > maxY) {
+				maxY = nodeMaxY;
+			}
 		}
-		return value;
+		this.width = maxX;
+		this.height = maxY;
 	}
 
 }
