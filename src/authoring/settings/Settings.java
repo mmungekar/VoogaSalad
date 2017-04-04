@@ -8,26 +8,27 @@ import authoring.ActionButton;
 import authoring.Workspace;
 import authoring.utils.Direction;
 import authoring.views.CollapsibleView;
+import authoring.views.View;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.stage.FileChooser.ExtensionFilter;
 /**
  * 
  * @author Mina
  *
  */
-import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import javafx.stage.FileChooser.ExtensionFilter;
-public class Settings extends CollapsibleView {
+public class Settings extends View {
 
 	private Workspace workspace;
 	private VBox settingsContainer;
-	
-	public Settings(Workspace workspace, int index) {
-		super(workspace, workspace.getPane(), workspace.getResources().getString("SettingsTitle"), index, Direction.LEFT, true);
+
+	public Settings(Workspace workspace) {
+		super(workspace.getResources().getString("SettingsTitle"));
 		this.workspace = workspace;
 		configureSettings();
 	}
