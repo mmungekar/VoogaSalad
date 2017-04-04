@@ -10,7 +10,7 @@ import engine.Entity;
 public class CollisionObserver extends EventObserver{
 
 	public CollisionObserver() {
-		// TODO Auto-generated constructor stub
+		super();
 	}
 	
 	public void updateObservables(){

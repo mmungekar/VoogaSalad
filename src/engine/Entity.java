@@ -27,4 +27,29 @@ public interface Entity extends ObservableEntity
 	void setHeight(double height);
 	
 	void setWidth(double width);
+	
+	double getYAcceleration();
+
+	double getXAcceleration();
+
+	double getYSpeed();
+
+	double getXSpeed();
+
+	double getY();
+
+	double getX();
+	
+	double getHeight();
+	
+	double getWidth();
+	
+	double getMaxX();
+	
+	double getMaxY();
+	
+	double getMinX();
+	
+	double getMinY();
+	
 }
