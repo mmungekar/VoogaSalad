@@ -5,6 +5,7 @@ import java.util.Map;
 public abstract class Action implements ActionInterface {
 
 	private Map<String, Object> params;
+	
 	@Override
 	public Map<String, Object> getParams(){
 		return params;

@@ -51,6 +51,7 @@ public class TableEditor extends View {
 	
 	private void setupView() {
 		maker = new ComponentMaker(workspace.getResources());
+		setPadding(new Insets(10));
 		createChooserBox();
 		createTable();
 		createButtonBox();
@@ -75,7 +76,7 @@ public class TableEditor extends View {
 		Label label = new Label(workspace.getResources().getString("TableEditorComboxTitle"));
 		label.setPadding(new Insets(5));
 		comboBox = new ComboBox<String>();
-		comboBox.prefWidthProperty().bind(widthProperty().subtract(label.widthProperty()).subtract(40));
+		comboBox.prefWidthProperty().bind(widthProperty().subtract(label.widthProperty()).subtract(60));
 		HBox box = createBox();
 		box.getChildren().addAll(label, comboBox);
 		setTop(box);
