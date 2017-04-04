@@ -7,27 +7,13 @@ import engine.Entity;
  * @author Matthew Barbano
  *
  */
-public class TimerObserver implements EventObserver<Entity>{
+public class TimerObserver extends EventObserver<TimerEvent>{
 
 	public TimerObserver() {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public void attach(Entity toAttach) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void detach(Entity toDetach) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateObservables() {
-		// TODO Auto-generated method stub
+	public void updateObservables(){
 		
 	}
 
