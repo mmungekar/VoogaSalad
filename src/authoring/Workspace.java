@@ -11,15 +11,12 @@ import authoring.canvas.LevelEditor;
 import authoring.panel.Panel;
 import authoring.utils.Factory;
 import authoring.views.View;
-import discussion.Discussion;
-import engine.game.Level;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.SplitPane;
 
 /**
- * @author Elliott Bolzan
- * Modified by Mina Mungekar
+ * @author Elliott Bolzan Modified by Mina Mungekar, Jimmy Shackford
  *
  */
 public class Workspace extends View
@@ -47,8 +44,8 @@ public class Workspace extends View
 	{
 		pane = new SplitPane();
 		panel = new Panel(this, 0);
-		canvas = new Canvas(this);
-		pane.getItems().addAll(panel,canvas);
+		levelEditor = new LevelEditor(this);
+		pane.getItems().addAll(panel, levelEditor);
 		pane.setDividerPositions(Double.parseDouble(resources.getString("DividerPositionX")),
 				Double.parseDouble(resources.getString("DividerPositionY")));
 		setPadding(new Insets(Integer.parseInt(resources.getString("WorkSpaceInsets"))));
@@ -70,9 +67,10 @@ public class Workspace extends View
 		Factory factory = new Factory(resources);
 		factory.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message).showAndWait();
 	}
-	
-	public List getEntities(){
-		//return canvas's entities (i.e. canvas.getLevel())
+
+	public List getEntities()
+	{
+		// return canvas's entities (i.e. canvas.getLevel())
 		return new ArrayList<>();
 	}
 
