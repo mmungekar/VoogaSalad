@@ -37,7 +37,7 @@ public class Canvas extends View
 	private Workspace workspace;
 	private final int TILE_SIZE = 25;
 
-	private TabPane tabs;
+	private TabPane layers;
 	private ScrollPane scrollScreen;
 	private Pane layer;
 	private int width;
@@ -46,17 +46,17 @@ public class Canvas extends View
 	public Canvas(Workspace workspace)
 	{
 		super(workspace.getResources().getString("CanvasTitle"));
-		height = 1000;
-		width = 1000;
+		height = 900;
+		width = 900;
 		this.workspace = workspace;
 		setup();
 	}
 
 	private void setup()
 	{
-		tabs = new TabPane();
+		layers = new TabPane();
 		newTab();
-		this.setCenter(tabs);
+		this.setCenter(layers);
 	}
 
 	private void newTab()
@@ -78,21 +78,26 @@ public class Canvas extends View
 		scrollScreen.setContent(layer);
 		setupGrid();
 		newTab.setContent(scrollScreen);
-		tabs.getTabs().add(newTab);
+		layers.getTabs().add(newTab);
 	}
 
 	private void setupGrid()
 	{
 		for (int i = 0; i < width / TILE_SIZE; i++) {
 			for (int j = 0; j < height / TILE_SIZE; j++) {
-				Circle gridMarker = new Circle();
-				gridMarker.setCenterX(i * TILE_SIZE);
-				gridMarker.setCenterY(j * TILE_SIZE);
-				gridMarker.setRadius(1);
-				gridMarker.setFill(Color.GREY);
-				layer.getChildren().add(gridMarker);
+				drawGridDot(i, j);
 			}
 		}
+	}
+
+	private void drawGridDot(double tileX, double tileY)
+	{
+		Circle gridMarker = new Circle();
+		gridMarker.setCenterX(tileX * TILE_SIZE);
+		gridMarker.setCenterY(tileY * TILE_SIZE);
+		gridMarker.setRadius(1);
+		gridMarker.setFill(Color.GREY);
+		layer.getChildren().add(gridMarker);
 	}
 
 	/**
@@ -111,19 +116,20 @@ public class Canvas extends View
 			public void handle(MouseEvent event)
 			{
 				Bounds scrollViewportBounds = scrollScreen.getViewportBounds();
+
 				double settingsWidth = workspace.getPane().getChildrenUnmodifiable().get(0).getBoundsInParent()
 						.getWidth();
 
-				double horizontalScrollAmount = scrollScreen.getHvalue() * (width - scrollViewportBounds.getMaxX());
-				double verticalScrollAmount = scrollScreen.getVvalue() * (height - scrollViewportBounds.getMaxY());
+				double horizontalScrollAmount = scrollScreen.getHvalue() * (width - (scrollViewportBounds.getWidth()));
+				double verticalScrollAmount = scrollScreen.getVvalue() * (height - (scrollViewportBounds.getHeight()));
 
 				double nodeWidth = node.getBoundsInParent().getWidth();
 				double nodeHeight = node.getBoundsInParent().getHeight();
 
+				double tabHeaderHeight = layers.getTabMaxHeight();
+
 				double newX = event.getSceneX() - settingsWidth + horizontalScrollAmount;
-				double newY = event.getSceneY() + verticalScrollAmount;
-				double newMaxX = newX + nodeWidth;
-				double newMaxY = newY + nodeHeight;
+				double newY = event.getSceneY() - tabHeaderHeight + verticalScrollAmount;
 
 				newX = putWithinBounds(newX, 0, width - nodeWidth);
 				newY = putWithinBounds(newY, 0, height - nodeHeight);
@@ -131,8 +137,12 @@ public class Canvas extends View
 				node.setTranslateX(((int) newX / TILE_SIZE) * TILE_SIZE);
 				node.setTranslateY(((int) newY / TILE_SIZE) * TILE_SIZE);
 
-				scrollScreen.setHvalue(newX / (width - nodeWidth));
-				scrollScreen.setVvalue(newY / (height - nodeHeight));
+				if (width > scrollViewportBounds.getMaxX()) {
+					scrollScreen.setHvalue(newX / (width - nodeWidth));
+				}
+				if (height > scrollViewportBounds.getMaxY()) {
+					scrollScreen.setVvalue(newY / (height - nodeHeight));
+				}
 
 			}
 
