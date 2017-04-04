@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import authoring.canvas.LevelEditor;
+import authoring.panel.EntityWrapper;
 import authoring.panel.Panel;
 import authoring.utils.Factory;
 import authoring.views.View;
@@ -19,8 +20,7 @@ import javafx.scene.control.SplitPane;
  * @author Elliott Bolzan Modified by Mina Mungekar, Jimmy Shackford
  *
  */
-public class Workspace extends View
-{
+public class Workspace extends View {
 
 	private ResourceBundle resources;
 	private LevelEditor levelEditor;
@@ -30,8 +30,7 @@ public class Workspace extends View
 	/**
 	 * 
 	 */
-	public Workspace(ResourceBundle resources)
-	{
+	public Workspace(ResourceBundle resources) {
 		super("Workspace");
 		this.resources = resources;
 		setup();
@@ -40,8 +39,7 @@ public class Workspace extends View
 	/**
 	 * Initializes the Workspace's components.
 	 */
-	private void setup()
-	{
+	private void setup() {
 		pane = new SplitPane();
 		panel = new Panel(this, 0);
 		levelEditor = new LevelEditor(this);
@@ -52,24 +50,24 @@ public class Workspace extends View
 		setCenter(pane);
 	}
 
-	public ResourceBundle getResources()
-	{
+	public ResourceBundle getResources() {
 		return resources;
 	}
 
-	public SplitPane getPane()
-	{
+	public SplitPane getPane() {
 		return pane;
 	}
 
-	public void showMessage(String message)
-	{
+	public EntityWrapper getSelectedEntity() {
+		return panel.getEntityDisplay().getSelectedEntity();
+	}
+
+	public void showMessage(String message) {
 		Factory factory = new Factory(resources);
 		factory.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message).showAndWait();
 	}
 
-	public List getEntities()
-	{
+	public List getEntities() {
 		// return canvas's entities (i.e. canvas.getLevel())
 		return new ArrayList<>();
 	}

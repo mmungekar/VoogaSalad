@@ -4,15 +4,13 @@
 package authoring.panel.editing;
 
 import authoring.Workspace;
-import authoring.panel.Entity;
+import authoring.panel.ConcreteEntity;
+import authoring.panel.EntityDisplay;
+import authoring.panel.EntityWrapper;
 import authoring.views.ConcreteView;
 import authoring.views.View;
-import javafx.geometry.Orientation;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Separator;
 import javafx.scene.control.SplitPane;
-import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -23,10 +21,11 @@ import javafx.stage.Stage;
 public class EntityEditor {
 	
 	private Workspace workspace;
+	private EntityDisplay display;
 	private Stage stage;
 	private View view;
 	private SplitPane pane;
-	private Entity entity;
+	private EntityWrapper entity;
 	private EntityInfo entityInfo;
 	private EntityPicker entityPicker;
 	private EventPicker eventPicker;
@@ -35,22 +34,19 @@ public class EntityEditor {
 	/**
 	 * 
 	 */
-	public EntityEditor(Workspace workspace, Entity entity) {
+	public EntityEditor(Workspace workspace, EntityDisplay display, EntityWrapper entity) {
 		this.workspace = workspace;
+		this.display = display;
 		this.entity = entity;
 		if (this.entity == null) {
-			this.entity = new Entity("Mario", "resources/images/Mario.png");
+			this.entity = new EntityWrapper(new ConcreteEntity("Mario", "resources/images/Mario.png"));
 		}
 		setupView();
 		setupStage();
 	}
 	
-	protected Entity getEntity() {
+	protected EntityWrapper getEntity() {
 		return entity;
-	}
-	
-	protected void setEntity(Entity entity) {
-		this.entity = entity;
 	}
 	
 	private void setupView() {
@@ -82,6 +78,16 @@ public class EntityEditor {
 	
 	protected void dismiss() {
 		stage.close();
+	}
+	
+	protected void save() {
+		entity.getName().set(entityInfo.getName());
+		entity.getImagePath().set(entityInfo.getImagePath());
+		// add events and actions
+		// error checking
+		// save with game data
+		display.addEntity(entity);
+		dismiss();
 	}
 	
 }
