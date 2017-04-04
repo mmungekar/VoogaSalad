@@ -10,6 +10,11 @@ import engine.Entity;
 public class TimerObservable extends EventObservable{
 
 	public TimerObservable() {
-		// TODO Auto-generated constructor stub
+		super();
+	}
+	
+	@Override
+	public void updateObservers() {
+		//TODO
 	}
 }

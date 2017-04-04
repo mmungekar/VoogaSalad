@@ -10,6 +10,12 @@ import engine.Entity;
 public class CollisionObservable extends EventObservable{
 
 	public CollisionObservable() {
-		// TODO Auto-generated constructor stub
+		super();
 	}
+
+	@Override
+	public void updateObservers() {
+		//TODO Kyle - This method is called on every iteration of step().
+	}
+	
 }

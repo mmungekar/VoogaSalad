@@ -9,7 +9,7 @@ public interface EntityInterface
 
 	// internal
 	void update();
-	List<EventInterface> getEvents();
+	List<Event> getEvents();
 
 	void setYAcceleration(double accel);
 

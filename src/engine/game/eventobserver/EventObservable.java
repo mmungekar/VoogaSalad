@@ -15,7 +15,7 @@ import engine.Entity;
  *
  */
 public abstract class EventObservable {
-	List<Entity> observers;
+	private List<Entity> observers;
 
 	public EventObservable() {
 		observers = new ArrayList<>();
@@ -45,6 +45,5 @@ public abstract class EventObservable {
 	 * Engine External API. Iterates through the List of ObservableEntities in
 	 * the appropriate subclass and calls their update() method.
 	 */
-	//public abstract void updateObservers();
-	
+	public abstract void updateObservers();
 }

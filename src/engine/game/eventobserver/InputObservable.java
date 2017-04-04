@@ -1,14 +1,9 @@
 package engine.game.eventobserver;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import engine.Entity;
-import engine.Event;
-import engine.InputEvent;
+import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 
 /**
  * Part of the Observable Design Pattern for detecting and responding to Events.
@@ -17,43 +12,50 @@ import javafx.scene.input.KeyEvent;
  *
  */
 public class InputObservable extends EventObservable{
-	
-	//private List<Event> toAct;   //TODO will probably be refactored to superclass
-	//private KeyCode lastPressedKey;
-	
+	private KeyCode lastPressedKey;
+	private MouseButton lastPressedMouseButton;
+	private Point2D lastPressedCoordinates;
+	private boolean inputToProcess;
 	
 	public InputObservable(){
 		super();
-		//toAct = new ArrayList<>();
-		//lastPressedKey = null;
+		lastPressedKey = null;
+		lastPressedMouseButton = null;
+		lastPressedCoordinates = null;
+		inputToProcess = false;
 	}
-	
-	
 
-	
-	/*
-	public void updateObservables(){
-		// if lastPressedKey != game.getInput():
-			//
-		for(Entity observable : observables){
-			for(Event event : observable.getEvents()){
-				if(event instanceof InputEvent){
-					if(((InputEvent) event).getTriggerKeyCode() == lastPressedKey){
-						toAct.add(event);
-					}
-				}
-			}
-		}
-		
-		for(Event event : toAct){
-			event.act();
-		}
+	//For Nikita to call in InputEvent's act()
+	public boolean getInputToProcess(){
+		return inputToProcess;
 	}
 	
-	public void setupInputListeners(Scene scene){
-		scene.setOnKeyPressed(event -> { lastPressedKey = event.getCode(); updateObservables(); newInput = True;});
-		
-		//scene.setOnMouseClicked(event -> manageMouseInput(event.getX(), event.getY()));   //TODO Mouse input is more complicated!
+	//For Nikita to call in InputEvent's act() - for key input
+	public KeyCode getLastPressedKey(){
+		return lastPressedKey;
 	}
-	*/
+	
+	//For Nikita to call in InputEvent's act() - for mouse input
+	public Point2D getLastPressedCoordinates(){
+		return lastPressedCoordinates;
+	}
+	
+	//For Nikita to call in InputEvent's act() - for mouse input - see JavaFX's MouseButton documentation for how to use
+	public MouseButton getLastPressedMouseButton(){
+		return lastPressedMouseButton;
+	}
+	
+	//Matthew calls this from game loop (at end, AFTER update Entities/act Events)
+	public void setInputToProcess(boolean state){
+		inputToProcess = state;
+	}
+	
+	public void setupInputListeners(Scene gameScene){
+		gameScene.setOnKeyPressed(event -> { lastPressedKey = event.getCode(); inputToProcess = true;});
+		gameScene.setOnMouseClicked(event -> { lastPressedMouseButton = event.getButton(); lastPressedCoordinates = new Point2D(event.getX(), event.getY()); inputToProcess = true;});
+	}
+	
+	public void updateObservers(){
+		//Intentionally left blank.
+	}
 }
