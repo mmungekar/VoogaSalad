@@ -15,11 +15,11 @@ public class InputEvent extends Event {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("Key", "");
 		setParams(params);
-	}	@Override
-	
-	public void act(){
-		//if (there is a new input)
-			// if the input matches the input that i react to:
-				// then i act
+	}
+
+	@Override
+	public void act() {
+		if (game.getNewInput() && game.getInput().equals(getParams().get("Key")))
+			trigger();
 	}
 }
