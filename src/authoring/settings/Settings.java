@@ -9,6 +9,8 @@ import authoring.Workspace;
 import authoring.utils.Direction;
 import authoring.views.CollapsibleView;
 import authoring.views.View;
+import engine.Entity;
+import engine.game.Level;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -41,11 +43,15 @@ public class Settings extends View {
 	}
 	
 	private void dummyMethod(){
-		int i = 0;
+		/*Level level = new Level();
+		for (Object object: workspace.getEntities()){
+			level.addEntity((Entity)object);
+		}
+		Insert code to send to game data*/
+		
 	}
 	
-	private void chooseFile(Consumer<File> r)
-	{
+	private void chooseFile(Consumer<File> r){
 		FileChooser fileChooser = new FileChooser();
 				File file = fileChooser.showOpenDialog(new Stage());
 				if (file != null){
