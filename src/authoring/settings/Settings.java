@@ -48,14 +48,14 @@ public class Settings extends View {
 	
 	private void configureSettings(){
 		settingsContainer = new VBox();
-		settingsContainer.setSpacing(30);
-		Button selectMusic = new ActionButton("Select Background Music", event->chooseFile((File f) ->{
+		settingsContainer.setSpacing(Integer.parseInt(workspace.getResources().getString("SettingsSpacing")));
+		Button selectMusic = new ActionButton(workspace.getResources().getString("MusicSelect"), event->chooseFile((File f) ->{
 			Scanner scan;
 		}));
-		CheckBox hScrolling = new CheckBox("Horizontal Scrolling");
-		CheckBox vScrolling= new CheckBox("Vertical Scrolling");
-		Button saveButton = new ActionButton("Save", event->dummyMethod());
-		settingsContainer.getChildren().addAll(selectMusic,hScrolling,vScrolling,saveButton);
+	//	CheckBox hScrolling = new CheckBox("Horizontal Scrolling");
+	//	CheckBox vScrolling= new CheckBox("Vertical Scrolling");
+		Button saveButton = new ActionButton(workspace.getResources().getString("SaveButtonSettings"), event->dummyMethod());
+		settingsContainer.getChildren().addAll(selectMusic,saveButton);
 		setCenter(settingsContainer);
 	}
 
