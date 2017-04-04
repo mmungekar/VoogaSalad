@@ -8,11 +8,11 @@ import authoring.views.View;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
+import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -35,13 +35,9 @@ import javafx.scene.shape.Rectangle;
 public class Canvas extends View
 {
 
-	// I recommend having a tabbed structure in here, to account for multiple
-	// levels.
-
 	private Workspace workspace;
 	private final int TILE_SIZE = 25;
 
-	private TabPane layers;
 	private Group gridNodes;
 	private ScrollPane scrollScreen;
 	private List<Node> entities;
@@ -58,16 +54,14 @@ public class Canvas extends View
 
 	private void setup()
 	{
-		layers = new TabPane();
 		gridNodes = new Group();
 		entities = new ArrayList<Node>();
-		newTab();
-		this.setCenter(layers);
+		scrollScreen = createLayer();
+		this.setCenter(scrollScreen);
 	}
 
-	private void newTab()
+	private ScrollPane createLayer()
 	{
-		Tab newTab = new Tab();
 		scrollScreen = new ScrollPane();
 		layer = new Pane();
 		layer.setPrefHeight(height);
@@ -82,15 +76,24 @@ public class Canvas extends View
 
 		layer.getChildren().add(gridNodes);
 		scrollScreen.setContent(layer);
+		clickToAddEntity();
 		updateDisplay();
-		newTab.setContent(scrollScreen);
-		layers.getTabs().add(newTab);
+		return scrollScreen;
 	}
 
 	public void addEntity(Node entity)
 	{
+		this.addEntity(entity, 0, 0);
+	}
+
+	public void addEntity(Node entity, double x, double y)
+	{
+		Point2D tiledCoordinate = getTiledCoordinate(x, y);
+		entity.setTranslateX(tiledCoordinate.getX());
+		entity.setTranslateY(tiledCoordinate.getY());
 		entities.add(entity);
 		layer.getChildren().add(entity);
+		entity.setCursor(Cursor.CLOSED_HAND);
 		makeDraggable(entity);
 		updateLayerBounds();
 	}
@@ -114,6 +117,19 @@ public class Canvas extends View
 		gridNodes.getChildren().add(gridMarker);
 	}
 
+	private void clickToAddEntity()
+	{
+		layer.setOnMouseClicked(e -> {
+			if (e.isShiftDown()) {
+				Rectangle rect = new Rectangle();
+				rect.setWidth(100);
+				rect.setHeight(100);
+				rect.setFill(Color.CORAL);
+				this.addEntity(rect, e.getX(), e.getY());
+			}
+		});
+	}
+
 	/**
 	 * Makes the given node draggable so that you can move it around on the
 	 * canvas by dragging it. Moreover, dragging the node snaps it to the grid.
@@ -129,6 +145,7 @@ public class Canvas extends View
 			@Override
 			public void handle(MouseEvent event)
 			{
+				node.setCursor(Cursor.NONE);
 				Bounds scrollViewportBounds = scrollScreen.getViewportBounds();
 
 				double settingsWidth = workspace.getPane().getChildrenUnmodifiable().get(0).getBoundsInParent()
@@ -140,10 +157,12 @@ public class Canvas extends View
 				double nodeWidth = node.getBoundsInParent().getWidth();
 				double nodeHeight = node.getBoundsInParent().getHeight();
 
-				double tabHeaderHeight = layers.getTabMaxHeight();
+				// double tabHeaderHeight = levelsPane.getTabMaxHeight();
 
-				double newX = event.getSceneX() - settingsWidth + horizontalScrollAmount;
-				double newY = event.getSceneY() - tabHeaderHeight + verticalScrollAmount;
+				double newX = event.getSceneX() - settingsWidth + horizontalScrollAmount - (nodeWidth / 2);
+				// double newY = event.getSceneY() - tabHeaderHeight +
+				// verticalScrollAmount - (nodeHeight / 2);
+				double newY = event.getSceneY() + verticalScrollAmount - (nodeHeight / 2);
 
 				if (newX < 0) {
 					newX = 0;
@@ -152,8 +171,9 @@ public class Canvas extends View
 					newY = 0;
 				}
 
-				node.setTranslateX(((int) newX / TILE_SIZE) * TILE_SIZE);
-				node.setTranslateY(((int) newY / TILE_SIZE) * TILE_SIZE);
+				Point2D translateAmount = getTiledCoordinate(newX, newY);
+				node.setTranslateX(translateAmount.getX());
+				node.setTranslateY(translateAmount.getY());
 
 				updateDisplay();
 
@@ -165,7 +185,10 @@ public class Canvas extends View
 				}
 
 			}
+		});
 
+		node.setOnMouseReleased(e -> {
+			node.setCursor(Cursor.CLOSED_HAND);
 		});
 	}
 
@@ -197,4 +220,10 @@ public class Canvas extends View
 		this.height = maxY;
 	}
 
+	private Point2D getTiledCoordinate(double x, double y)
+	{
+		double gridX = ((int) x / TILE_SIZE) * TILE_SIZE;
+		double gridY = ((int) y / TILE_SIZE) * TILE_SIZE;
+		return new Point2D(gridX, gridY);
+	}
 }
