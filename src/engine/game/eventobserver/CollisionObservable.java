@@ -16,7 +16,9 @@ import engine.Entity;
  * @author Matthew Barbano
  *
  */
-public class CollisionObservable extends EventObservable{
+public class CollisionObservable extends EventObservable {
+
+	private List<Collision> collisions = new ArrayList<>();
 
 	public CollisionObservable() {
 		super();
@@ -76,7 +78,6 @@ public class CollisionObservable extends EventObservable{
 	 */
 	@Override
 	public void updateObservers() {
-		List<Collision> collisions = new ArrayList<>();
 		for (Entity first : getObservers()) {
 			for (Entity second : getObservers()) {
 				if (first != second && isCollision(first, second)) {
@@ -85,5 +86,13 @@ public class CollisionObservable extends EventObservable{
 			}
 		}
 	}
-	
+
+	/**
+	 * 
+	 * @return list of collisions that occurred between observed Entities
+	 */
+	public List<Collision> getCollisions() {
+		return collisions;
+	}
+
 }
