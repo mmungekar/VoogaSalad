@@ -6,6 +6,11 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
+/**
+ * 
+ * @author jimmy
+ *
+ */
 public class LevelEditor extends TabPane
 {
 	Workspace workspace;
