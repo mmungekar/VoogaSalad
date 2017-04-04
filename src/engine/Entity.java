@@ -1,28 +1,90 @@
 package engine;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public interface Entity
-{
-	// external
-	void setEvent(Event event);
+import javafx.beans.property.SimpleDoubleProperty;
 
-	// internal
-	List<Event> getEvents();
+public abstract class Entity implements EntityInterface {
 
-	void setYAcceleration(double accel);
+	private SimpleDoubleProperty x, y, width, height;
+	private double xSpeed, ySpeed, xAcceleration, yAcceleration;
+	private List<Event> events;
+	String name, imagePath;
 
-	void setXAcceleration(double accel);
+	public Entity(String name, String imagePath) {
+		events = new ArrayList<Event>();
+		this.name = name;
+		this.imagePath = imagePath;
+	}
 
-	void setYSpeed(double speed);
+	/**
+	 * make sure to check state and set new state before acting.
+	 */
+	@Override
+	public abstract void update();
 
-	void setXSpeed(double speed);
+	public double getX() {
+		return x.doubleValue();
+	}
 
-	void setY(double y);
+	public void setX(double x) {
+		this.x.set(x);
+	}
 
-	void setX(double x);
-	
-	void setHeight(double height);
-	
-	void setWidth(double width);
+	public double getY() {
+		return y.doubleValue();
+	}
+
+	public void setY(double y) {
+		this.y.set(y);
+	}
+
+	public double getWidth() {
+		return width.doubleValue();
+	}
+
+	public void setWidth(double width) {
+		this.width.set(width);
+	}
+
+	public double getHeight() {
+		return height.doubleValue();
+	}
+
+	public void setHeight(double height) {
+		this.height.set(height);
+	}
+
+	public double getXSpeed() {
+		return xSpeed;
+	}
+
+	public void setXSpeed(double xSpeed) {
+		this.xSpeed = xSpeed;
+	}
+
+	public double getYSpeed() {
+		return ySpeed;
+	}
+
+	public void setYSpeed(double ySpeed) {
+		this.ySpeed = ySpeed;
+	}
+
+	public double getXAcceleration() {
+		return xAcceleration;
+	}
+
+	public void setXAcceleration(double xAcceleration) {
+		this.xAcceleration = xAcceleration;
+	}
+
+	public double getYAcceleration() {
+		return yAcceleration;
+	}
+
+	public void setYAcceleration(double yAcceleration) {
+		this.yAcceleration = yAcceleration;
+	}
 }

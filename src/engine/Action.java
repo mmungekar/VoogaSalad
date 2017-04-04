@@ -2,11 +2,20 @@ package engine;
 
 import java.util.Map;
 
-public interface Action {
-	//external
-	Map<String, Object> getParams(); // will use reflection
-	void setParams(Map<String, Object> params); // will use reflection
+public abstract class Action implements ActionInterface {
 
-	//internal
-	void act(); // carry out the action triggered by the event. Will need a reference to game
+	private Map<String, Object> params;
+	@Override
+	public Map<String, Object> getParams(){
+		return params;
+	}
+
+	@Override
+	public void setParams(Map<String, Object> params){
+		this.params = params;
+	}
+
+	@Override
+	public abstract void act();
+
 }
