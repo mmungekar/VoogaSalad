@@ -46,4 +46,8 @@ public abstract class EventObservable {
 	 * the appropriate subclass and calls their update() method.
 	 */
 	public abstract void updateObservers();
+	
+	protected List<Entity> getObservers(){
+		return observers;
+	}
 }
