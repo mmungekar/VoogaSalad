@@ -1,8 +1,11 @@
-package authoring.panel;
+package authoring.panel.display;
 
 import authoring.Workspace;
+import authoring.panel.CreatedEntities;
 import authoring.panel.editing.EntityEditor;
-import authoring.utils.Factory;
+import authoring.utils.ComponentMaker;
+import authoring.utils.EntityWrapper;
+import authoring.utils.Thumbnail;
 import authoring.views.View;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.event.EventHandler;
@@ -27,7 +30,7 @@ import javafx.scene.layout.VBox;
 public class EntityDisplay extends View {
 
 	private Workspace workspace;
-	private Factory factory;
+	private ComponentMaker componentMaker;
 	private TableView<EntityWrapper> table;
 	private CreatedEntities entities;
 
@@ -46,7 +49,7 @@ public class EntityDisplay extends View {
 
 	@SuppressWarnings("unchecked")
 	private void setup() {
-		factory = new Factory(workspace.getResources());
+		componentMaker = new ComponentMaker(workspace.getResources());
 		entities = new CreatedEntities();
 		table = makeTable();
 		table.setItems(entities.getEntities());
@@ -59,7 +62,7 @@ public class EntityDisplay extends View {
 	 * @return a button bar.
 	 */
 	private Node createButtonBar() {
-		return new HBox(factory.makeButton("NewTitle", e -> newEntity(), true));
+		return new HBox(componentMaker.makeButton("NewTitle", e -> newEntity(), true));
 	}
 
 	/**
@@ -92,7 +95,7 @@ public class EntityDisplay extends View {
 					return;
 				}
 				VBox box = new VBox(8);
-				box.setPadding(new Insets(2));
+				box.setPadding(new Insets(8));
 				box.setAlignment(Pos.CENTER);
 				Label name = new Label();
 				name.textProperty().bind(entity.getName());

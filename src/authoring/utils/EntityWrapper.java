@@ -1,7 +1,7 @@
 /**
  * 
  */
-package authoring.panel;
+package authoring.utils;
 
 import engine.Entity;
 import javafx.beans.property.SimpleStringProperty;

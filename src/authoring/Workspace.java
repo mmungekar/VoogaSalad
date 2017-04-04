@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import authoring.canvas.LevelEditor;
-import authoring.panel.EntityWrapper;
 import authoring.panel.Panel;
-import authoring.utils.Factory;
+import authoring.utils.ComponentMaker;
+import authoring.utils.EntityWrapper;
 import authoring.views.View;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert.AlertType;
@@ -44,8 +44,7 @@ public class Workspace extends View {
 		panel = new Panel(this, 0);
 		levelEditor = new LevelEditor(this);
 		pane.getItems().addAll(panel, levelEditor);
-		pane.setDividerPositions(Double.parseDouble(resources.getString("DividerPositionX")),
-				Double.parseDouble(resources.getString("DividerPositionY")));
+		pane.setDividerPositions(Double.parseDouble(resources.getString("DividerPosition")));
 		setPadding(new Insets(Integer.parseInt(resources.getString("WorkSpaceInsets"))));
 		setCenter(pane);
 	}
@@ -63,8 +62,8 @@ public class Workspace extends View {
 	}
 
 	public void showMessage(String message) {
-		Factory factory = new Factory(resources);
-		factory.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message).showAndWait();
+		ComponentMaker componentMaker = new ComponentMaker(resources);
+		componentMaker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message).showAndWait();
 	}
 
 	public List getEntities() {
