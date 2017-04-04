@@ -107,5 +107,4 @@ public abstract class Entity implements EntityInterface {
 	public List<Event> getEvents() {
 		return events;
 	}
-
 }
