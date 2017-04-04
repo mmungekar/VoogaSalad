@@ -18,6 +18,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
 /**
+ * The Settings sub-panel provides the user with the option of selecting his or her own background music
+ * as well as saving the entire game and sending it to the Game Data Module
  * 
  * @author Mina
  *
@@ -27,6 +29,11 @@ public class Settings extends View {
 	private Workspace workspace;
 	private VBox settingsContainer;
 
+	/**
+	 * The constructor needs a parent workspace specified. The rest of the constructor is inherited from
+	 * its superclass. The constructor immediately instantiates all the buttons necessary.
+	 * @param workspace
+	 */
 	public Settings(Workspace workspace) {
 		super(workspace.getResources().getString("SettingsTitle"));
 		this.workspace = workspace;
