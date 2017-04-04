@@ -14,10 +14,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Effect;
-import javafx.scene.effect.Light;
-import javafx.scene.effect.Lighting;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -74,7 +70,6 @@ public class LayerEditor extends TabPane
 	{
 		canvas.addEntity(entity, x, y);
 		layerEntities.get(this.getSelectionModel().getSelectedItem()).add(entity);
-		entity.setEffect(makeLayerEffect());
 	}
 
 	private Tab newTab()
@@ -91,35 +86,19 @@ public class LayerEditor extends TabPane
 			{
 				for (List<Node> entityList : layerEntities.values()) {
 					for (Node entity : entityList) {
-						entity.setEffect(makeOffLayerEffect());
 						entity.toBack();
+						entity.setOpacity(0.3);
 					}
 				}
 				for (Node entity : layerEntities.get(newTab)) {
-					entity.setEffect(makeLayerEffect());
 					entity.toFront();
+					entity.setOpacity(1);
 				}
 				oldTab.setContent(null);
 				newTab.setContent(canvas);
 			}
 		});
 		return tab;
-	}
-
-	private Effect makeLayerEffect()
-	{
-		DropShadow ds = new DropShadow();
-		ds.setOffsetY(10.0);
-		ds.setOffsetX(10.0);
-		ds.setColor(Color.GRAY);
-		return ds;
-	}
-
-	private Effect makeOffLayerEffect()
-	{
-		Lighting dark = new Lighting();
-		dark.setLight(new Light.Distant(45, 45, Color.BLACK));
-		return dark;
 	}
 
 	private StackPane makeTabLabel(String text)
