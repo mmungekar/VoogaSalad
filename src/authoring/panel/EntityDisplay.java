@@ -155,6 +155,7 @@ public class EntityDisplay extends View {
 		new EntityEditor(workspace, null);
 	}
 
+	
 	private void editEntity(Entity entity) {
 		new EntityEditor(workspace, entity);
 	}
