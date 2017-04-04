@@ -56,4 +56,8 @@ public abstract class Event implements EventInterface {
 	public void addEventObservable(EventObservable observable){
 		this.observable = observable;
 	}
+	
+	protected EventObservable getEventObservable(){
+		return observable;
+	}
 }

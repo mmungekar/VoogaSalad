@@ -23,6 +23,7 @@ public class InputEvent extends Event {
 	public void act(){
 		
 		//if (there is a new input)
+		if (((InputObservable)getEventObservable()).get)
 			// if the input matches the input that i react to:
 				// then i act
 		//NOTES TO NIKITA (from Matthew):

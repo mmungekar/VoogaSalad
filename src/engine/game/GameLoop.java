@@ -48,9 +48,10 @@ public class GameLoop {
 		// corresponding Observables
 		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
 			for (Event event : entity.getEvents()) {
+				/*
 				if (event instanceof InputEvent) {
 					((InputEvent) event).donateInputObservable(inputObservable);
-				}
+				}*/
 			}
 		}
 
