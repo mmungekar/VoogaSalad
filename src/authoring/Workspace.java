@@ -23,7 +23,6 @@ import javafx.scene.layout.BorderPane;
 public class Workspace extends View {
 
 	private ResourceBundle resources;
-	private Settings settings;
 	private Canvas canvas;
 	private Panel panel;
 	private SplitPane pane;
@@ -43,9 +42,9 @@ public class Workspace extends View {
 	private void setup() {
 		pane = new SplitPane();
 		//settings = new Settings(this, 0);
+		panel = new Panel(this, 0);
 		canvas = new Canvas(this);
-		panel = new Panel(this, 1);
-		pane.getItems().addAll(settings, canvas, panel);
+		pane.getItems().addAll(panel,canvas);
 		pane.setDividerPositions(0.3, 0.75);
 		setPadding(new Insets(4));
 		setCenter(pane);
