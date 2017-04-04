@@ -6,11 +6,11 @@ package authoring;
 import java.util.ResourceBundle;
 
 import authoring.canvas.Canvas;
-import authoring.panel.Entity;
 import authoring.panel.Panel;
 import authoring.settings.Settings;
 import authoring.utils.Factory;
 import authoring.views.View;
+import engine.Entity;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.SplitPane;

@@ -38,13 +38,9 @@ public class Panel extends CollapsibleView {
 	 * Accordion.
 	 */
 	private void createSubviews() {
-		subviews = new ArrayList<View>() {
-			private static final long serialVersionUID = 1L;
-			{
-				add(entityDisplay);
-				add(new Chat(workspace));
-			}
-		};
+		subviews = new ArrayList<View>();
+		subviews.add(entityDisplay);
+		subviews.add(new Chat(workspace));
 	}
 
 	/**

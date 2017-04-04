@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import authoring.Workspace;
-import authoring.panel.Entity;
 import authoring.utils.ClassFinder;
 import authoring.views.View;
+import engine.Entity;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
@@ -79,7 +79,7 @@ public class EntityPicker extends View {
 			try {
 				Class<?> c = entityMap.get(selected);
 				Entity entity = (Entity) c.getConstructor().newInstance();
-				editor.setEntity(entity);
+				//editor.setEntity(entity);
 				// Fix this once Entity stabilizes.
 			} catch (Exception e) {
 				//e.printStackTrace();

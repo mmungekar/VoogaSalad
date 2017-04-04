@@ -28,7 +28,7 @@
 }
 
 #entity-table .table-row-cell {
-    -fx-cell-size: 50px;
+    -fx-cell-size: 60px;
 }
 
 #entity-table .table-cell {
