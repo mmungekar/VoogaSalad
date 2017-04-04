@@ -42,7 +42,7 @@ public class Workspace extends View {
 	 */
 	private void setup() {
 		pane = new SplitPane();
-		settings = new Settings(this, 0);
+		//settings = new Settings(this, 0);
 		canvas = new Canvas(this);
 		panel = new Panel(this, 1);
 		pane.getItems().addAll(settings, canvas, panel);

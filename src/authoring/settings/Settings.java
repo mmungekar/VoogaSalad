@@ -8,6 +8,7 @@ import authoring.ActionButton;
 import authoring.Workspace;
 import authoring.utils.Direction;
 import authoring.views.CollapsibleView;
+import authoring.views.View;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -25,7 +26,7 @@ public class Settings extends View {
 
 	private Workspace workspace;
 	private VBox settingsContainer;
-	
+
 	public Settings(Workspace workspace) {
 		super(workspace.getResources().getString("SettingsTitle"));
 		this.workspace = workspace;
