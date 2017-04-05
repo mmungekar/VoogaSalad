@@ -6,8 +6,10 @@ import engine.events.InputEvent;
 import engine.game.eventobserver.CollisionObservable;
 import engine.game.eventobserver.InputObservable;
 import engine.game.eventobserver.TimerObservable;
+import engine.graphics.GraphicsEngine;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.util.Duration;
 
@@ -87,6 +89,21 @@ public class GameLoop {
 		timeline.play();
 	}
 
+	public Group getGameView() {
+		//GraphicsEngine graphics = new GraphicsEngine();
+		//graphics.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
+		//graphics.update();
+		//return graphics.getView();
+		
+		//NOTE FOR MATTHEW:
+		//TODO: move this code where you think it fits. My guess is GraphicsEngine is
+		//an instance variable, setEntitiesCollection() is called once in the constructor, 
+		//and update() is called every step. If this code doesn't belong here though
+		//I didn't want to spread it out too much. -Jay
+		
+		return null;
+	}
+	
 	private void step() {
 		inputObservable.updateObservers();
 		collisionObservable.updateObservers();
