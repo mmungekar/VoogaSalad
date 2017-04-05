@@ -8,7 +8,7 @@ import engine.game.eventobserver.InputObservable;
 
 public class InputEvent extends Event {
 	private InputObservable inputObservable;
-	
+
 	/**
 	 * need to initialize me with a string, not a keycode (can't instantiate
 	 * KeyCode object)
@@ -18,8 +18,9 @@ public class InputEvent extends Event {
 		params.put("Key", "");
 		setParams(params);
 		inputObservable = null;
-	}	@Override
-	
+	}
+
+	@Override	
 	public void act(){
 		
 		//if (there is a new input)

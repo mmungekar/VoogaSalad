@@ -10,12 +10,12 @@ import java.util.Map.Entry;
 
 import authoring.Workspace;
 import authoring.utils.ComponentMaker;
-import authoring.utils.EntityWrapper;
 import authoring.views.View;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -24,7 +24,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.TableColumn.CellEditEvent;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -42,8 +43,8 @@ public class TableEditor extends View {
 	private ComboBox<String> comboBox;
 	private ComponentMaker maker;
 	private List<String> elements;
-	private Map<String, Object> parameters;
-	private TableView<Map.Entry<String, String>> table;
+	private Map<String, Object> parameters = new HashMap<>();
+	private TableView<Map.Entry<String, Object>> table;
 
 	/**
 	 * @param title
@@ -97,54 +98,64 @@ public class TableEditor extends View {
 		setCenter(table);
 	}
 
-	private TableView<Map.Entry<String, String>> makeTable() {
+	private TableView<Map.Entry<String, Object>> makeTable() {
 
-		/*TableView<Map.Entry<String, Object>> table = new TableView<>();
+		TableView<Map.Entry<String, Object>> table = new TableView<>();
 		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		table.setPlaceholder(new Label(workspace.getResources().getString("NoParameters")));
 		table.prefHeightProperty().bind(heightProperty());
-		table.setEditable(true);*/
+		table.setEditable(true);
 
-		Map<String, String> map = new HashMap<>();
-		map.put("one", "One");
+		Map<String, Object> map = new HashMap<>();
+		map.put("one", 1);
 		map.put("two", "Two");
-		map.put("three", "Three");
+		map.put("three", 3);
 
 		// use fully detailed type for Map.Entry<String, String>
-		TableColumn<Map.Entry<String, String>, String> column1 = new TableColumn<>("Key");
+		TableColumn<Map.Entry<String, Object>, String> column1 = new TableColumn<>("Key");
 		column1.setCellValueFactory(
-				new Callback<TableColumn.CellDataFeatures<Map.Entry<String, String>, String>, ObservableValue<String>>() {
+				new Callback<TableColumn.CellDataFeatures<Map.Entry<String, Object>, String>, ObservableValue<String>>() {
 
 					@Override
 					public ObservableValue<String> call(
-							TableColumn.CellDataFeatures<Map.Entry<String, String>, String> p) {
-						// this callback returns property for just one cell, you
-						// can't use a loop here
-						// for first column we use key
+							TableColumn.CellDataFeatures<Map.Entry<String, Object>, String> p) {
 						return new SimpleStringProperty(p.getValue().getKey());
 					}
 				});
 
-		TableColumn<Map.Entry<String, String>, String> column2 = new TableColumn<>("Value");
+		TableColumn<Map.Entry<String, Object>, String> column2 = new TableColumn<>("Value");
 		column2.setCellValueFactory(
-				new Callback<TableColumn.CellDataFeatures<Map.Entry<String, String>, String>, ObservableValue<String>>() {
+				new Callback<TableColumn.CellDataFeatures<Map.Entry<String, Object>, String>, ObservableValue<String>>() {
 
 					@Override
 					public ObservableValue<String> call(
-							TableColumn.CellDataFeatures<Map.Entry<String, String>, String> p) {
-						// for second column we use value
-						return new SimpleStringProperty(p.getValue().getValue());
+							TableColumn.CellDataFeatures<Map.Entry<String, Object>, String> p) {
+						return new SimpleStringProperty(p.getValue().getValue().toString());
 					}
 				});
+		column2.setCellFactory(TextFieldTableCell.forTableColumn());
+		column2.setOnEditCommit(new EventHandler<CellEditEvent<Map.Entry<String, Object>, String>>() {
+			@Override
+			public void handle(CellEditEvent<Map.Entry<String, Object>, String> event) {
+				try {
+					Entry<String, Object> entry = event.getTableView().getItems().get(event.getTablePosition().getRow());
+					parameters.put(entry.getKey(), event.getNewValue());
+				} catch (Exception e) {
+					// do something
+				}
+			}
+		});
+		column2.setEditable(true);
 
-		ObservableList<Map.Entry<String, String>> items = FXCollections.observableArrayList(map.entrySet());
-		final TableView<Map.Entry<String, String>> table = new TableView<>(items);
+		ObservableList<Map.Entry<String, Object>> items = FXCollections.observableArrayList(map.entrySet());
+		table.setItems(items);
+        table.getColumns().setAll(column1, column2);
 
 		return table;
 	}
 
 	private void createButtonBox() {
-		Button saveButton = maker.makeButton("TableEditorSaveButton", e -> editor.save(parameters), true);
+		Button saveButton = maker.makeButton("TableEditorSaveButton", e -> save(), true);
 		setBottom(saveButton);
 	}
 
@@ -156,8 +167,13 @@ public class TableEditor extends View {
 	}
 
 	protected void update(Map<String, Object> data) {
-		/*ObservableList<Map<String, Object>> items = FXCollections.observableArrayList(data);
-		table.setItems(items);*/
+		parameters = data;
+		table.setItems(FXCollections.observableArrayList(data.entrySet()));
+	}
+	
+	private void save() {
+		stage.close();
+		editor.save(parameters);
 	}
 
 }

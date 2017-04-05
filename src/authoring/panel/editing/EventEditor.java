@@ -3,6 +3,7 @@
  */
 package authoring.panel.editing;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import authoring.Workspace;
@@ -38,16 +39,13 @@ public class EventEditor extends Editor {
 	@Override
 	public void selected(String string) {
 		event = engine.createEvent(string);
-		editor.update(event.getParams());
+		//editor.update(event.getParams());
 	}
 	
 	@Override
 	public void save(Map<String, Object> data) {
-		event.setParams(data);
-	}
-	
-	public Event getEvent() {
-		return event;
+		//event.setParams(data);
+		eventPicker.addEvent(event);
 	}
 
 }
