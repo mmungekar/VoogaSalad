@@ -1,20 +1,35 @@
 package engine.game;
 
+import java.util.List;
+
+import engine.Action;
+import engine.Entity;
+import engine.Event;
+
 public class EngineController {
 
-	public List<String> getAllActions(){
-		
+	public List<String> getAllActions() {
+
 	}
-	public List<String> getAllEvents{
-		
+
+	public List<String> getAllEvents() {
+
 	}
-	public Entity createEntity(String entity){
-		
+
+	public Entity createEntity() {
+
 	}
-	public Action createAction(String action){
-		
+
+	public Event createEvent(String event) {
+
 	}
-	public Event createAction(){
-		
+
+	public Action createAction(String action) {
+
 	}
+
+	public Event createAction() {
+
+	}
+
 }

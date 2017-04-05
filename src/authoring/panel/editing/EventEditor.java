@@ -3,34 +3,51 @@
  */
 package authoring.panel.editing;
 
+import java.util.Map;
+
 import authoring.Workspace;
-import authoring.views.View;
+import engine.Event;
+import engine.game.EngineController;
 
 /**
  * @author Elliott Bolzan
  *
  */
-public class EventEditor extends View {
+public class EventEditor extends Editor {
 	
 	private Workspace workspace;
 	private EventPicker eventPicker;
+	private TableEditor editor;
+	private EngineController engine;
+	private Event event;
 
 	/**
 	 * @param title
 	 */
 	public EventEditor(Workspace workspace, EventPicker eventPicker) {
-		super("");
 		this.workspace = workspace;
 		this.eventPicker = eventPicker;
 		setup();
 	}
 	
 	private void setup() {
-		new TableEditor(workspace, "NewEventTitle", null, e -> save());
+		engine = new EngineController();
+		editor = new TableEditor(workspace, this, "NewEventTitle", engine.getAllEvents());
 	}
 	
-	private void save() {
-		
+	@Override
+	public void selected(String string) {
+		event = engine.createEvent(string);
+		editor.update(event.getParams());
+	}
+	
+	@Override
+	public void save(Map<String, Object> data) {
+		event.setParams(data);
+	}
+	
+	public Event getEvent() {
+		return event;
 	}
 
 }
