@@ -101,8 +101,10 @@ public class GameLoop {
 	public Group getGameView() {
 		GraphicsEngine graphics = new GraphicsEngine();
 		graphics.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
+		
 		//TEST
 		levelManager.getCurrentLevel().getEntities().add(new CharacterEntity("Mario", "file:/Users/jaydoherty/Documents/eclipse_workspace/voogasalad_duwaldorf/src/resources/images/mario.png"));
+		
 		graphics.update();
 		return graphics.getView();
 		
