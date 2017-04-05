@@ -2,6 +2,7 @@ package engine.game;
 
 import engine.Entity;
 import engine.Event;
+import engine.events.CollisionEvent;
 import engine.events.InputEvent;
 import engine.game.eventobserver.CollisionObservable;
 import engine.game.eventobserver.InputObservable;
@@ -48,10 +49,17 @@ public class GameLoop {
 		// corresponding Observables
 		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
 			for (Event event : entity.getEvents()) {
-				/*
 				if (event instanceof InputEvent) {
-					((InputEvent) event).donateInputObservable(inputObservable);
-				}*/
+					event.addEventObservable(inputObservable);
+				}
+				else if (event instanceof CollisionEvent){
+					event.addEventObservable(collisionObservable);
+				}
+				/*
+				else if (event instanceof TimerEvent){
+					event.addEventObservable(timerObservable);
+				}
+				*/
 			}
 		}
 
@@ -88,14 +96,30 @@ public class GameLoop {
 	}
 
 	private void step() {
+		levelManager.getCurrentLevel().getTimerManager().tick();   //at beginning of step rather than end because KeyFrames' onFinished execute at END of elapsed time
+		
 		inputObservable.updateObservers();
 		collisionObservable.updateObservers();
 		timerObservable.updateObservers();
 
 		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
-			entity.update();
+			//entity.update();               //TODO <-----------------Comment out when Nikita finishes
 		}
 
 		inputObservable.setInputToProcess(false);
+		
+		printStepData();
+		
+		if(levelManager.getCurrentLevel().getTimerManager().timeIsUp()){  //OK to do for BOTH TickUp and TickDown timers!
+			 System.out.println("Game over - you ran out of time!");
+			 timeline.stop();
+		}
+	}
+	
+	/**
+	 * Temporary, for testing. Will be removed later.
+	 */
+	private void printStepData(){
+		System.out.println(levelManager.getCurrentLevel().getTimerManager());
 	}
 }
