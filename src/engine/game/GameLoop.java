@@ -4,6 +4,7 @@ import engine.Entity;
 import engine.Event;
 import engine.events.CollisionEvent;
 import engine.events.InputEvent;
+import engine.events.TimerEvent;
 import engine.game.eventobserver.CollisionObservable;
 import engine.game.eventobserver.InputObservable;
 import engine.game.eventobserver.TimerObservable;
@@ -33,17 +34,18 @@ public class GameLoop {
 	 * @param currentLevelManager
 	 */
 	public GameLoop(Scene gameScene, String gameFilename) {
-		
-		// Setup Observables
+		// Setup Observables - at beginning of entire game only
 		inputObservable = new InputObservable();
 		collisionObservable = new CollisionObservable();
 		timerObservable = new TimerObservable();
-
-		inputObservable.setupInputListeners(gameScene);
-
+		
 		// Setup levelManager
 		levelManager = new LevelManager();
 		levelManager.loadAllSavedLevels(gameFilename);
+		
+		//More Observables - at beginning of each level only
+		inputObservable.setupInputListeners(gameScene);
+		timerObservable.attachCurrentLevelTimerManager(levelManager.getCurrentLevel().getTimerManager());
 
 		// Give all Events belonging to Entities in the current Level their
 		// corresponding Observables
@@ -55,11 +57,9 @@ public class GameLoop {
 				else if (event instanceof CollisionEvent){
 					event.addEventObservable(collisionObservable);
 				}
-				/*
 				else if (event instanceof TimerEvent){
 					event.addEventObservable(timerObservable);
 				}
-				*/
 			}
 		}
 
@@ -96,12 +96,10 @@ public class GameLoop {
 	}
 
 	private void step() {
-		levelManager.getCurrentLevel().getTimerManager().tick();   //at beginning of step rather than end because KeyFrames' onFinished execute at END of elapsed time
-		
 		inputObservable.updateObservers();
 		collisionObservable.updateObservers();
-		timerObservable.updateObservers();
-
+		timerObservable.updateObservers();   //ticks the clock (need to at beginning of step(), not end, because onFinished of Timeline called at END of time elapsed
+		
 		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
 			//entity.update();               //TODO <-----------------Comment out when Nikita finishes
 		}
@@ -110,7 +108,9 @@ public class GameLoop {
 		
 		printStepData();
 		
-		if(levelManager.getCurrentLevel().getTimerManager().timeIsUp()){  //OK to do for BOTH TickUp and TickDown timers!
+		//OK to do for BOTH TickUp and TickDown timers!
+		//This is NOT repeating the TimerObservable DP's job - this changes the game loop's flow, that calls Actions on Entities
+		if(levelManager.getCurrentLevel().getTimerManager().timeIsUp()){  
 			 System.out.println("Game over - you ran out of time!");
 			 timeline.stop();
 		}
