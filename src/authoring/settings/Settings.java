@@ -1,6 +1,7 @@
 package authoring.settings;
 
 import java.io.File;
+import java.util.List;
 import java.util.Scanner;
 import java.util.function.Consumer;
 
@@ -15,6 +16,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -30,6 +32,7 @@ public class Settings extends View {
 
 	private Workspace workspace;
 	private VBox settingsContainer;
+	private ComboBox myBox;
 
 	/**
 	 * The constructor needs a parent workspace specified. The rest of the constructor is inherited from
@@ -39,6 +42,7 @@ public class Settings extends View {
 	public Settings(Workspace workspace) {
 		super(workspace.getResources().getString("SettingsTitle"));
 		this.workspace = workspace;
+		myBox = new ComboBox();
 		configureSettings();
 	}
 	
@@ -68,8 +72,12 @@ public class Settings extends View {
 	//	CheckBox hScrolling = new CheckBox("Horizontal Scrolling");
 	//	CheckBox vScrolling= new CheckBox("Vertical Scrolling");
 		Button saveButton = new ActionButton(workspace.getResources().getString("SaveButtonSettings"), event->dummyMethod());
-		settingsContainer.getChildren().addAll(selectMusic,saveButton);
+		myBox.setPromptText(workspace.getResources().getString("LayerBoxPrompt"));
+		settingsContainer.getChildren().addAll(selectMusic,myBox, saveButton);
 		setCenter(settingsContainer);
 	}
 
+	 public void updateBox(String newLayer) {
+	        myBox.getItems().add(newLayer);
+	    }
 }

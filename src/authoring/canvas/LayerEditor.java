@@ -125,6 +125,7 @@ public class LayerEditor extends TabPane
 	private StackPane makeTabLabel(String text)
 	{
 		Label l = new Label(text);
+		workspace.setNewLayer(text);
 		l.setRotate(-90);
 		StackPane stp = new StackPane(new Group(l));
 		return stp;
