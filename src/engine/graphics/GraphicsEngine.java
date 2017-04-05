@@ -3,6 +3,7 @@ package engine.graphics;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import engine.Entity;
 import engine.EntityInterface;
 import javafx.scene.Group;
 
@@ -14,11 +15,11 @@ import javafx.scene.Group;
  */
 public class GraphicsEngine {
 
-	private Collection<EntityInterface> entities;
+	private Collection<Entity> entities;
 	private Group root;
 	
 	public GraphicsEngine() {
-		entities = new ArrayList<EntityInterface>();
+		entities = new ArrayList<Entity>();
 		root = new Group();
 	}
 	
@@ -45,7 +46,7 @@ public class GraphicsEngine {
 	 * Sets the collection of entities that will be drawn on every call to update.
 	 * @param entities : current entities to draw on screen
 	 */
-	public void setEntitiesCollection(Collection<EntityInterface> entities) {
+	public void setEntitiesCollection(Collection<Entity> entities) {
 		this.entities = entities;
 	}
 	

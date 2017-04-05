@@ -20,7 +20,7 @@ public class CollisionEvent extends Event implements CollisionEventInterface{
 	
 	@Override
 	public void act(){
-		for (Collision collision: game.getCurrentCollisions()){
+		for (Collision collision: game.getCurrentCollisions()){  //TODO Nikita, game.getCurrentCollisions() will be replaced by ((CollisionObservable)getEventObservable()).getCollisions()
 			if (collision.equals(this.collision))
 				trigger();
 		}

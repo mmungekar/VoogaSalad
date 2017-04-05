@@ -19,7 +19,7 @@ import player.PlayerMenu;
 public class StartMenu extends BorderPane {
 
 	private Stage stage;
-	private ResourceBundle resources = ResourceBundle.getBundle("resources/StarterUI");
+	private ResourceBundle resources = ResourceBundle.getBundle("resources/Starter");
 	private String stylesheetPath = resources.getString("StylesheetPath");
 	
 	protected StartMenu(Stage primaryStage) {
