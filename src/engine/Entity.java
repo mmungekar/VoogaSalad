@@ -8,7 +8,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 
 public abstract class Entity extends GameObject implements EntityInterface {
 
-	private SimpleDoubleProperty x, y, width, height;
+	private double x, y, width, height;
 	private double xSpeed, ySpeed, xAcceleration, yAcceleration;
 	private List<Event> events;
 	private String name, imagePath;
@@ -36,42 +36,42 @@ public abstract class Entity extends GameObject implements EntityInterface {
 
 	@Override
 	public double getX() {
-		return x.doubleValue();
+		return this.x;
 	}
 
 	@Override
 	public void setX(double x) {
-		this.x.set(x);
+		this.x = x;
 	}
 
 	@Override
 	public double getY() {
-		return y.doubleValue();
+		return this.y;
 	}
 
 	@Override
 	public void setY(double y) {
-		this.y.set(y);
+		this.y = y;
 	}
 
 	@Override
 	public double getWidth() {
-		return width.doubleValue();
+		return this.width;
 	}
 
 	@Override
 	public void setWidth(double width) {
-		this.width.set(width);
+		this.width = width;
 	}
 
 	@Override
 	public double getHeight() {
-		return height.doubleValue();
+		return this.height;
 	}
 
 	@Override
 	public void setHeight(double height) {
-		this.height.set(height);
+		this.height = height;
 	}
 
 	public double getXSpeed() {

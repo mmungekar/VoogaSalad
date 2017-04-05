@@ -2,6 +2,7 @@ package engine.game;
 
 import engine.Entity;
 import engine.Event;
+import engine.entities.CharacterEntity;
 import engine.events.CollisionEvent;
 import engine.events.InputEvent;
 import engine.events.TimerEvent;
@@ -98,18 +99,18 @@ public class GameLoop {
 	}
 
 	public Group getGameView() {
-		//GraphicsEngine graphics = new GraphicsEngine();
-		//graphics.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
-		//graphics.update();
-		//return graphics.getView();
+		GraphicsEngine graphics = new GraphicsEngine();
+		graphics.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
+		//TEST
+		levelManager.getCurrentLevel().getEntities().add(new CharacterEntity("Mario", "file:/Users/jaydoherty/Documents/eclipse_workspace/voogasalad_duwaldorf/src/resources/images/mario.png"));
+		graphics.update();
+		return graphics.getView();
 		
 		//NOTE FOR MATTHEW:
 		//TODO: move this code where you think it fits. My guess is GraphicsEngine is
 		//an instance variable, setEntitiesCollection() is called once in the constructor, 
 		//and update() is called every step. If this code doesn't belong here though
 		//I didn't want to spread it out too much. -Jay
-		
-		return null;
 	}
 	
 	private void step() {
