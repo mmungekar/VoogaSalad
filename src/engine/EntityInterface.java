@@ -26,4 +26,10 @@ public interface EntityInterface
 	void setHeight(double height);
 	
 	void setWidth(double width);
+	
+	String getImagePath();
+	double getWidth();
+	double getHeight();
+	double getX();
+	double getY();
 }
