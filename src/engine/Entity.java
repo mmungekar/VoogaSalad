@@ -99,23 +99,23 @@ public abstract class Entity implements EntityInterface {
 	public void setYAcceleration(double yAcceleration) {
 		this.yAcceleration = yAcceleration;
 	}
-	
-	public double getMinX(){
-		return getX()-getWidth()/2;
+
+	public double getMinX() {
+		return getX() - getWidth() / 2;
 	}
-	
-	public double getMaxX(){
-		return getX()+getWidth()/2;
+
+	public double getMaxX() {
+		return getX() + getWidth() / 2;
 	}
-	
-	public double getMinY(){
-		return getY()-getHeight()/2;
+
+	public double getMinY() {
+		return getY() - getHeight() / 2;
 	}
-	
-	public double getMaxY(){
-		return getY()+getHeight()/2;
+
+	public double getMaxY() {
+		return getY() + getHeight() / 2;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -137,4 +137,5 @@ public abstract class Entity implements EntityInterface {
 	public List<Event> getEvents() {
 		return events;
 	}
+	
 }

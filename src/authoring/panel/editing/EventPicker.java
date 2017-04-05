@@ -12,6 +12,7 @@ import authoring.views.View;
 import engine.Event;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -30,6 +31,7 @@ public class EventPicker extends View {
 	private EntityEditor editor;
 	private ComponentMaker componentMaker;
 	private List<Event> events;
+	private ListView<Event> list;
 	
 	/**
 	 * @param title
@@ -47,6 +49,16 @@ public class EventPicker extends View {
 	
 	public void addEvent(Event event) {
 		events.add(event);
+		updateList();
+	}
+	
+	public void removeEvent(Event event) {
+		events.remove(event);
+		updateList();
+	}
+	
+	public void updateList() {
+		list.setItems(FXCollections.observableArrayList(events));
 	}
 
 	private void setup() {
@@ -84,7 +96,7 @@ public class EventPicker extends View {
 	}
 	
 	private void deleteEvent(ListView<String> list) {
-		
+
 	}
 	
 }

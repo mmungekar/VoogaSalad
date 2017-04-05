@@ -3,7 +3,6 @@ package starter;
 import java.util.ResourceBundle;
 
 import authoring.AuthoringEnvironment;
-import discussion.Discussion;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -28,7 +27,6 @@ public class StartMenu extends BorderPane {
 	}
 	
 	private void buildStage() {
-		Discussion discussion = new Discussion();
 		stage.setTitle(resources.getString("Title"));
 		stage.setMinWidth(300);
 		stage.setMinHeight(300);

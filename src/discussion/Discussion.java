@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import discussion.io.*;
 import discussion.response.*;
+import javafx.application.Platform;
 
 /**
  * @author Elliott Bolzan
