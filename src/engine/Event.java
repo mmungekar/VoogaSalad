@@ -17,17 +17,17 @@ public abstract class Event extends GameObject implements EventInterface {
 		super("Event");
 		actions = new ArrayList<Action>();
 	}
-	
+
 	@Override
-	public void addAction(Action action){
+	public void addAction(Action action) {
 		actions.add(action);
 	}
 
 	@Override
 	public abstract void act();
-	
-	protected void trigger(){
-		for (Action action: actions)
+
+	protected void trigger() {
+		for (Action action : actions)
 			action.act();
 	}
 	

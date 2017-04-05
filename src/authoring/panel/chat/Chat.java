@@ -1,7 +1,7 @@
 /**
  * 
  */
-package authoring.panel;
+package authoring.panel.chat;
 
 import java.util.Random;
 

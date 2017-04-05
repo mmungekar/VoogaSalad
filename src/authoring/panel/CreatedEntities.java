@@ -5,6 +5,7 @@ package authoring.panel;
 
 import java.util.ArrayList;
 
+import authoring.utils.EntityWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 

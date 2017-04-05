@@ -2,7 +2,7 @@ package player;
 
 import java.util.ResourceBundle;
 
-import authoring.utils.Factory;
+import authoring.utils.ComponentMaker;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -36,13 +36,13 @@ public class PlayerMenu {
 	}
 	
 	private void setupScene(){
-		Factory factory = new Factory(resources);
+		ComponentMaker componentMaker = new ComponentMaker(resources);
 		VBox menu = new VBox(8);
-		menu.getChildren().addAll(factory.makeButton("StartButton", e -> new Player(), true),
-				factory.makeButton("AchievementsButton", e -> new AchievementsMenu().display(), true),
-				factory.makeButton("OptionsButton", e -> new OptionsMenu().display(), true),
-				factory.makeButton("InfoButton", e -> new InfoMenu().display(), true),
-				factory.makeButton("ExitButton", e -> System.exit(0), true));
+		menu.getChildren().addAll(componentMaker.makeButton("StartButton", e -> new Player(), true),
+				componentMaker.makeButton("AchievementsButton", e -> new AchievementsMenu().display(), true),
+				componentMaker.makeButton("OptionsButton", e -> new OptionsMenu().display(), true),
+				componentMaker.makeButton("InfoButton", e -> new InfoMenu().display(), true),
+				componentMaker.makeButton("ExitButton", e -> System.exit(0), true));
 		
 		root.setCenter(menu);
 		menu.setAlignment(Pos.CENTER);

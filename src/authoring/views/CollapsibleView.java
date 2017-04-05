@@ -2,7 +2,7 @@ package authoring.views;
 
 import authoring.Workspace;
 import authoring.utils.Direction;
-import authoring.utils.Factory;
+import authoring.utils.ComponentMaker;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
@@ -68,8 +68,8 @@ public abstract class CollapsibleView extends View {
 	 * @return a minimize button.
 	 */
 	private Button makeMinimizeButton(String imagePath) {
-		Factory factory = new Factory(workspace.getResources());
-		return factory.makeTabButton(imagePath, e -> minimize(), "minimize", 16, 10);
+		ComponentMaker componentMaker = new ComponentMaker(workspace.getResources());
+		return componentMaker.makeTabButton(imagePath, e -> minimize(), "minimize", 16, 10);
 	}
 
 	/**

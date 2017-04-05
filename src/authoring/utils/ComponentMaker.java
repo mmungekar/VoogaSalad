@@ -32,7 +32,7 @@ import javafx.stage.FileChooser.ExtensionFilter;
  *         create the following items: file choosers, directory choosers, text
  *         input dialogs, alerts, accordions, buttons, and tab buttons.
  */
-public class Factory {
+public class ComponentMaker {
 
 	private ResourceBundle resources;
 
@@ -42,7 +42,7 @@ public class Factory {
 	 * @param resources
 	 *            the ResourceBundle that the Factory makes use of.
 	 */
-	public Factory(ResourceBundle resources) {
+	public ComponentMaker(ResourceBundle resources) {
 		this.resources = resources;
 	}
 
