@@ -8,7 +8,7 @@ import engine.game.eventobserver.InputObservable;
 
 public class InputEvent extends Event {
 	private InputObservable inputObservable;
-	
+
 	/**
 	 * need to initialize me with a string, not a keycode (can't instantiate
 	 * KeyCode object)
@@ -18,10 +18,13 @@ public class InputEvent extends Event {
 		params.put("Key", "");
 		setParams(params);
 		inputObservable = null;
-	}	@Override
-	
+	}
+
+	@Override	
 	public void act(){
+		
 		//if (there is a new input)
+		if (((InputObservable)getEventObservable()).get)
 			// if the input matches the input that i react to:
 				// then i act
 		//NOTES TO NIKITA (from Matthew):
@@ -36,9 +39,5 @@ public class InputEvent extends Event {
 		 *  Also I am assuming you will take care of getting the targetKey without me because that is set by the Authoring Environment,
 		 *  not the Game Loop.
 		 */
-	}
-	
-	public void donateInputObservable(InputObservable inputObservable){
-		this.inputObservable = inputObservable;
 	}
 }

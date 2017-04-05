@@ -1,7 +1,7 @@
 /**
  * 
  */
-package authoring.panel;
+package authoring.panel.chat;
 
 import java.io.Serializable;
 
@@ -11,6 +11,7 @@ import java.io.Serializable;
  */
 public class Message implements Serializable {
 
+	private static final long serialVersionUID = 296549524151151475L;
 	private String username;
 	private String message;
 	
