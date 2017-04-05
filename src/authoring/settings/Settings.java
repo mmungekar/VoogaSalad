@@ -17,6 +17,7 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -73,7 +74,13 @@ public class Settings extends View {
 	//	CheckBox vScrolling= new CheckBox("Vertical Scrolling");
 		Button saveButton = new ActionButton(workspace.getResources().getString("SaveButtonSettings"), event->dummyMethod());
 		myBox.setPromptText(workspace.getResources().getString("LayerBoxPrompt"));
-		settingsContainer.getChildren().addAll(selectMusic,myBox, saveButton);
+		Slider velocitySlider = new Slider(){{
+           setMin(0);
+           setMax(100);
+           setValue(0);
+        }};
+        Button velocityButton = new ActionButton(workspace.getResources().getString("SaveLayerSpeed"), event->dummyMethod());
+		settingsContainer.getChildren().addAll(selectMusic,myBox,velocitySlider,velocityButton,saveButton);
 		setCenter(settingsContainer);
 	}
 
