@@ -2,10 +2,11 @@ package engine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javafx.beans.property.SimpleDoubleProperty;
 
-public abstract class Entity implements EntityInterface {
+public abstract class Entity extends GameObject implements EntityInterface {
 
 	private SimpleDoubleProperty x, y, width, height;
 	private double xSpeed, ySpeed, xAcceleration, yAcceleration;
@@ -13,16 +14,25 @@ public abstract class Entity implements EntityInterface {
 	private String name, imagePath;
 
 	public Entity(String name, String imagePath) {
+		super("Entity");
 		events = new ArrayList<Event>();
 		this.name = name;
 		this.imagePath = imagePath;
-	}
+	} 
 
 	/**
-	 * make sure to check state and set new state before acting.
+	 * TODO: make sure to check state and set new state before acting.
 	 */
 	@Override
-	public abstract void update();
+	public void update(){
+		List<Event> actions = events.stream().filter(s -> s.act()).collect(Collectors.toList());
+		actions.forEach(event -> event.trigger());
+	}
+	
+	@Override
+	public void addEvent(Event event){
+		this.events.add(event);
+	}
 
 	@Override
 	public double getX() {

@@ -8,7 +8,7 @@ public abstract class GameObject {
 	private Map<String, Object> params;
 
 	public GameObject(String name){
-		resources = ResourceBundle.getBundle("resources/" + name + "s");
+		resources = ResourceBundle.getBundle("resources/" + name);
 	}
 	public String getDisplayName() {
 		return resources.getString(getClass().getSimpleName().toString());

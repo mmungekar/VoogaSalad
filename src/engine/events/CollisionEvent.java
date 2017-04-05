@@ -1,9 +1,9 @@
 package engine.events;
 
 import engine.Event;
+import engine.game.eventobserver.CollisionObservable;
 import engine.Collision;
 import engine.CollisionEventInterface;
-import engine.CollisionInterface;
 
 public class CollisionEvent extends Event implements CollisionEventInterface{
 
@@ -14,15 +14,16 @@ public class CollisionEvent extends Event implements CollisionEventInterface{
 	}
 
 	@Override
-	public CollisionInterface getCollision() {
+	public Collision getCollision() {
 		return collision;
 	}
 	
 	@Override
-	public void act(){
-		for (Collision collision: game.getCurrentCollisions()){  //TODO Nikita, game.getCurrentCollisions() will be replaced by ((CollisionObservable)getEventObservable()).getCollisions()
+	public boolean act(){
+		for (Collision collision: ((CollisionObservable)getEventObservable()).getCollisions()){ 
 			if (collision.equals(this.collision))
-				trigger();
+				return true;
 		}
+		return false;
 	}
 }

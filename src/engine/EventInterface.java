@@ -11,5 +11,6 @@ public interface EventInterface {
 	String getDisplayDescription();
 	
 	//internal
-	void act();// tell its action to act
+	boolean act();// check if event is triggered
+	void trigger();// tell all actions to act
 }

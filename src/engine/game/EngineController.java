@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import engine.Event;
 import engine.GameObject;
 import engine.Action;
+import engine.Entity;
 
 public class EngineController {
 
@@ -14,13 +15,19 @@ public class EngineController {
 	public EngineController() {
 		finder = new ClassFinder();
 	}
-
+	public List<String> getAllEntities(){
+		return findClasses("engine.entities");
+	}
 	public List<String> getAllActions() {
 		return findClasses("engine.actions");
 	}
 
 	public List<String> getAllEvents() {
 		return findClasses("engine.events");
+	}
+	
+	public Entity createEntity(String entity){
+		return (Entity) getInstance("engine.entities." + concatenate(entity));
 	}
 
 	public Event createEvent(String event) {

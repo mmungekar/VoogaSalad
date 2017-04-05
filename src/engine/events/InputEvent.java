@@ -7,7 +7,6 @@ import engine.Event;
 import engine.game.eventobserver.InputObservable;
 
 public class InputEvent extends Event {
-	private InputObservable inputObservable;
 
 	/**
 	 * need to initialize me with a string, not a keycode (can't instantiate
@@ -17,16 +16,15 @@ public class InputEvent extends Event {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("Key", "");
 		setParams(params);
-		inputObservable = null;
 	}
 
 	@Override	
-	public void act(){
-		
-		//if (there is a new input)
-		if (((InputObservable)getEventObservable()).get)
-			// if the input matches the input that i react to:
-				// then i act
+	public boolean act(){
+		if (((InputObservable)getEventObservable()).getInputToProcess()){
+			if (getParams().get("Key").equals(((InputObservable) getEventObservable()).getLastPressedKey()))
+				return true;
+		}
+		return false;
 		//NOTES TO NIKITA (from Matthew):
 		/*
 		 * To see if there is new input (keyboard or mouse), call inputObservable.getInputToProcess()"

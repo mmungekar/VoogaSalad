@@ -24,9 +24,9 @@ public abstract class Event extends GameObject implements EventInterface {
 	}
 
 	@Override
-	public abstract void act();
+	public abstract boolean act();
 
-	protected void trigger() {
+	public void trigger() {
 		for (Action action : actions)
 			action.act();
 	}
