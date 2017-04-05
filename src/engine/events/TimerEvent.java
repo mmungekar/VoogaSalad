@@ -9,9 +9,9 @@ public class TimerEvent extends Event {
 	}
 
 	@Override
-	public void act() {
-		// TODO Auto-generated method stub
-		
+	public boolean act() {
+		//TODO
+		return false;
 	}
 
 }

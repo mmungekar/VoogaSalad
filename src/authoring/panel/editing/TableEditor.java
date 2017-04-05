@@ -3,6 +3,7 @@
  */
 package authoring.panel.editing;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import java.util.Map.Entry;
 import authoring.Workspace;
 import authoring.utils.ComponentMaker;
 import authoring.views.View;
+import engine.Parameter;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -43,7 +45,7 @@ public class TableEditor extends View {
 	private ComboBox<String> comboBox;
 	private ComponentMaker maker;
 	private List<String> elements;
-	private Map<String, Object> parameters = new HashMap<>();
+	private List<Parameter> parameters = new ArrayList<Parameter>();
 	private TableView<Map.Entry<String, Object>> table;
 
 	/**
@@ -166,7 +168,7 @@ public class TableEditor extends View {
 		return box;
 	}
 
-	protected void update(Map<String, Object> data) {
+	protected void update(List<Parameter> data) {
 		parameters = data;
 		table.setItems(FXCollections.observableArrayList(data.entrySet()));
 	}
