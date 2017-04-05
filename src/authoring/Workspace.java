@@ -15,6 +15,7 @@ import authoring.views.View;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.Tab;
 
 /**
  * @author Elliott Bolzan Modified by Mina Mungekar, Jimmy Shackford
@@ -69,6 +70,10 @@ public class Workspace extends View {
 	public List getEntities() {
 		// return canvas's entities (i.e. canvas.getLevel())
 		return new ArrayList<>();
+	}
+	
+	public void setNewLayer(String newLayer){
+		panel.updateSettings(newLayer);
 	}
 
 }
