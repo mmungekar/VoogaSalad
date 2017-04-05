@@ -104,8 +104,6 @@ public abstract class Entity implements EntityInterface {
 		return getY()+getHeight()/2;
 	}
 	
-	public List<Event> getEvents(){
-
 	public String getName() {
 		return name;
 	}
