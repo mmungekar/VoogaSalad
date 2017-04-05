@@ -4,6 +4,7 @@ import java.lang.reflect.Constructor;
 import java.util.List;
 import java.util.stream.Collectors;
 import engine.Event;
+import engine.GameObject;
 import engine.Action;
 
 public class EngineController {
@@ -23,29 +24,34 @@ public class EngineController {
 	}
 
 	public Event createEvent(String event) {
-		try {
-			return (Event) getInstance("engine.events." + event + "Event");
-		} catch (Exception e) {
-			return null;
-		}
+		return (Event) getInstance("engine.events." + concatenate(event));
 	}
 
 	public Action createAction(String action) {
+		return (Action) getInstance("engine.actions." + concatenate(action));
+	}
+	private String concatenate(String cat){
+		return cat.replaceAll("\\s+", "");
+	}
+	private List<String> findClasses(String path) {
+		List<Class<?>> classes = finder.find(path);
+		return classes.stream().map(s -> {
+			try {
+				GameObject obj = (GameObject) s.getDeclaredConstructor().newInstance();
+				return obj.getDisplayName();
+			} catch (Exception e) {
+				return null;
+			}
+		}).collect(Collectors.toList());
+	}
+
+	private Object getInstance(String path) {
 		try {
-			return (Action) getInstance("engine.actions." + action + "Event");
+			Class<?> clazz = Class.forName(path);
+			Constructor<?> ctor = clazz.getDeclaredConstructor();
+			return ctor.newInstance();
 		} catch (Exception e) {
 			return null;
 		}
-	}
-
-	private List<String> findClasses(String path) {
-		List<Class<?>> classes = finder.find(path);
-		return classes.stream().map(s -> s.toString()).collect(Collectors.toList());
-	}
-
-	private Object getInstance(String path) throws Exception {
-		Class<?> clazz = Class.forName(path);
-		Constructor<?> ctor = clazz.getDeclaredConstructor();
-		return ctor.newInstance();
 	}
 }
