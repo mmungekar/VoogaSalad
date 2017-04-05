@@ -39,7 +39,7 @@ public class EventEditor extends Editor {
 	@Override
 	public void selected(String string) {
 		event = engine.createEvent(string);
-		//editor.update(event.getParams());
+		editor.update(event.getParams());
 	}
 	
 	@Override

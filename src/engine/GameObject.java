@@ -17,6 +17,7 @@ public abstract class GameObject {
 	public String getDisplayDescription() {
 		return resources.getString(getClass().getSimpleName() + "Description");
 	}
+	
 	public Map<String, Object> getParams() {
 		return params;
 	}
