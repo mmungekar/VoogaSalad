@@ -1,8 +1,5 @@
 package engine.events;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import engine.Event;
 import engine.Parameter;
 import engine.game.eventobserver.InputObservable;
@@ -15,10 +12,7 @@ public class InputEvent extends Event {
 	 * KeyCode object)
 	 */
 	public InputEvent() {
-		Parameter key = new Parameter("Key", KeyCode.class);
-		List<Parameter> params = new ArrayList<Parameter>();
-		params.add(key);
-		setParams(params);
+		addParam(new Parameter("Key", KeyCode.class));
 	}
 
 	@Override	
@@ -35,8 +29,6 @@ public class InputEvent extends Event {
 		 * 	- For keyboard: inputObservable.getLastPressedKey();
 		 *  - For mouse coordinates: inputObserable.getLastPressedCoordinates();
 		 *  - For mouse button: inputObservable.getLastPressedMouseButton(); (see JavaFX's MouseButton documentation)
-		 *  Note that donateInputObservable() (below) just accesses the inputObservable from GameLoop (necessary
-		 *  so the above method calls can be made).
 		 *  Also I am assuming you will take care of getting the targetKey without me because that is set by the Authoring Environment,
 		 *  not the Game Loop.
 		 */

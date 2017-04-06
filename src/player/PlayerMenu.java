@@ -19,11 +19,15 @@ public class PlayerMenu {
 		setupScene();
 	}
 	
+	public PlayerMenu(Stage stage){
+		this.stage = stage;
+		stage.setScene(createScene());
+		setupScene();
+	}
+	
 	private void setupStage(){
 		stage = new Stage();
 		stage.setTitle(resources.getString("MainTitle"));
-		stage.setMinWidth(600);
-		stage.setMinHeight(300);
 		stage.setScene(createScene());
 		stage.show();
 	}
@@ -38,11 +42,12 @@ public class PlayerMenu {
 	private void setupScene(){
 		ComponentMaker componentMaker = new ComponentMaker(resources);
 		VBox menu = new VBox(8);
-		menu.getChildren().addAll(componentMaker.makeButton("StartButton", e -> new Player(), true),
-				componentMaker.makeButton("AchievementsButton", e -> new AchievementsMenu().display(), true),
-				componentMaker.makeButton("OptionsButton", e -> new OptionsMenu().display(), true),
-				componentMaker.makeButton("InfoButton", e -> new InfoMenu().display(), true),
-				componentMaker.makeButton("ExitButton", e -> System.exit(0), true));
+
+		menu.getChildren().addAll(componentMaker.makeButton("StartButton", e -> stage.setScene(new LoadMenu(stage).display()), true),
+				componentMaker.makeButton("AchievementsButton", e -> stage.setScene(new AchievementsMenu(stage).display()), true),
+				componentMaker.makeButton("OptionsButton", e -> stage.setScene(new OptionsMenu(stage).display()), true),
+				componentMaker.makeButton("InfoButton", e -> stage.setScene(new InfoMenu(stage).display()), true),
+				componentMaker.makeButton("ExitButton", e -> stage.close(), true));
 		
 		root.setCenter(menu);
 		menu.setAlignment(Pos.CENTER);

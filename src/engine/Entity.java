@@ -8,6 +8,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 
 public abstract class Entity extends GameObject implements EntityInterface {
 
+	public static final int ACCELERATION = -10;
 	private SimpleDoubleProperty x, y, width, height;
 	private double xSpeed, ySpeed, xAcceleration, yAcceleration;
 	private List<Event> events;
@@ -18,7 +19,13 @@ public abstract class Entity extends GameObject implements EntityInterface {
 		this.name = name;
 		this.imagePath = imagePath;
 		events = new ArrayList<Event>();
-	}
+		//TODO: initialize these values to something other than 0,0,0,0
+		this.x = new SimpleDoubleProperty();
+		this.y = new SimpleDoubleProperty();
+		this.width = new SimpleDoubleProperty();
+		this.height = new SimpleDoubleProperty();
+		addParam(new Parameter("Time Step", Double.class, 0));
+	} 
 
 	/**
 	 * TODO: make sure to check state and set new state before acting.
@@ -36,27 +43,27 @@ public abstract class Entity extends GameObject implements EntityInterface {
 
 	@Override
 	public double getX() {
-		return x.doubleValue();
+		return this.x.get();
 	}
 
 	@Override
 	public void setX(double x) {
-		this.x.set(x);
+		this.x.set(x);;
 	}
 
 	@Override
 	public double getY() {
-		return y.doubleValue();
+		return this.y.get();
 	}
 
 	@Override
 	public void setY(double y) {
-		this.y.set(y);
+		this.y.set(y);;
 	}
 
 	@Override
 	public double getWidth() {
-		return width.doubleValue();
+		return this.width.get();
 	}
 
 	@Override
@@ -66,12 +73,12 @@ public abstract class Entity extends GameObject implements EntityInterface {
 
 	@Override
 	public double getHeight() {
-		return height.doubleValue();
+		return this.height.get();
 	}
 
 	@Override
 	public void setHeight(double height) {
-		this.height.set(height);
+		this.height.set(height);;
 	}
 
 	public double getXSpeed() {

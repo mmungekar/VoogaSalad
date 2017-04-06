@@ -33,7 +33,6 @@ public class Settings extends View {
 
 	private Workspace workspace;
 	private VBox settingsContainer;
-	private ComboBox myBox;
 
 	/**
 	 * The constructor needs a parent workspace specified. The rest of the constructor is inherited from
@@ -43,7 +42,6 @@ public class Settings extends View {
 	public Settings(Workspace workspace) {
 		super(workspace.getResources().getString("SettingsTitle"));
 		this.workspace = workspace;
-		myBox = new ComboBox();
 		configureSettings();
 	}
 	
@@ -73,18 +71,8 @@ public class Settings extends View {
 	//	CheckBox hScrolling = new CheckBox("Horizontal Scrolling");
 	//	CheckBox vScrolling= new CheckBox("Vertical Scrolling");
 		Button saveButton = new ActionButton(workspace.getResources().getString("SaveButtonSettings"), event->dummyMethod());
-		myBox.setPromptText(workspace.getResources().getString("LayerBoxPrompt"));
-		Slider velocitySlider = new Slider(){{
-           setMin(0);
-           setMax(100);
-           setValue(0);
-        }};
-        Button velocityButton = new ActionButton(workspace.getResources().getString("SaveLayerSpeed"), event->dummyMethod());
-		settingsContainer.getChildren().addAll(selectMusic,myBox,velocitySlider,velocityButton,saveButton);
+		settingsContainer.getChildren().addAll(selectMusic,saveButton);
 		setCenter(settingsContainer);
 	}
 
-	 public void updateBox(String newLayer) {
-	        myBox.getItems().add(newLayer);
-	    }
 }
