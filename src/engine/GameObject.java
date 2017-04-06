@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 public abstract class GameObject {
 	private ResourceBundle resources;
 	private List<Parameter> params;
+	private Entity entity;
 
 	public GameObject(String name) {
 		resources = ResourceBundle.getBundle("resources/" + name);
@@ -37,5 +38,13 @@ public abstract class GameObject {
 				return param.getObject();
 		}
 		return null;
+	}
+	
+	public void setEntity(Entity entity){
+		this.entity = entity;
+	}
+	
+	public Entity getEntity(){
+		return entity;
 	}
 }
