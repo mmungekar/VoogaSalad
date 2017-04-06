@@ -18,6 +18,7 @@ public class Panel extends CollapsibleView {
 	private List<View> subviews;
 	private EntityDisplay entityDisplay;
 	private Settings settingsPanel;
+	private LayerPanel layerPanel;
 
 	/**
 	 * Returns a Panel.
@@ -34,6 +35,7 @@ public class Panel extends CollapsibleView {
 		this.workspace = workspace;
 		entityDisplay = new EntityDisplay(workspace);
 		settingsPanel = new Settings(workspace);
+		layerPanel = new LayerPanel(workspace);
 		createSubviews();
 		setup();
 	}
@@ -46,6 +48,7 @@ public class Panel extends CollapsibleView {
 		subviews = new ArrayList<View>();
 		subviews.add(entityDisplay);
 		subviews.add(new Chat(workspace));
+		subviews.add(layerPanel);
 		subviews.add(settingsPanel);
 	}
 
@@ -61,8 +64,8 @@ public class Panel extends CollapsibleView {
 		return entityDisplay;
 	}
 	
-	public void updateSettings(String newLayer){
-		settingsPanel.updateBox(newLayer);
+	public void updateLayerPanel(String newLayer){
+		layerPanel.updateBox(newLayer);
 	}
 
 }

@@ -13,6 +13,7 @@ public class Collision implements CollisionInterface {
 	private Entity firstEntity;
 	private Entity secondEntity;
 	private CollisionSide firstRelativeToSecond;
+	private String secondName;
 
 	public Collision(Entity one, Entity two, CollisionSide side) {
 		firstEntity = one;
@@ -25,10 +26,40 @@ public class Collision implements CollisionInterface {
 	 *         Entities and CollisionSide and false otherwise.
 	 */
 	@Override
-	public boolean equals(CollisionInterface other) {
+	public boolean equals(Collision other) {
 		// TODO find another way to compare collisions without using instanceof
-		return (other instanceof Collision && firstEntity == other.firstEntity && secondEntity == other.secondEntity
-				&& firstRelativeToSecond == other.firstRelativeToSecond);
+		return (other instanceof Collision && (checkFirstSecond(other) || checkNames(other))
+				&& firstRelativeToSecond.equals(other.getCollisionSide()));
 	}
 
+	private boolean checkFirstSecond(Collision other) {
+		return ((firstEntity.equals(other.getFirstEntity()) && secondEntity.equals(other.getSecondEntity()))
+				|| (secondEntity.equals(other.getFirstEntity()) && firstEntity.equals(other.getSecondEntity())));
+	}
+
+	private boolean checkNames(Collision other) {
+		return ((firstEntity.equals(other.getFirstEntity()) && secondName.equals(other.getSecondEntity().getName()))
+				|| (firstEntity.equals(other.getSecondEntity())
+						&& secondName.equals(other.getFirstEntity().getName())));
+	}
+
+	public CollisionSide getCollisionSide() {
+		return firstRelativeToSecond;
+	}
+
+	public Entity getFirstEntity() {
+		return firstEntity;
+	}
+
+	public Entity getSecondEntity() {
+		return secondEntity;
+	}
+
+	public void setFirstEntity(Entity entity) {
+		firstEntity = entity;
+	}
+
+	public void setSecondName(String name) {
+		this.secondName = name;
+	}
 }

@@ -24,6 +24,7 @@ import javafx.util.Duration;
  */
 public class GameLoop {
 	public static final int FRAME_TIME_MILLISECONDS = 20;
+	private GraphicsEngine graphicsEngine;
 	private LevelManager levelManager;
 	private Timeline timeline;
 	private InputObservable inputObservable;
@@ -76,6 +77,9 @@ public class GameLoop {
 		// Start the GAE's current level
 		levelManager.startCurrentLevel();
 
+		//Set up graphical view
+		setupGameView();
+		
 		setupTimeline();
 	}
 
@@ -97,22 +101,16 @@ public class GameLoop {
 	public void startTimeline() {
 		timeline.play();
 	}
+	
+	private void setupGameView() {
+		graphicsEngine = new GraphicsEngine();
+		graphicsEngine.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
+		//TEST
+		levelManager.getCurrentLevel().getEntities().add(new CharacterEntity("Mario", "file:" + System.getProperty("user.dir") + "/src/resources/images/mario.png"));		
+	}
 
 	public Pane getGameView() {
-		GraphicsEngine graphics = new GraphicsEngine();
-		graphics.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
-		
-		//TEST
-		levelManager.getCurrentLevel().getEntities().add(new CharacterEntity("Mario", "file:/Users/jaydoherty/Documents/eclipse_workspace/voogasalad_duwaldorf/src/resources/images/mario.png"));
-		
-		graphics.update();
-		return graphics.getView();
-		
-		//NOTE FOR MATTHEW:
-		//TODO: move this code where you think it fits. My guess is GraphicsEngine is
-		//an instance variable, setEntitiesCollection() is called once in the constructor, 
-		//and update() is called every step. If this code doesn't belong here though
-		//I didn't want to spread it out too much. -Jay
+		return graphicsEngine.getView();
 	}
 	
 	private void step() {
@@ -134,6 +132,8 @@ public class GameLoop {
 			 System.out.println("Game over - you ran out of time!");
 			 timeline.stop();
 		}
+		
+		graphicsEngine.update();
 	}
 	
 	/**
