@@ -9,7 +9,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 public abstract class Entity extends GameObject implements EntityInterface {
 
 	public static final int ACCELERATION = -10;
-	private SimpleDoubleProperty x, y, width, height;
+	private SimpleDoubleProperty x, y, width, height, zIndex;
 	private double xSpeed, ySpeed, xAcceleration, yAcceleration;
 	private List<Event> events;
 	private String name, imagePath;
