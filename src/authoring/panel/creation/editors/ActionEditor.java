@@ -4,7 +4,6 @@
 package authoring.panel.creation.editors;
 
 import java.util.List;
-import java.util.Map;
 
 import authoring.Workspace;
 import authoring.panel.creation.pickers.ActionPicker;
@@ -18,35 +17,25 @@ import engine.game.EngineController;
  */
 public class ActionEditor extends Editor {
 
-	private Workspace workspace;
-	private ActionPicker actionPicker;
-	private TableEditor editor;
-	private EngineController engine;
+	private ActionPicker picker;
+	private EngineController engine = new EngineController();
 	private Action action;
+	
+	public ActionEditor(Workspace workspace, ActionPicker picker, String titleProperty, List<String> elements) {
+		super(workspace, titleProperty, elements);
+		this.picker = picker;
+	}	
 
-	/**
-	 * @param title
-	 */
-	public ActionEditor(Workspace workspace, ActionPicker actionPicker) {
-		this.workspace = workspace;
-		this.actionPicker = actionPicker;
-		setup();
-	}
-	
-	private void setup() {
-		engine = new EngineController();
-		editor = new TableEditor(workspace, this, "NewActionTitle", engine.getAllActions());
-	}
-	
 	@Override
 	public void selected(String string) {
 		action = engine.createAction(string);
-		editor.update(action.getParams());
+		update(action.getParams());
 	}
 
 	@Override
 	public void save(List<Parameter> data) {
 		action.setParams(data);
+		picker.add(action);
 	}
 
 }

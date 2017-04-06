@@ -15,22 +15,22 @@ public abstract class Entity extends GameObject implements EntityInterface {
 
 	public Entity(String name, String imagePath) {
 		super("Entity");
-		events = new ArrayList<Event>();
 		this.name = name;
 		this.imagePath = imagePath;
-	} 
+		events = new ArrayList<Event>();
+	}
 
 	/**
 	 * TODO: make sure to check state and set new state before acting.
 	 */
 	@Override
-	public void update(){
+	public void update() {
 		List<Event> actions = events.stream().filter(s -> s.act()).collect(Collectors.toList());
 		actions.forEach(event -> event.trigger());
 	}
-	
+
 	@Override
-	public void addEvent(Event event){
+	public void addEvent(Event event) {
 		this.events.add(event);
 	}
 
@@ -147,5 +147,5 @@ public abstract class Entity extends GameObject implements EntityInterface {
 	public List<Event> getEvents() {
 		return events;
 	}
-	
+
 }

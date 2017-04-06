@@ -1,11 +1,11 @@
 /**
  * 
  */
-package authoring.panel.creation.editors;
+package authoring.panel.creation;
 
 import authoring.Workspace;
+import authoring.components.ComponentMaker;
 import authoring.panel.ConcreteEntity;
-import authoring.panel.creation.EntityInfo;
 import authoring.panel.creation.pickers.ActionPicker;
 import authoring.panel.creation.pickers.EntityPicker;
 import authoring.panel.creation.pickers.EventPicker;
@@ -13,7 +13,9 @@ import authoring.panel.display.EntityDisplay;
 import authoring.utils.EntityWrapper;
 import authoring.views.ConcreteView;
 import authoring.views.View;
+import engine.Event;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.SplitPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -22,35 +24,36 @@ import javafx.stage.Stage;
  * @author Elliott Bolzan
  *
  */
-public class EntityEditor {
+public class EntityMaker {
 	
 	private Workspace workspace;
 	private EntityDisplay display;
 	private Stage stage;
 	private View view;
 	private SplitPane pane;
-	private EntityWrapper entity;
+	private EntityWrapper entityWrapper;
 	private EntityInfo entityInfo;
 	private EntityPicker entityPicker;
 	private EventPicker eventPicker;
 	private ActionPicker actionPicker;
+	private Event selectedEvent;
 
 	/**
 	 * 
 	 */
-	public EntityEditor(Workspace workspace, EntityDisplay display, EntityWrapper entity) {
+	public EntityMaker(Workspace workspace, EntityDisplay display, EntityWrapper entity) {
 		this.workspace = workspace;
 		this.display = display;
-		this.entity = entity;
-		if (this.entity == null) {
-			this.entity = new EntityWrapper(new ConcreteEntity("Mario", "resources/images/Mario.png"));
+		this.entityWrapper = entity;
+		if (this.entityWrapper == null) {
+			this.entityWrapper = new EntityWrapper(new ConcreteEntity("Mario", "resources/images/Mario.png"));
 		}
 		setupView();
 		setupStage();
 	}
 	
-	public EntityWrapper getEntity() {
-		return entity;
+	public EntityWrapper getEntityWrapper() {
+		return entityWrapper;
 	}
 	
 	private void setupView() {
@@ -84,13 +87,27 @@ public class EntityEditor {
 		stage.close();
 	}
 	
+	public void setSelectedEvent(Event event) {
+		selectedEvent = event;
+		actionPicker.update();
+	}
+	
+	public Event getSelectedEvent() {
+		return selectedEvent;
+	}
+	
+	public void showMessage(String message) {
+		ComponentMaker maker = new ComponentMaker(workspace.getResources());
+		maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message).show();
+	}
+	
 	public void save() {
-		entity.getName().set(entityInfo.getName());
-		entity.getImagePath().set(entityInfo.getImagePath());
+		entityWrapper.getName().set(entityInfo.getName());
+		entityWrapper.getImagePath().set(entityInfo.getImagePath());
 		// add events and actions
 		// error checking
 		// save with game data
-		display.addEntity(entity);
+		display.addEntity(entityWrapper);
 		dismiss();
 	}
 	

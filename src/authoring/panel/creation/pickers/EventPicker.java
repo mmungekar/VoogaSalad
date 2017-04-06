@@ -1,74 +1,36 @@
-/**
- * 
- */
 package authoring.panel.creation.pickers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import authoring.Workspace;
-import authoring.panel.creation.editors.EntityEditor;
+import authoring.panel.creation.EntityMaker;
 import authoring.panel.creation.editors.EventEditor;
-import authoring.utils.ComponentMaker;
-import authoring.views.View;
 import engine.Event;
+import engine.game.EngineController;
 import javafx.collections.FXCollections;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
+import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.input.MouseEvent;
 
 /**
  * @author Elliott Bolzan
  *
  */
-public class EventPicker extends View {
+public class EventPicker extends Picker {
 
-	private Workspace workspace;
-	private EntityEditor editor;
-	private ComponentMaker componentMaker;
-	private List<Event> events;
+	private EntityMaker editor;
+	private EngineController engine = new EngineController();
 	private ListView<Event> list;
 	
-	/**
-	 * @param title
-	 */
-	public EventPicker(Workspace workspace, EntityEditor editor) {
-		super("Event Picker");
-		this.workspace = workspace;
+	public EventPicker(Workspace workspace, EntityMaker editor) {
+		super(workspace, "EventPickerTitle");
 		this.editor = editor;
-		setup();
-	}
-	
-	public List<Event> getEvents() {
-		return events;
 	}
 
-	private void setup() {
-		events = new ArrayList<Event>();
-		componentMaker = new ComponentMaker(workspace.getResources());
-		setPadding(new Insets(15));
-		createTypeBox();
-		createList();
-		createButtons();
-	}
-	
-	private void createTypeBox() {
-		Label label = new Label(workspace.getResources().getString("EventPickerTitle"));
-		label.setPadding(new Insets(5));
-		HBox box = new HBox();
-		box.getChildren().add(label);
-		box.setAlignment(Pos.CENTER);
-		setTop(box);
-	}
-	
-	private void createList() {
+	@Override
+	public void createContainer() {
 		list = new ListView<Event>();
-		list.setPlaceholder(new Label(workspace.getResources().getString("EmptyEvents")));
+		list.setPlaceholder(new Label(getWorkspace().getResources().getString("EmptyEvents")));
 		list.setEditable(false);
 		list.prefHeightProperty().bind(heightProperty());
 		list.setCellFactory(param -> new ListCell<Event>() {
@@ -81,44 +43,51 @@ public class EventPicker extends View {
 		            setText(event.getDisplayName());
 		        }
 		    }
-		});            
+		});   
+		list.setOnMouseClicked(new EventHandler<MouseEvent>() {
+	        @Override
+	        public void handle(MouseEvent event) {
+	        	editor.setSelectedEvent(list.getSelectionModel().getSelectedItem());
+	        }
+	    });
 		setCenter(list);
 	}
-	
-	private void createButtons() {
-		VBox buttonBox = new VBox();
-		Button newButton = componentMaker.makeButton("NewEvent", e -> createNewEvent(), true);
-		Button editButton = componentMaker.makeButton("Edit", e -> editEvent(list), true);
-		Button deleteButton = componentMaker.makeButton("Delete", e -> deleteEvent(list), true);
-		HBox modificationButtons = new HBox(editButton, deleteButton);
-		buttonBox.getChildren().addAll(newButton, modificationButtons);
-		setBottom(buttonBox);
+
+	@Override
+	public void createNew() {
+		new EventEditor(getWorkspace(), this, "NewEventTitle", engine.getAllEvents());		
+	}
+
+	@Override
+	public <E> void add(E element) {
+		editor.getEntityWrapper().getEntity().getEvents().add((Event) element);
+		update();		
+	}
+
+	@Override
+	public <E> void remove(E element) {
+		if (selectionExists()) {
+			editor.getEntityWrapper().getEntity().getEvents().remove((Event) element);
+			update();
+		}
+	}
+
+	@Override
+	public void delete() {
+		remove(list.getSelectionModel().getSelectedItem());
+    	editor.setSelectedEvent(null);		
 	}
 	
-	public void addEvent(Event event) {
-		events.add(event);
-		updateList();
+	@Override
+	public void update() {
+		list.setItems(FXCollections.observableArrayList(editor.getEntityWrapper().getEntity().getEvents()));
 	}
-	
-	public void removeEvent(Event event) {
-		events.remove(event);
-		updateList();
-	}
-	
-	public void updateList() {
-		list.setItems(FXCollections.observableArrayList(events));
-	}
-	
-	private void createNewEvent() {
-		new EventEditor(workspace, this);
-	}
-	
-	private void editEvent(ListView<Event> list) {
-		
-	}
-	
-	private void deleteEvent(ListView<Event> list) {
-		removeEvent(list.getSelectionModel().getSelectedItem());
+
+	@Override
+	public void edit() {
+		if (selectionExists()) {
+			
+		}
 	}
 	
 }

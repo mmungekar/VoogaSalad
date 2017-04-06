@@ -3,9 +3,7 @@
  */
 package authoring.panel.creation.editors;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import authoring.Workspace;
 import authoring.panel.creation.pickers.EventPicker;
@@ -19,36 +17,25 @@ import engine.game.EngineController;
  */
 public class EventEditor extends Editor {
 	
-	private Workspace workspace;
-	private EventPicker eventPicker;
-	private TableEditor editor;
-	private EngineController engine;
+	private EventPicker picker;
+	private EngineController engine = new EngineController();
 	private Event event;
-
-	/**
-	 * @param title
-	 */
-	public EventEditor(Workspace workspace, EventPicker eventPicker) {
-		this.workspace = workspace;
-		this.eventPicker = eventPicker;
-		setup();
-	}
 	
-	private void setup() {
-		engine = new EngineController();
-		editor = new TableEditor(workspace, this, "NewEventTitle", engine.getAllEvents());
+	public EventEditor(Workspace workspace, EventPicker picker, String titleProperty, List<String> elements) {
+		super(workspace, titleProperty, elements);
+		this.picker = picker;
 	}
 	
 	@Override
 	public void selected(String string) {
 		event = engine.createEvent(string);
-		editor.update(event.getParams());
+		update(event.getParams());
 	}
 
 	@Override
 	public void save(List<Parameter> data) {
 		event.setParams(data);
-		eventPicker.addEvent(event);		
+		picker.add(event);		
 	}
 
 }
