@@ -19,11 +19,11 @@ public abstract class Entity extends GameObject implements EntityInterface {
 		events = new ArrayList<Event>();
 		this.name = name;
 		this.imagePath = imagePath;
-		//TODO: initialize these values to something other than 0,0,100,100
+		//TODO: initialize these values to something other than 0,0,0,0
 		this.x = new SimpleDoubleProperty();
 		this.y = new SimpleDoubleProperty();
-		this.width = new SimpleDoubleProperty(100);
-		this.height = new SimpleDoubleProperty(100);
+		this.width = new SimpleDoubleProperty();
+		this.height = new SimpleDoubleProperty();
 		addParam(new Parameter("Time Step", Double.class, 0));
 	} 
 

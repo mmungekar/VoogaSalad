@@ -3,8 +3,11 @@ package engine.graphics;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import engine.graphics.cameras.Camera;
+import engine.graphics.cameras.ScrollingCamera;
 import engine.Entity;
 import engine.EntityInterface;
+import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 
@@ -16,10 +19,12 @@ import javafx.scene.shape.Rectangle;
  */
 public class GraphicsEngine {
 
+	private Camera camera;
 	private Collection<Entity> entities;
 	private Pane displayArea;
 	
-	public GraphicsEngine() {
+	public GraphicsEngine(Camera camera) {
+		this.camera = camera;
 		entities = new ArrayList<Entity>();
 		this.setupView();
 	}
@@ -37,10 +42,8 @@ public class GraphicsEngine {
 	 */
 	public void update() {
 		this.clearView();
-		NodeFactory factory = new NodeFactory();
-		for(EntityInterface e : entities) {
-			displayArea.getChildren().add(factory.getNodeFromEntity(e));	
-		}
+		this.drawAllEntities();
+		this.updateCamera();
 	}
 	
 	/**
@@ -55,6 +58,13 @@ public class GraphicsEngine {
 		displayArea.getChildren().clear();
 	}
 	
+	private void drawAllEntities() {
+		NodeFactory factory = new NodeFactory();
+		for(EntityInterface e : entities) {
+			displayArea.getChildren().add(factory.getNodeFromEntity(e));	
+		}
+	}
+	
 	private void setupView() {
 		displayArea = new Pane();
 		displayArea.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
@@ -66,5 +76,11 @@ public class GraphicsEngine {
 		clipBoundaries.widthProperty().bind(pane.widthProperty());
 		clipBoundaries.heightProperty().bind(pane.heightProperty());
 		pane.setClip(clipBoundaries);
+	}
+	
+	private void updateCamera() {
+		camera.update();
+		displayArea.setTranslateX(-camera.getX());
+		displayArea.setTranslateY(-camera.getY());
 	}
 }
