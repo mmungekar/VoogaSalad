@@ -2,7 +2,7 @@ package player;
 
 import java.util.ResourceBundle;
 
-import authoring.utils.Factory;
+import authoring.utils.ComponentMaker;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -13,16 +13,17 @@ import javafx.stage.Stage;
 public abstract class AbstractMenu implements Menu{
 	private ResourceBundle resources = ResourceBundle.getBundle("resources/Player");
 	private BorderPane root;	
-	private Factory factory;
+	private ComponentMaker factory;
 	private Button back;
 	
-	public AbstractMenu(){
+	public AbstractMenu(Stage stage){
 		root = new BorderPane();
-		factory = new Factory(resources);
+		factory = new ComponentMaker(resources);
 		ImageView image = new ImageView(
 				new Image(getClass().getClassLoader().getResourceAsStream(getResources().getString("BackPath"))));
 		
 		back = new Button("Back", image);
+		backButton().setOnAction(e -> back(stage));
 		getRoot().setBottom(backButton());
 	}
 	
@@ -34,7 +35,7 @@ public abstract class AbstractMenu implements Menu{
 		return resources;
 	}
 	
-	protected Factory getFactory(){
+	protected ComponentMaker getFactory(){
 		return factory;
 	}
 	

@@ -43,10 +43,10 @@ public class PlayerMenu {
 		ComponentMaker componentMaker = new ComponentMaker(resources);
 		VBox menu = new VBox(8);
 
-		menu.getChildren().addAll(componentMaker.makeButton("StartButton", e -> LoadMenu(stage).display(), true),
-				componentMaker.makeButton("AchievementsButton", e -> new AchievementsMenu().display(), true),
-				componentMaker.makeButton("OptionsButton", e -> new OptionsMenu().display(), true),
-				componentMaker.makeButton("InfoButton", e -> new InfoMenu().display(), true),
+		menu.getChildren().addAll(componentMaker.makeButton("StartButton", e -> stage.setScene(new LoadMenu(stage).display()), true),
+				componentMaker.makeButton("AchievementsButton", e -> stage.setScene(new AchievementsMenu(stage).display()), true),
+				componentMaker.makeButton("OptionsButton", e -> stage.setScene(new OptionsMenu(stage).display()), true),
+				componentMaker.makeButton("InfoButton", e -> stage.setScene(new InfoMenu(stage).display()), true),
 				componentMaker.makeButton("ExitButton", e -> stage.close(), true));
 		
 		root.setCenter(menu);
