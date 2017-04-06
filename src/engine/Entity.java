@@ -8,6 +8,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 
 public abstract class Entity extends GameObject implements EntityInterface {
 
+	public static final int ACCELERATION = -10;
 	private SimpleDoubleProperty x, y, width, height;
 	private double xSpeed, ySpeed, xAcceleration, yAcceleration;
 	private List<Event> events;
@@ -18,6 +19,7 @@ public abstract class Entity extends GameObject implements EntityInterface {
 		events = new ArrayList<Event>();
 		this.name = name;
 		this.imagePath = imagePath;
+		addParam(new Parameter("Time Step", Double.class, 0));
 	} 
 
 	/**

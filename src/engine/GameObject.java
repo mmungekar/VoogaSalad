@@ -1,5 +1,6 @@
 package engine;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -9,6 +10,7 @@ public abstract class GameObject {
 
 	public GameObject(String name) {
 		resources = ResourceBundle.getBundle("resources/" + name);
+		params = new ArrayList<Parameter>();
 	}
 
 	public String getDisplayName() {
@@ -22,7 +24,9 @@ public abstract class GameObject {
 	public List<Parameter> getParams() {
 		return params;
 	}
-
+	public void addParam(Parameter param){
+		params.add(param);
+	}
 	public void setParams(List<Parameter> params) {
 		this.params = params;
 	}
@@ -30,7 +34,7 @@ public abstract class GameObject {
 	public Object getParam(String name){
 		for (Parameter param: params){
 			if (param.getName().equals(name))
-				return param;
+				return param.getObject();
 		}
 		return null;
 	}
