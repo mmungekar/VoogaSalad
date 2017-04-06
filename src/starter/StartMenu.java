@@ -1,5 +1,6 @@
 package starter;
 
+import java.io.File;
 import java.util.ResourceBundle;
 
 import authoring.AuthoringEnvironment;
@@ -13,6 +14,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import player.PlayerMenu;
 
 public class StartMenu extends BorderPane {
@@ -70,6 +73,11 @@ public class StartMenu extends BorderPane {
 	
 	private void chooseGame() {
 		//TODO: make file chooser
+		FileChooser chooser = new FileChooser();
+		chooser.setTitle(resources.getString("ChooserTitle"));
+		chooser.setInitialDirectory(new File(System.getProperty("user.dir")+resources.getString("DefaultDirectory")));
+		chooser.getExtensionFilters().setAll(new ExtensionFilter(resources.getString("ChooserFilter"), resources.getString("chooserExtension")));
+
 	}
 	
 	private void editGame() {
