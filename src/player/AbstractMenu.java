@@ -23,6 +23,7 @@ public abstract class AbstractMenu implements Menu{
 				new Image(getClass().getClassLoader().getResourceAsStream(getResources().getString("BackPath"))));
 		
 		back = new Button("Back", image);
+		getRoot().setBottom(backButton());
 	}
 	
 	protected BorderPane getRoot(){

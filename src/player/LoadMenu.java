@@ -2,9 +2,9 @@ package player;
 
 import javafx.stage.Stage;
 
-public class InfoMenu extends AbstractMenu{
-
-	public InfoMenu(Stage stage){
+public class LoadMenu extends AbstractMenu{
+	
+	public LoadMenu(Stage stage){
 		backButton().setOnAction(e -> back(stage));
 	}
 

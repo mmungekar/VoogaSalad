@@ -42,9 +42,9 @@ public class PlayerMenu {
 	private void setupScene(){
 		Factory factory = new Factory(resources);
 		VBox menu = new VBox(8);
-		menu.getChildren().addAll(factory.makeButton("StartButton", e -> new Player(), true),
-				factory.makeButton("AchievementsButton", e -> stage.setScene(new AchievementsMenu().display()), true),
-				factory.makeButton("OptionsButton", e -> stage.setScene(new OptionsMenu().display()), true),
+		menu.getChildren().addAll(factory.makeButton("StartButton", e -> stage.setScene(new LoadMenu(stage).display()), true),
+				factory.makeButton("AchievementsButton", e -> stage.setScene(new AchievementsMenu(stage).display()), true),
+				factory.makeButton("OptionsButton", e -> stage.setScene(new OptionsMenu(stage).display()), true),
 				factory.makeButton("InfoButton", e -> stage.setScene(new InfoMenu(stage).display()), true),
 				factory.makeButton("ExitButton", e -> stage.close(), true));
 		
