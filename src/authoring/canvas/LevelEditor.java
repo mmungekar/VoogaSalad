@@ -28,7 +28,7 @@ public class LevelEditor extends TabPane
 		this.getTabs().add(makePlusTab());
 	}
 
-	public Tab newTab()
+	private Tab newTab()
 	{
 		Tab tab = new Tab();
 		tab.setText("untitled");

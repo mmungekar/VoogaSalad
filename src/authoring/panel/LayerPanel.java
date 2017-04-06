@@ -17,7 +17,11 @@ import javafx.scene.control.Tab;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-
+/**
+ * 
+ * @author Mina
+ *
+ */
 public class LayerPanel extends View {
 	private Workspace workspace;
 	private VBox editorContainer;
@@ -28,12 +32,13 @@ public class LayerPanel extends View {
 		super(workspace.getResources().getString("LayerPanelTitle"));
 		this.workspace = workspace;
 		myBox = new ComboBox();
-		editorContainer = new VBox();
 		configureEditing();
 	
 	}
 	
 	private void configureEditing(){
+		editorContainer = new VBox();
+		editorContainer.setSpacing(Integer.parseInt(workspace.getResources().getString("SettingsSpacing")));
 		Button addLayerButton = new ActionButton("Add Layer", event ->workspace.addLayer());
 		myBox.setPromptText(workspace.getResources().getString("LayerBoxPrompt"));
 		Slider velocitySlider = new Slider(){{
@@ -45,6 +50,10 @@ public class LayerPanel extends View {
 		editorContainer.getChildren().addAll(addLayerButton,myBox,velocitySlider,velocityButton);
 		setCenter(editorContainer);
 	}
+	
+	public void updateBox(String newLayer) {
+        myBox.getItems().add(newLayer);
+    }
 	
 
 }
