@@ -12,8 +12,8 @@ import engine.game.eventobserver.TimerObservable;
 import engine.graphics.GraphicsEngine;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
 /**
@@ -98,7 +98,7 @@ public class GameLoop {
 		timeline.play();
 	}
 
-	public Group getGameView() {
+	public Pane getGameView() {
 		GraphicsEngine graphics = new GraphicsEngine();
 		graphics.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
 		
