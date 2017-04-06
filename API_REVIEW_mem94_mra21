@@ -1,0 +1,4 @@
+* Miguel and I discussed the front-end parts of both our projects. While his team is implementing a tower defense game, mine is a scrolling platformer, introducing some 
+concrete differences between the two. One point of discussion was of the level of integration necessary between the two parts of the front-end, the Game Player, and the 
+Game Authoring Environment. The two have to share the same user interface basics, meaning that there will need to be some information shared between the two.
+Furthermore, if the game needs to be editable while being played, the game authoring environment and game player cannot be too separate from one another.
