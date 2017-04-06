@@ -16,6 +16,11 @@ public abstract class Entity extends GameObject implements EntityInterface {
 
 	public Entity(String name, String imagePath) {
 		super("Entity");
+		x = new SimpleDoubleProperty();
+		y = new SimpleDoubleProperty();
+		width = new SimpleDoubleProperty();
+		height = new SimpleDoubleProperty();
+		zIndex = new SimpleDoubleProperty();
 		events = new ArrayList<Event>();
 		this.name = name;
 		this.imagePath = imagePath;

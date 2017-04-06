@@ -25,10 +25,21 @@ public class EntityConverter implements Converter {
 		writer.startNode("EntityType");
 		writer.setValue(entity.getDisplayName());
 		writer.endNode();
+		
 		Class<?> objClass = entity.getClass();
-
 		Field[] fields = objClass.getDeclaredFields();
+		writeFields(entity, fields, writer, context);
+		
+		objClass = objClass.getSuperclass();
+		fields = objClass.getDeclaredFields();
+		writeFields(entity, fields, writer, context);
+		
+		writer.close();
+	}
+
+	private void writeFields(Object entity, Field[] fields, HierarchicalStreamWriter writer, MarshallingContext context){
 		for (Field field : fields) {
+			field.setAccessible(true);
 			String name = field.getName();
 			Object value = null;
 			try {
@@ -43,16 +54,16 @@ public class EntityConverter implements Converter {
 				writer.endNode();
 			}
 		}
-		writer.close();
 	}
-
 	@Override
 	public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
 		EngineController controller = new EngineController();
 		reader.moveDown();
 		Entity entity = controller.createEntity(reader.getValue());
+		reader.moveUp();
 		reader.moveDown();
-
+		
+/*
 		while (reader.hasMoreChildren()) {
 			Field field = null;
 			try {
@@ -61,6 +72,7 @@ public class EntityConverter implements Converter {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			field.setAccessible(true);
 			Object value;
 			if (field.getType().equals(SimpleDoubleProperty.class))
 				value = new SimpleDoubleProperty(Double.parseDouble(reader.getValue()));
@@ -72,7 +84,10 @@ public class EntityConverter implements Converter {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
+			reader.
+		}*/
+		
+		
 		return entity;
 	}
 
