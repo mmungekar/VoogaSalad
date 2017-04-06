@@ -39,6 +39,8 @@ public class EntityConverter implements Converter {
 
 	private void writeFields(Object entity, Field[] fields, HierarchicalStreamWriter writer, MarshallingContext context){
 		for (Field field : fields) {
+			if (java.lang.reflect.Modifier.isStatic(field.getModifiers()))
+				continue;
 			field.setAccessible(true);
 			String name = field.getName();
 			Object value = null;
@@ -61,21 +63,30 @@ public class EntityConverter implements Converter {
 		reader.moveDown();
 		Entity entity = controller.createEntity(reader.getValue());
 		reader.moveUp();
-		reader.moveDown();
-		
-/*
+	
 		while (reader.hasMoreChildren()) {
+			reader.moveDown();
 			Field field = null;
 			try {
-				field = entity.getClass().getField(reader.getNodeName());
+				field = entity.getClass().getDeclaredField(reader.getNodeName());
 			} catch (NoSuchFieldException | SecurityException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				try{
+				field = entity.getClass().getSuperclass().getDeclaredField(reader.getNodeName());
+				}
+				catch (Exception e1){
+					//e1.printStackTrace();
+				}
+				//e.printStackTrace();
 			}
+			if (field == null)
+				break;
 			field.setAccessible(true);
 			Object value;
+			System.out.println("Value: " + reader.getValue());
 			if (field.getType().equals(SimpleDoubleProperty.class))
-				value = new SimpleDoubleProperty(Double.parseDouble(reader.getValue()));
+				value = (SimpleDoubleProperty)context.convertAnother(entity, SimpleDoubleProperty.class);
+				//value = new SimpleDoubleProperty(Double.parseDouble(reader.getValue()));
+			
 			else
 				value = context.convertAnother(entity, field.getType());
 			try {
@@ -84,8 +95,8 @@ public class EntityConverter implements Converter {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			reader.
-		}*/
+			reader.moveUp();
+		}
 		
 		
 		return entity;

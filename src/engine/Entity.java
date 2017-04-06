@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 import javafx.beans.property.SimpleDoubleProperty;
 
 public abstract class Entity extends GameObject implements EntityInterface {
-
-	public static final int ACCELERATION = -10;
+	
+	public static final Integer ACCELERATION = -10;
 	private SimpleDoubleProperty x, y, width, height, zIndex;
 	private double xSpeed, ySpeed, xAcceleration, yAcceleration;
 	private List<Event> events;
