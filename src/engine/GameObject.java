@@ -1,15 +1,19 @@
 package engine;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public abstract class GameObject {
 	private ResourceBundle resources;
-	private Map<String, Object> params;
+	private List<Parameter> params;
+	private Entity entity;
 
-	public GameObject(String name){
-		resources = ResourceBundle.getBundle("resources/" + name + "s");
+	public GameObject(String name) {
+		resources = ResourceBundle.getBundle("resources/" + name);
+		params = new ArrayList<Parameter>();
 	}
+
 	public String getDisplayName() {
 		return resources.getString(getClass().getSimpleName().toString());
 	}
@@ -17,11 +21,30 @@ public abstract class GameObject {
 	public String getDisplayDescription() {
 		return resources.getString(getClass().getSimpleName() + "Description");
 	}
-	public Map<String, Object> getParams() {
+
+	public List<Parameter> getParams() {
 		return params;
 	}
-
-	public void setParams(Map<String, Object> params) {
+	public void addParam(Parameter param){
+		params.add(param);
+	}
+	public void setParams(List<Parameter> params) {
 		this.params = params;
+	}
+	
+	public Object getParam(String name){
+		for (Parameter param: params){
+			if (param.getName().equals(name))
+				return param.getObject();
+		}
+		return null;
+	}
+	
+	public void setEntity(Entity entity){
+		this.entity = entity;
+	}
+	
+	public Entity getEntity(){
+		return entity;
 	}
 }

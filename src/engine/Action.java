@@ -1,11 +1,11 @@
 package engine;
 
 public abstract class Action extends GameObject implements ActionInterface {
-
 	public Action() {
-		super("Acion");
+		super("Action");
 	}
 
 	@Override
 	public abstract void act();
+	
 }

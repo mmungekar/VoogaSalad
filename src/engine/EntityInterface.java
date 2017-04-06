@@ -2,13 +2,13 @@ package engine;
 
 import java.util.List;
 
-public interface EntityInterface
-{
+public interface EntityInterface {
 	// external
-	void setEvent(EventInterface event);
+	void addEvent(Event event);
 
 	// internal
 	void update();
+
 	List<Event> getEvents();
 
 	void setYAcceleration(double accel);
@@ -22,14 +22,18 @@ public interface EntityInterface
 	void setY(double y);
 
 	void setX(double x);
-	
+
 	void setHeight(double height);
-	
+
 	void setWidth(double width);
-	
+
 	String getImagePath();
+
 	double getWidth();
+
 	double getHeight();
+
 	double getX();
+
 	double getY();
 }
