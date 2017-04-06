@@ -1,6 +1,7 @@
 package authoring.settings;
 
 import java.io.File;
+import java.util.List;
 import java.util.Scanner;
 import java.util.function.Consumer;
 
@@ -8,36 +9,52 @@ import authoring.ActionButton;
 import authoring.Workspace;
 import authoring.utils.Direction;
 import authoring.views.CollapsibleView;
+import authoring.views.View;
+import engine.Entity;
+import engine.game.Level;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-/**
- * 
- * @author Mina
- *
- */
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
-public class Settings extends CollapsibleView {
+/**
+ * The Settings sub-panel provides the user with the option of selecting his or her own background music
+ * as well as saving the entire game and sending it to the Game Data Module
+ * 
+ * @author Mina
+ *
+ */
+public class Settings extends View {
 
 	private Workspace workspace;
 	private VBox settingsContainer;
-	
-	public Settings(Workspace workspace, int index) {
-		super(workspace, workspace.getPane(), workspace.getResources().getString("SettingsTitle"), index, Direction.LEFT, true);
+
+	/**
+	 * The constructor needs a parent workspace specified. The rest of the constructor is inherited from
+	 * its superclass. The constructor immediately instantiates all the buttons necessary.
+	 * @param workspace
+	 */
+	public Settings(Workspace workspace) {
+		super(workspace.getResources().getString("SettingsTitle"));
 		this.workspace = workspace;
 		configureSettings();
 	}
 	
 	private void dummyMethod(){
-		int i = 0;
+		/*Level level = new Level();
+		for (Object object: workspace.getEntities()){
+			level.addEntity((Entity)object);
+		}
+		Insert code to send to game data*/
+		
 	}
 	
-	private void chooseFile(Consumer<File> r)
-	{
+	private void chooseFile(Consumer<File> r){
 		FileChooser fileChooser = new FileChooser();
 				File file = fileChooser.showOpenDialog(new Stage());
 				if (file != null){
@@ -47,14 +64,14 @@ public class Settings extends CollapsibleView {
 	
 	private void configureSettings(){
 		settingsContainer = new VBox();
-		settingsContainer.setSpacing(30);
-		Button selectMusic = new ActionButton("Select Background Music", event->chooseFile((File f) ->{
+		settingsContainer.setSpacing(Integer.parseInt(workspace.getResources().getString("SettingsSpacing")));
+		Button selectMusic = new ActionButton(workspace.getResources().getString("MusicSelect"), event->chooseFile((File f) ->{
 			Scanner scan;
 		}));
-		CheckBox hScrolling = new CheckBox("Horizontal Scrolling");
-		CheckBox vScrolling= new CheckBox("Vertical Scrolling");
-		Button saveButton = new ActionButton("Save", event->dummyMethod());
-		settingsContainer.getChildren().addAll(selectMusic,hScrolling,vScrolling,saveButton);
+	//	CheckBox hScrolling = new CheckBox("Horizontal Scrolling");
+	//	CheckBox vScrolling= new CheckBox("Vertical Scrolling");
+		Button saveButton = new ActionButton(workspace.getResources().getString("SaveButtonSettings"), event->dummyMethod());
+		settingsContainer.getChildren().addAll(selectMusic,saveButton);
 		setCenter(settingsContainer);
 	}
 

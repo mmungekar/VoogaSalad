@@ -2,7 +2,6 @@ package engine.game;
 
 import engine.game.selectiongroup.ListSG;
 import engine.game.selectiongroup.SelectionGroup;
-import game_data.GameDataExternalAPI;
 
 /**
  * Holds all the levels in the current game and allows for game-wide behavior.
@@ -95,11 +94,12 @@ public class LevelManager {
 		//GameDataExternalAPI gameData = new GameDataExternalAPI();
 		//levels = gameData.loadGame(filename); //TODO tell Game Data people to change this to return SelectionGroup<Level> (or List<Level>, in which case I need to convert to the Selection Group here)
 		levels.add(new Level());
-		System.out.println("Loaded a single sample level");
+		System.out.println("Loaded the current level");
 	}
 
 	public void startCurrentLevel() {
 		getCurrentLevel().start();
+		
 	}
 
 }

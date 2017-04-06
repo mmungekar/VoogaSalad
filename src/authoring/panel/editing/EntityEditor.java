@@ -4,15 +4,13 @@
 package authoring.panel.editing;
 
 import authoring.Workspace;
-import authoring.panel.Entity;
+import authoring.panel.ConcreteEntity;
+import authoring.panel.display.EntityDisplay;
+import authoring.utils.EntityWrapper;
 import authoring.views.ConcreteView;
 import authoring.views.View;
-import javafx.geometry.Orientation;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Separator;
 import javafx.scene.control.SplitPane;
-import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -23,10 +21,11 @@ import javafx.stage.Stage;
 public class EntityEditor {
 	
 	private Workspace workspace;
+	private EntityDisplay display;
 	private Stage stage;
 	private View view;
 	private SplitPane pane;
-	private Entity entity;
+	private EntityWrapper entity;
 	private EntityInfo entityInfo;
 	private EntityPicker entityPicker;
 	private EventPicker eventPicker;
@@ -35,22 +34,19 @@ public class EntityEditor {
 	/**
 	 * 
 	 */
-	public EntityEditor(Workspace workspace, Entity entity) {
+	public EntityEditor(Workspace workspace, EntityDisplay display, EntityWrapper entity) {
 		this.workspace = workspace;
+		this.display = display;
 		this.entity = entity;
 		if (this.entity == null) {
-			this.entity = new Entity("Mario", "resources/images/Mario.png");
+			this.entity = new EntityWrapper(new ConcreteEntity("Mario", "resources/images/Mario.png"));
 		}
 		setupView();
 		setupStage();
 	}
 	
-	protected Entity getEntity() {
+	protected EntityWrapper getEntity() {
 		return entity;
-	}
-	
-	protected void setEntity(Entity entity) {
-		this.entity = entity;
 	}
 	
 	private void setupView() {
@@ -59,8 +55,8 @@ public class EntityEditor {
 		entityPicker = new EntityPicker(workspace, this);
 		eventPicker = new EventPicker(workspace, this);
 		actionPicker = new ActionPicker(workspace, this);
-		pane = new SplitPane(entityInfo, entityPicker, eventPicker, actionPicker);
-		pane.setDividerPositions(0.25, 0.5, 0.75);
+		pane = new SplitPane(entityInfo/*, entityPicker,*/, eventPicker, actionPicker);
+		pane.setDividerPositions(0.33, 0.66);
 		view.setCenter(pane);
 	}
 	
@@ -75,13 +71,23 @@ public class EntityEditor {
 	}
 	
 	private Scene createScene() {
-		Scene scene = new Scene(view, 900, 300);
+		Scene scene = new Scene(view, 650, 300);
 		scene.getStylesheets().add(workspace.getResources().getString("StylesheetPath"));
 		return scene;
 	}
 	
 	protected void dismiss() {
 		stage.close();
+	}
+	
+	protected void save() {
+		entity.getName().set(entityInfo.getName());
+		entity.getImagePath().set(entityInfo.getImagePath());
+		// add events and actions
+		// error checking
+		// save with game data
+		display.addEntity(entity);
+		dismiss();
 	}
 	
 }

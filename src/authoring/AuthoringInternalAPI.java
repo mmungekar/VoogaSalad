@@ -2,9 +2,9 @@ package authoring;
 
 import java.util.List;
 
-import engine.Action;
-import engine.Entity;
-import engine.Event;
+import engine.ActionInterface;
+import engine.EntityInterface;
+import engine.EventInterface;
 import javafx.scene.Node;
 
 /**
@@ -37,7 +37,7 @@ public interface AuthoringInternalAPI
 	 *            the name of the Entity to be created
 	 * @return an Entity
 	 */
-	public Entity createEntity(String entityName);
+	public EntityInterface createEntity(String entityName);
 
 	/**
 	 * Creates an Entity from its name using reflection.
@@ -48,7 +48,7 @@ public interface AuthoringInternalAPI
 	 *            the layer to which the Entity will be added.
 	 * @return an Entity.
 	 */
-	public Entity createEntity(String entityName, int layer);
+	public EntityInterface createEntity(String entityName, int layer);
 
 	/**
 	 * Creates an Event from its name using reflection.
@@ -57,7 +57,7 @@ public interface AuthoringInternalAPI
 	 *            the name of the Event to be created.
 	 * @return an Event.
 	 */
-	public Event createEvent(String eventName);
+	public EventInterface createEvent(String eventName);
 
 	/**
 	 * Creates an Action from its name using reflection.
@@ -66,7 +66,7 @@ public interface AuthoringInternalAPI
 	 *            the name of the Action to be created.
 	 * @return an Action.
 	 */
-	public Action createAction(String actionName);
+	public ActionInterface createAction(String actionName);
 
 	/**
 	 * Adds an Event to an Entity.
@@ -76,7 +76,7 @@ public interface AuthoringInternalAPI
 	 * @param event
 	 *            the Event to add to the Entity.
 	 */
-	public void addEventToEntity(Entity entity, Event event);
+	public void addEventToEntity(EntityInterface entity, EventInterface event);
 
 	/**
 	 * Adds an Action to an Event.
@@ -86,7 +86,7 @@ public interface AuthoringInternalAPI
 	 * @param action
 	 *            the Action to be added to the Event.
 	 */
-	public void addActionToEvent(Event event, Action action);
+	public void addActionToEvent(EventInterface event, ActionInterface action);
 
 	/**
 	 * Returns a List of Entities added to one specific level by the user.
@@ -94,7 +94,7 @@ public interface AuthoringInternalAPI
 	 * @param level
 	 *            the number of the level to be considered.
 	 */
-	public List<Entity> getEntitiesForLevel(int level);
+	public List<EntityInterface> getEntitiesForLevel(int level);
 
 	/**
 	 * Edit a specific Entity.
@@ -102,7 +102,7 @@ public interface AuthoringInternalAPI
 	 * @param entity
 	 *            the Entity to be edited.
 	 */
-	public void editEntity(Entity entity);
+	public void editEntity(EntityInterface entity);
 
 	/**
 	 * Edit a specific Event.
@@ -110,7 +110,7 @@ public interface AuthoringInternalAPI
 	 * @param event
 	 *            the Event to be edited.
 	 */
-	public void editEvent(Event event);
+	public void editEvent(EventInterface event);
 
 	/**
 	 * Edit a specific Action.
@@ -118,7 +118,7 @@ public interface AuthoringInternalAPI
 	 * @param action
 	 *            the Action to be edited.
 	 */
-	public void editAction(Action action);
+	public void editAction(ActionInterface action);
 
 	/**
 	 * Create a new Level when requested by the user. Display a new tab in which
@@ -157,7 +157,7 @@ public interface AuthoringInternalAPI
 	 * 
 	 * @return the currently selected Entity.
 	 */
-	public Entity getSelectedEntity();
+	public EntityInterface getSelectedEntity();
 
 	/**
 	 * Let the user pick game-wide song. Implemented using a FileChooser. The

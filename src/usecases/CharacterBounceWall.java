@@ -4,9 +4,9 @@
 package usecases;
 
 import authoring.AuthoringInternalAPI;
-import engine.Action;
-import engine.Entity;
-import engine.Event;
+import engine.ActionInterface;
+import engine.EntityInterface;
+import engine.EventInterface;
 
 /**
  * @author Elliott Bolzan
@@ -29,18 +29,18 @@ public class CharacterBounceWall
 	public CharacterBounceWall(AuthoringInternalAPI authoring)
 	{
 		// Create two Actions that represent destruction and bouncing.
-		Action destroyAction = authoring.createAction("Destroy");
-		Action bounceAction = authoring.createAction("Bounce");
+		ActionInterface destroyAction = authoring.createAction("Destroy");
+		ActionInterface bounceAction = authoring.createAction("Bounce");
 		// Create two Events that represent collision.
-		Event wallCollision = authoring.createEvent("Collision");
-		Event characterCollision = authoring.createEvent("Collision");
+		EventInterface wallCollision = authoring.createEvent("Collision");
+		EventInterface characterCollision = authoring.createEvent("Collision");
 		// Add each Action to an Event.
 		authoring.addActionToEvent(wallCollision, destroyAction);
 		authoring.addActionToEvent(characterCollision, bounceAction);
 		// Create two Entities: a character, and a wall for the character to
 		// bounce off of.
-		Entity character = authoring.createEntity("Character");
-		Entity wall = authoring.createEntity("Wall");
+		EntityInterface character = authoring.createEntity("Character");
+		EntityInterface wall = authoring.createEntity("Wall");
 		// Add the Events to their respective Entity: the character will bounce
 		// off the block, which will be destroyed when it is hit by the
 		// Character.

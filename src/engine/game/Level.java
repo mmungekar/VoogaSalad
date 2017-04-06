@@ -5,7 +5,9 @@ import java.util.Collection;
 import java.util.List;
 
 import engine.Entity;
+import engine.LevelInterface;
 import engine.game.selectiongroup.Selectable;
+import engine.game.timer.TimerManager;
 
 /**
  * Manages a single Level. Most critically, contains a List (or possibly another variety of Collection) of Entities
@@ -13,11 +15,13 @@ import engine.game.selectiongroup.Selectable;
  * @author Matthew Barbano
  *
  */
-public class Level implements Selectable{
+public class Level implements LevelInterface, Selectable{
 	private List<Entity> entities;
+	private TimerManager timerManager;
 	
 	public Level(){
 		entities = new ArrayList<>();
+		timerManager = new TimerManager(10, false); //TODO figure out how to get "60" from Authoring
 	}
 	
 	/**
@@ -79,5 +83,9 @@ public class Level implements Selectable{
 	
 	private void setToInitialConditions(){
 		System.out.println("Setting to initial conditions");  //For testing
+	}
+	
+	public TimerManager getTimerManager(){
+		return timerManager;
 	}
 }

@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import authoring.Workspace;
+import authoring.panel.chat.Chat;
+import authoring.panel.display.EntityDisplay;
+import authoring.settings.Settings;
 import authoring.utils.Direction;
-import authoring.utils.Factory;
+import authoring.utils.ComponentMaker;
 import authoring.views.CollapsibleView;
 import authoring.views.View;
 
@@ -13,6 +16,9 @@ public class Panel extends CollapsibleView {
 
 	private Workspace workspace;
 	private List<View> subviews;
+	private EntityDisplay entityDisplay;
+	private Settings settingsPanel;
+	private LayerPanel layerPanel;
 
 	/**
 	 * Returns a Panel.
@@ -24,9 +30,12 @@ public class Panel extends CollapsibleView {
 	 *            SplitPane that owns it.
 	 */
 	public Panel(Workspace workspace, int index) {
-		super(workspace, workspace.getPane(), workspace.getResources().getString("PanelTitle"), index, Direction.RIGHT,
+		super(workspace, workspace.getPane(), workspace.getResources().getString("PanelTitle"), index, Direction.LEFT,
 				true);
 		this.workspace = workspace;
+		entityDisplay = new EntityDisplay(workspace);
+		settingsPanel = new Settings(workspace);
+		layerPanel = new LayerPanel(workspace);
 		createSubviews();
 		setup();
 	}
@@ -36,21 +45,27 @@ public class Panel extends CollapsibleView {
 	 * Accordion.
 	 */
 	private void createSubviews() {
-		subviews = new ArrayList<View>() {
-			private static final long serialVersionUID = 1L;
-			{
-				add(new EntityDisplay(workspace));
-				add(new Chat(workspace));
-			}
-		};
+		subviews = new ArrayList<View>();
+		subviews.add(entityDisplay);
+		subviews.add(new Chat(workspace));
+		subviews.add(layerPanel);
+		subviews.add(settingsPanel);
 	}
 
 	/**
 	 * Create the Accordion and add it to the view.
 	 */
 	private void setup() {
-		Factory factory = new Factory(workspace.getResources());
-		setCenter(factory.makeAccordion(subviews));
+		ComponentMaker componentMaker = new ComponentMaker(workspace.getResources());
+		setCenter(componentMaker.makeAccordion(subviews));
+	}
+	
+	public EntityDisplay getEntityDisplay() {
+		return entityDisplay;
+	}
+	
+	public void updateLayerPanel(String newLayer){
+		layerPanel.updateBox(newLayer);
 	}
 
 }
