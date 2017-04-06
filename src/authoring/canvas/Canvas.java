@@ -39,6 +39,7 @@ public class Canvas extends View
 
 	private Group gridNodes;
 	private ScrollPane scrollScreen;
+	// private Map<Node, Region> entityRegions;
 	private List<Node> entities;
 	private Pane layer;
 	private double width;
@@ -54,6 +55,7 @@ public class Canvas extends View
 	private void setup()
 	{
 		gridNodes = new Group();
+		// entityRegions = new HashMap<Node, Region>();
 		entities = new ArrayList<Node>();
 		scrollScreen = createLayer();
 		this.setCenter(scrollScreen);
@@ -85,11 +87,26 @@ public class Canvas extends View
 		entity.setTranslateX(tiledCoordinate.getX());
 		entity.setTranslateY(tiledCoordinate.getY());
 		entities.add(entity);
+		// addEntityRegion(entity);
 		layer.getChildren().add(entity);
 		entity.setCursor(Cursor.CLOSED_HAND);
 		makeDraggable(entity);
 		updateLayerBounds();
 	}
+
+	// public void addEntityRegion(Node entity)
+	// {
+	// Region entityRegion = new Region();
+	// entityRegion.setBorder(
+	// new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null,
+	// new BorderWidths(3))));
+	// entityRegion.setPrefHeight(entity.getBoundsInLocal().getHeight());
+	// entityRegion.setPrefWidth(entity.getBoundsInLocal().getWidth());
+	// DragResizer.makeResizable(entityRegion);
+	// entityRegions.put(entity, entityRegion);
+	// layer.getChildren().add(entityRegion);
+	//
+	// }
 
 	private void drawGrid()
 	{

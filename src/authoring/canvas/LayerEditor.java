@@ -14,6 +14,8 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -57,13 +59,25 @@ public class LayerEditor extends TabPane
 	{
 		canvas.setOnMouseClicked(e -> {
 			if (e.isShiftDown()) {
-				Rectangle rect = new Rectangle();
-				rect.setWidth(100);
-				rect.setHeight(100);
-				rect.setFill(Color.BLUE);
-				addEntity(rect, e.getX(), e.getY());
+				Node entity = new ImageView(new Image(workspace.getSelectedEntity().getEntity().getImagePath()));
+				addEntity(entity, e.getX(), e.getY());
 			}
 		});
+		// canvas.setOnMouseMoved(e -> {
+		// Node entity = new ImageView(new
+		// Image(workspace.getSelectedEntity().getEntity().getImagePath()));
+		// if (e.isShiftDown()) {
+		// entity.setTranslateX(e.getX() - entity.getBoundsInLocal().getWidth()
+		// / 2);
+		// entity.setTranslateY(e.getY() - entity.getBoundsInLocal().getHeight()
+		// / 2);
+		// getChildren().add(entity);
+		// }
+		// onMouseMovedProperty().addListener(e2 -> {
+		// System.out.print("HI");
+		// getChildren().remove(entity);
+		// });
+		// });
 	}
 
 	private void addEntity(Node entity, double x, double y)
@@ -77,7 +91,9 @@ public class LayerEditor extends TabPane
 		Tab tab = new Tab();
 		tab.setGraphic(makeTabLabel(String.format("Layer %d", this.getTabs().size())));
 		layerEntities.put(tab, new ArrayList<Node>());
-		// tab.setContent(canvas);
+		// TODO: Change tab closing policy so that you can't delete a layer
+		// unless all entities within it
+		// have been deleted.
 		this.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>()
 		{
 
