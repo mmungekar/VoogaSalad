@@ -10,6 +10,7 @@ import engine.game.eventobserver.CollisionObservable;
 import engine.game.eventobserver.InputObservable;
 import engine.game.eventobserver.TimerObservable;
 import engine.graphics.GraphicsEngine;
+import engine.graphics.cameras.ScrollingCamera;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
@@ -103,10 +104,15 @@ public class GameLoop {
 	}
 	
 	private void setupGameView() {
-		graphicsEngine = new GraphicsEngine();
+		graphicsEngine = new GraphicsEngine(new ScrollingCamera(1,0));
 		graphicsEngine.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
 		//TEST
-		levelManager.getCurrentLevel().getEntities().add(new CharacterEntity("Mario", "file:" + System.getProperty("user.dir") + "/src/resources/images/mario.png"));		
+		Entity mario = new CharacterEntity("Mario", "file:" + System.getProperty("user.dir") + "/src/resources/images/mario.png");
+		mario.setX(200);
+		mario.setY(200);
+		mario.setWidth(100);
+		mario.setHeight(100);
+		levelManager.getCurrentLevel().getEntities().add(mario);		
 	}
 
 	public Pane getGameView() {
