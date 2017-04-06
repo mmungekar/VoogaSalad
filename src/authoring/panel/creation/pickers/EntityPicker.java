@@ -1,4 +1,4 @@
-package authoring.panel.editing;
+package authoring.panel.creation.pickers;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import authoring.Workspace;
+import authoring.panel.creation.editors.EntityEditor;
 import authoring.utils.ClassFinder;
 import authoring.views.View;
 import engine.Entity;

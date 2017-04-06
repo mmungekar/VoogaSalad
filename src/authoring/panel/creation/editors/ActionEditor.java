@@ -1,12 +1,15 @@
 /**
  * 
  */
-package authoring.panel.editing;
+package authoring.panel.creation.editors;
 
+import java.util.List;
 import java.util.Map;
 
 import authoring.Workspace;
+import authoring.panel.creation.pickers.ActionPicker;
 import engine.Action;
+import engine.Parameter;
 import engine.game.EngineController;
 
 /**
@@ -42,7 +45,7 @@ public class ActionEditor extends Editor {
 	}
 
 	@Override
-	public void save(Map<String, Object> data) {
+	public void save(List<Parameter> data) {
 		action.setParams(data);
 	}
 

@@ -1,12 +1,14 @@
 /**
  * 
  */
-package authoring.panel.editing;
+package authoring.panel.creation.pickers;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import authoring.Workspace;
+import authoring.panel.creation.editors.ActionEditor;
+import authoring.panel.creation.editors.EntityEditor;
 import authoring.utils.ComponentMaker;
 import authoring.views.View;
 import engine.Action;

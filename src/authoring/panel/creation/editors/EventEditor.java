@@ -1,13 +1,16 @@
 /**
  * 
  */
-package authoring.panel.editing;
+package authoring.panel.creation.editors;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import authoring.Workspace;
+import authoring.panel.creation.pickers.EventPicker;
 import engine.Event;
+import engine.Parameter;
 import engine.game.EngineController;
 
 /**
@@ -41,11 +44,11 @@ public class EventEditor extends Editor {
 		event = engine.createEvent(string);
 		editor.update(event.getParams());
 	}
-	
+
 	@Override
-	public void save(Map<String, Object> data) {
-		//event.setParams(data);
-		eventPicker.addEvent(event);
+	public void save(List<Parameter> data) {
+		event.setParams(data);
+		eventPicker.addEvent(event);		
 	}
 
 }

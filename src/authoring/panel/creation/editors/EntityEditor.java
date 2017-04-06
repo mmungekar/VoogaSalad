@@ -1,10 +1,14 @@
 /**
  * 
  */
-package authoring.panel.editing;
+package authoring.panel.creation.editors;
 
 import authoring.Workspace;
 import authoring.panel.ConcreteEntity;
+import authoring.panel.creation.EntityInfo;
+import authoring.panel.creation.pickers.ActionPicker;
+import authoring.panel.creation.pickers.EntityPicker;
+import authoring.panel.creation.pickers.EventPicker;
 import authoring.panel.display.EntityDisplay;
 import authoring.utils.EntityWrapper;
 import authoring.views.ConcreteView;
@@ -45,7 +49,7 @@ public class EntityEditor {
 		setupStage();
 	}
 	
-	protected EntityWrapper getEntity() {
+	public EntityWrapper getEntity() {
 		return entity;
 	}
 	
@@ -76,11 +80,11 @@ public class EntityEditor {
 		return scene;
 	}
 	
-	protected void dismiss() {
+	public void dismiss() {
 		stage.close();
 	}
 	
-	protected void save() {
+	public void save() {
 		entity.getName().set(entityInfo.getName());
 		entity.getImagePath().set(entityInfo.getImagePath());
 		// add events and actions

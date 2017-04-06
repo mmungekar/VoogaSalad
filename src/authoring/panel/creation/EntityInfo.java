@@ -1,11 +1,12 @@
 /**
  * 
  */
-package authoring.panel.editing;
+package authoring.panel.creation;
 
 import java.io.File;
 
 import authoring.Workspace;
+import authoring.panel.creation.editors.EntityEditor;
 import authoring.utils.ComponentMaker;
 import authoring.utils.Thumbnail;
 import authoring.views.View;
@@ -82,11 +83,11 @@ public class EntityInfo extends View {
 		}
 	}
 
-	protected String getName() {
+	public String getName() {
 		return nameField.getText();
 	}
 
-	protected String getImagePath() {
+	public String getImagePath() {
 		return thumbnail.getImagePath();
 	}
 

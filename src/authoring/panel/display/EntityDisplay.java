@@ -2,7 +2,7 @@ package authoring.panel.display;
 
 import authoring.Workspace;
 import authoring.panel.CreatedEntities;
-import authoring.panel.editing.EntityEditor;
+import authoring.panel.creation.editors.EntityEditor;
 import authoring.utils.ComponentMaker;
 import authoring.utils.EntityWrapper;
 import authoring.utils.Thumbnail;
