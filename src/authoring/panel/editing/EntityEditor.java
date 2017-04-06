@@ -5,8 +5,8 @@ package authoring.panel.editing;
 
 import authoring.Workspace;
 import authoring.panel.ConcreteEntity;
-import authoring.panel.EntityDisplay;
-import authoring.panel.EntityWrapper;
+import authoring.panel.display.EntityDisplay;
+import authoring.utils.EntityWrapper;
 import authoring.views.ConcreteView;
 import authoring.views.View;
 import javafx.scene.Scene;
@@ -55,8 +55,8 @@ public class EntityEditor {
 		entityPicker = new EntityPicker(workspace, this);
 		eventPicker = new EventPicker(workspace, this);
 		actionPicker = new ActionPicker(workspace, this);
-		pane = new SplitPane(entityInfo, entityPicker, eventPicker, actionPicker);
-		pane.setDividerPositions(0.25, 0.5, 0.75);
+		pane = new SplitPane(entityInfo/*, entityPicker,*/, eventPicker, actionPicker);
+		pane.setDividerPositions(0.33, 0.66);
 		view.setCenter(pane);
 	}
 	
@@ -71,7 +71,7 @@ public class EntityEditor {
 	}
 	
 	private Scene createScene() {
-		Scene scene = new Scene(view, 900, 300);
+		Scene scene = new Scene(view, 650, 300);
 		scene.getStylesheets().add(workspace.getResources().getString("StylesheetPath"));
 		return scene;
 	}

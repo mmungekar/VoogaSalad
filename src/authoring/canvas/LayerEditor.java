@@ -42,7 +42,7 @@ public class LayerEditor extends TabPane
 		canvas = new Canvas(workspace);
 		layerEntities = new HashMap<Tab, List<Node>>();
 		clickToAddEntity();
-		this.getTabs().add(makePlusTab());
+		this.getTabs().add(newTab());
 		this.setSide(Side.RIGHT);
 		this.setRotateGraphic(true);
 		this.setTabMinHeight(100);
@@ -85,11 +85,14 @@ public class LayerEditor extends TabPane
 		canvas.addEntity(entity, x, y);
 		layerEntities.get(this.getSelectionModel().getSelectedItem()).add(entity);
 	}
+	
+	public Tab makeNewTab(){
+		return newTab();
+	}
 
-	private Tab newTab()
-	{
+	private Tab newTab(){
 		Tab tab = new Tab();
-		tab.setGraphic(makeTabLabel(String.format("Layer %d", this.getTabs().size())));
+		tab.setGraphic(makeTabLabel(String.format("Layer %d", this.getTabs().size()+1)));
 		layerEntities.put(tab, new ArrayList<Node>());
 		// TODO: Change tab closing policy so that you can't delete a layer
 		// unless all entities within it
@@ -110,7 +113,9 @@ public class LayerEditor extends TabPane
 					entity.toFront();
 					entity.setOpacity(1);
 				}
+				if(oldTab!=null){
 				oldTab.setContent(null);
+				}
 				newTab.setContent(canvas);
 			}
 		});
@@ -120,12 +125,13 @@ public class LayerEditor extends TabPane
 	private StackPane makeTabLabel(String text)
 	{
 		Label l = new Label(text);
+		workspace.setNewLayer(text);
 		l.setRotate(-90);
 		StackPane stp = new StackPane(new Group(l));
 		return stp;
 	}
 
-	private Tab makePlusTab()
+	/*private Tab makePlusTab()
 	{
 		Tab plusTab = new Tab("+");
 		plusTab.setClosable(false);
@@ -141,6 +147,6 @@ public class LayerEditor extends TabPane
 			}
 
 		});
-		return plusTab;
-	}
+	return plusTab;
+	}*/ 
 }

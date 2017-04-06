@@ -14,7 +14,7 @@ public class ConcreteEntity extends Entity {
 	}
 
 	@Override
-	public void setEvent(EventInterface event) {
+	public void addEvent(Event event) {
 		// TODO Auto-generated method stub
 
 	}

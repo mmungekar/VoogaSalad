@@ -4,37 +4,38 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
-public abstract class Event implements EventInterface {
+import engine.game.eventobserver.EventObservable;
+
+public abstract class Event extends GameObject implements EventInterface {
 	
 	private List<Action> actions;
-	private Map<String, Object> params;
+	private EventObservable observable;
 
 	public Event(){
+		super("Event");
 		actions = new ArrayList<Action>();
-		params = new HashMap<String, Object>();
 	}
-	
+
 	@Override
-	public void addAction(Action action){
+	public void addAction(Action action) {
 		actions.add(action);
 	}
 
 	@Override
-	public Map<String, Object> getParams(){
-		return params;
-	}
+	public abstract boolean act();
 
-	@Override
-	public void setParams(Map<String, Object> params){
-		this.params = params;
-	}
-
-	@Override
-	public abstract void act();
-	
-	protected void trigger(){
-		for (Action action: actions)
+	public void trigger() {
+		for (Action action : actions)
 			action.act();
+	}
+	
+	public void addEventObservable(EventObservable observable){
+		this.observable = observable;
+	}
+	
+	protected EventObservable getEventObservable(){
+		return observable;
 	}
 }

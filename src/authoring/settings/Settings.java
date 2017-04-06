@@ -1,6 +1,7 @@
 package authoring.settings;
 
 import java.io.File;
+import java.util.List;
 import java.util.Scanner;
 import java.util.function.Consumer;
 
@@ -15,6 +16,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;

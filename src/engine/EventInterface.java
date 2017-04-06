@@ -1,13 +1,16 @@
 package engine;
 
-import java.util.Map;
+import java.util.List;
 
 public interface EventInterface {
 	//external
 	void addAction(Action action);
-	Map<String, Object> getParams(); // will use reflection
-	void setParams(Map<String, Object> params); // will use reflection
+	List<Parameter> getParams(); // will use reflection
+	void setParams(List<Parameter> params); // will use reflection
+	String getDisplayName();
+	String getDisplayDescription();
 	
 	//internal
-	void act();// tell its action to act
+	boolean act();// check if event is triggered
+	void trigger();// tell all actions to act
 }

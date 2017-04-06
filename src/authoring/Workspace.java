@@ -7,14 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import authoring.canvas.LayerEditor;
 import authoring.canvas.LevelEditor;
-import authoring.panel.EntityWrapper;
 import authoring.panel.Panel;
-import authoring.utils.Factory;
+import authoring.utils.ComponentMaker;
+import authoring.utils.EntityWrapper;
 import authoring.views.View;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.Tab;
 
 /**
  * @author Elliott Bolzan Modified by Mina Mungekar, Jimmy Shackford
@@ -44,8 +46,7 @@ public class Workspace extends View {
 		panel = new Panel(this, 0);
 		levelEditor = new LevelEditor(this);
 		pane.getItems().addAll(panel, levelEditor);
-		pane.setDividerPositions(Double.parseDouble(resources.getString("DividerPositionX")),
-				Double.parseDouble(resources.getString("DividerPositionY")));
+		pane.setDividerPositions(Double.parseDouble(resources.getString("DividerPosition")));
 		setPadding(new Insets(Integer.parseInt(resources.getString("WorkSpaceInsets"))));
 		setCenter(pane);
 	}
@@ -63,13 +64,23 @@ public class Workspace extends View {
 	}
 
 	public void showMessage(String message) {
-		Factory factory = new Factory(resources);
-		factory.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message).showAndWait();
+		ComponentMaker componentMaker = new ComponentMaker(resources);
+		componentMaker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message).showAndWait();
 	}
 
 	public List getEntities() {
 		// return canvas's entities (i.e. canvas.getLevel())
 		return new ArrayList<>();
+	}
+	
+	public void setNewLayer(String newLayer){
+		panel.updateLayerPanel(newLayer);
+	}
+	
+	public void addLayer(){
+		LayerEditor layer = levelEditor.getCurrentLayer();
+		layer.getTabs().add(layer.getTabs().size() - 1, layer.makeNewTab());
+		layer.getSelectionModel().select(layer.getTabs().size() - 2);
 	}
 
 }

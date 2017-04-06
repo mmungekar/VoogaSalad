@@ -1,20 +1,25 @@
 package engine.game.eventobserver;
 
-import engine.Entity;
+import engine.game.timer.TimerManager;
 
-/**
- * Part of the Observable Design Pattern for detecting and responding to Events.
- * @author Matthew Barbano
- *
- */
 public class TimerObservable extends EventObservable{
-
+	private TimerManager currentLevelTimerManager;
+	
 	public TimerObservable() {
 		super();
 	}
 	
+	public void attachCurrentLevelTimerManager(TimerManager toAttach){ 
+		currentLevelTimerManager = toAttach;
+	}
+	
+	//For Nikita to call in TimerEvent's act()
+	public int getTimeInMilliseconds(){
+		 return currentLevelTimerManager.getMilliseconds();
+	}
+	
 	@Override
 	public void updateObservers() {
-		//TODO
+		currentLevelTimerManager.tick();
 	}
 }

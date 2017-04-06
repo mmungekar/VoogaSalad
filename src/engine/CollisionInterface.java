@@ -1,5 +1,6 @@
 package engine;
 
 public interface CollisionInterface {
-	boolean equals(CollisionInterface other);
+	
+	boolean equals(Collision other);
 }
