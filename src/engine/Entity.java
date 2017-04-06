@@ -19,6 +19,11 @@ public abstract class Entity extends GameObject implements EntityInterface {
 		events = new ArrayList<Event>();
 		this.name = name;
 		this.imagePath = imagePath;
+		//TODO: initialize these values to something other than 0,0,100,100
+		this.x = new SimpleDoubleProperty();
+		this.y = new SimpleDoubleProperty();
+		this.width = new SimpleDoubleProperty(100);
+		this.height = new SimpleDoubleProperty(100);
 		addParam(new Parameter("Time Step", Double.class, 0));
 	} 
 
@@ -38,27 +43,27 @@ public abstract class Entity extends GameObject implements EntityInterface {
 
 	@Override
 	public double getX() {
-		return x.doubleValue();
+		return this.x.get();
 	}
 
 	@Override
 	public void setX(double x) {
-		this.x.set(x);
+		this.x.set(x);;
 	}
 
 	@Override
 	public double getY() {
-		return y.doubleValue();
+		return this.y.get();
 	}
 
 	@Override
 	public void setY(double y) {
-		this.y.set(y);
+		this.y.set(y);;
 	}
 
 	@Override
 	public double getWidth() {
-		return width.doubleValue();
+		return this.width.get();
 	}
 
 	@Override
@@ -68,12 +73,12 @@ public abstract class Entity extends GameObject implements EntityInterface {
 
 	@Override
 	public double getHeight() {
-		return height.doubleValue();
+		return this.height.get();
 	}
 
 	@Override
 	public void setHeight(double height) {
-		this.height.set(height);
+		this.height.set(height);;
 	}
 
 	public double getXSpeed() {

@@ -2,6 +2,7 @@ package engine.game;
 
 import engine.Entity;
 import engine.Event;
+import engine.entities.CharacterEntity;
 import engine.events.CollisionEvent;
 import engine.events.InputEvent;
 import engine.events.TimerEvent;
@@ -11,8 +12,8 @@ import engine.game.eventobserver.TimerObservable;
 import engine.graphics.GraphicsEngine;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
 /**
@@ -23,6 +24,7 @@ import javafx.util.Duration;
  */
 public class GameLoop {
 	public static final int FRAME_TIME_MILLISECONDS = 20;
+	private GraphicsEngine graphicsEngine;
 	private LevelManager levelManager;
 	private Timeline timeline;
 	private InputObservable inputObservable;
@@ -75,6 +77,9 @@ public class GameLoop {
 		// Start the GAE's current level
 		levelManager.startCurrentLevel();
 
+		//Set up graphical view
+		setupGameView();
+		
 		setupTimeline();
 	}
 
@@ -96,20 +101,16 @@ public class GameLoop {
 	public void startTimeline() {
 		timeline.play();
 	}
+	
+	private void setupGameView() {
+		graphicsEngine = new GraphicsEngine();
+		graphicsEngine.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
+		//TEST
+		levelManager.getCurrentLevel().getEntities().add(new CharacterEntity("Mario", "file:" + System.getProperty("user.dir") + "/src/resources/images/mario.png"));		
+	}
 
-	public Group getGameView() {
-		//GraphicsEngine graphics = new GraphicsEngine();
-		//graphics.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
-		//graphics.update();
-		//return graphics.getView();
-		
-		//NOTE FOR MATTHEW:
-		//TODO: move this code where you think it fits. My guess is GraphicsEngine is
-		//an instance variable, setEntitiesCollection() is called once in the constructor, 
-		//and update() is called every step. If this code doesn't belong here though
-		//I didn't want to spread it out too much. -Jay
-		
-		return null;
+	public Pane getGameView() {
+		return graphicsEngine.getView();
 	}
 	
 	private void step() {
@@ -131,6 +132,8 @@ public class GameLoop {
 			 System.out.println("Game over - you ran out of time!");
 			 timeline.stop();
 		}
+		
+		graphicsEngine.update();
 	}
 	
 	/**
