@@ -14,6 +14,7 @@ import javafx.scene.control.TabPane;
 public class LevelEditor extends TabPane
 {
 	Workspace workspace;
+	LayerEditor currentLayer;
 
 	public LevelEditor(Workspace workspace)
 	{
@@ -27,12 +28,17 @@ public class LevelEditor extends TabPane
 		this.getTabs().add(makePlusTab());
 	}
 
-	private Tab newTab()
+	public Tab newTab()
 	{
 		Tab tab = new Tab();
 		tab.setText("untitled");
-		tab.setContent(new LayerEditor(workspace));
+		currentLayer = new LayerEditor(workspace);
+		tab.setContent(currentLayer);
 		return tab;
+	}
+	
+	public LayerEditor getCurrentLayer(){
+		return currentLayer;
 	}
 
 	private Tab makePlusTab()

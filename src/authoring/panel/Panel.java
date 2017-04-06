@@ -46,6 +46,7 @@ public class Panel extends CollapsibleView {
 		subviews = new ArrayList<View>();
 		subviews.add(entityDisplay);
 		subviews.add(new Chat(workspace));
+		subviews.add(new LayerPanel(workspace));
 		subviews.add(settingsPanel);
 	}
 

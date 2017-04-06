@@ -75,5 +75,10 @@ public class Workspace extends View {
 	public void setNewLayer(String newLayer){
 		panel.updateSettings(newLayer);
 	}
+	
+	public void addLayer(){
+		levelEditor.getCurrentLayer().getTabs().add(levelEditor.getTabs().size() - 1, levelEditor.newTab());
+		levelEditor.getCurrentLayer().getSelectionModel().select(levelEditor.getTabs().size() - 2);
+	}
 
 }

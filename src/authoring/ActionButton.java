@@ -15,6 +15,10 @@ import javafx.scene.layout.Priority;
 
 public class ActionButton extends Button{
 	
+	public ActionButton(String title){
+		super(title);
+	}
+	
 	public ActionButton(EventHandler<ActionEvent> eventHandler){
 		this.setOnAction(eventHandler);
 	}
