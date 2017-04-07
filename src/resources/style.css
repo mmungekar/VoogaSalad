@@ -1,11 +1,16 @@
 .root {
     -fx-font-size: 10pt;
-    -fx-font-family: "Helvetica";
-    -fx-base: #141414;
-    -fx-background: #141414;
+    -fx-font-family: Helvetica, Arial, sans-serif;
+    -fx-base: #1d1d1d;
+    -fx-background: #1d1d1d;
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
-    -fx-accent: #6C7A89;
+    -fx-accent: #2affce;
+    -fx-control-inner-background: #1d1d1d;
+}
+
+.text-field, .text-area {
+	-fx-control-inner-background: white;
 }
 
 .minimize, .tab-button {
@@ -41,11 +46,4 @@
     -fx-max-height: 0;
     -fx-pref-height: 0;
     -fx-min-height: 0;
-}
-
-#entity-button {
-	-fx-border-color: transparent;
-    -fx-border-width: 0;
-    -fx-background-radius: 0;
-    -fx-background-color: transparent;
 }

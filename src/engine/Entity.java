@@ -7,23 +7,29 @@ import java.util.stream.Collectors;
 import javafx.beans.property.SimpleDoubleProperty;
 
 public abstract class Entity extends GameObject implements EntityInterface {
-
-	public static final int ACCELERATION = -10;
-	private SimpleDoubleProperty x, y, width, height;
+	
+	public static final Integer ACCELERATION = -10;
+	private SimpleDoubleProperty x, y, width, height, zIndex;
 	private double xSpeed, ySpeed, xAcceleration, yAcceleration;
 	private List<Event> events;
 	private String name, imagePath;
 
 	public Entity(String name, String imagePath) {
 		super("Entity");
+		x = new SimpleDoubleProperty();
+		y = new SimpleDoubleProperty();
+		width = new SimpleDoubleProperty();
+		height = new SimpleDoubleProperty();
+		zIndex = new SimpleDoubleProperty();
 		events = new ArrayList<Event>();
 		this.name = name;
 		this.imagePath = imagePath;
-		//TODO: initialize these values to something other than 0,0,100,100
+		events = new ArrayList<Event>();
+		//TODO: initialize these values to something other than 0,0,0,0
 		this.x = new SimpleDoubleProperty();
 		this.y = new SimpleDoubleProperty();
-		this.width = new SimpleDoubleProperty(100);
-		this.height = new SimpleDoubleProperty(100);
+		this.width = new SimpleDoubleProperty();
+		this.height = new SimpleDoubleProperty();
 		addParam(new Parameter("Time Step", Double.class, 0));
 	} 
 
@@ -31,13 +37,13 @@ public abstract class Entity extends GameObject implements EntityInterface {
 	 * TODO: make sure to check state and set new state before acting.
 	 */
 	@Override
-	public void update(){
+	public void update() {
 		List<Event> actions = events.stream().filter(s -> s.act()).collect(Collectors.toList());
 		actions.forEach(event -> event.trigger());
 	}
-	
+
 	@Override
-	public void addEvent(Event event){
+	public void addEvent(Event event) {
 		this.events.add(event);
 	}
 
@@ -154,5 +160,5 @@ public abstract class Entity extends GameObject implements EntityInterface {
 	public List<Event> getEvents() {
 		return events;
 	}
-	
+
 }

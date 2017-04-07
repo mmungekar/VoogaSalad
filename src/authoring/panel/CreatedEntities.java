@@ -1,11 +1,9 @@
-/**
- * 
- */
 package authoring.panel;
 
 import java.util.ArrayList;
 
 import authoring.utils.EntityWrapper;
+import engine.entities.CharacterEntity;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -23,8 +21,8 @@ public class CreatedEntities {
 	 */
 	public CreatedEntities() {
 		entities = FXCollections.observableArrayList(new ArrayList<EntityWrapper>());
-		entities.add(new EntityWrapper(new ConcreteEntity("Mario", "resources/images/mario.png")));
-		entities.add(new EntityWrapper(new ConcreteEntity("Luigi", "resources/images/luigi.png")));
+		entities.add(new EntityWrapper(new CharacterEntity("Mario", "resources/images/mario.png")));
+		entities.add(new EntityWrapper(new CharacterEntity("Luigi", "resources/images/luigi.png")));
 	}
 	
 	public ObservableList<EntityWrapper> getEntities() {

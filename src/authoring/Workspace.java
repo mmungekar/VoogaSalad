@@ -9,8 +9,8 @@ import java.util.ResourceBundle;
 
 import authoring.canvas.LayerEditor;
 import authoring.canvas.LevelEditor;
+import authoring.components.ComponentMaker;
 import authoring.panel.Panel;
-import authoring.utils.ComponentMaker;
 import authoring.utils.EntityWrapper;
 import authoring.views.View;
 import javafx.geometry.Insets;

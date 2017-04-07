@@ -1,10 +1,7 @@
 package engine;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
 
 import engine.game.eventobserver.EventObservable;
 
@@ -21,6 +18,10 @@ public abstract class Event extends GameObject implements EventInterface {
 	@Override
 	public void addAction(Action action) {
 		actions.add(action);
+	}
+	
+	public List<Action> getActions() {
+		return actions;
 	}
 
 	@Override
