@@ -1,7 +1,7 @@
 /**
  * 
  */
-package authoring.utils;
+package authoring.components;
 
 import java.io.File;
 import java.util.ArrayList;

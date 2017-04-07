@@ -1,13 +1,13 @@
 /**
  * 
  */
-package authoring.panel.editing;
+package authoring.panel.creation;
 
 import java.io.File;
 
 import authoring.Workspace;
-import authoring.utils.ComponentMaker;
-import authoring.utils.Thumbnail;
+import authoring.components.ComponentMaker;
+import authoring.components.Thumbnail;
 import authoring.views.View;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -26,7 +26,7 @@ import javafx.stage.FileChooser;
 public class EntityInfo extends View {
 
 	private Workspace workspace;
-	private EntityEditor editor;
+	private EntityMaker editor;
 	private ComponentMaker componentMaker;
 	private TextField nameField;
 	private Thumbnail thumbnail;
@@ -34,7 +34,7 @@ public class EntityInfo extends View {
 	/**
 	 * @param title
 	 */
-	public EntityInfo(Workspace workspace, EntityEditor editor) {
+	public EntityInfo(Workspace workspace, EntityMaker editor) {
 		super("Info");
 		this.workspace = workspace;
 		this.editor = editor;
@@ -51,12 +51,12 @@ public class EntityInfo extends View {
 		Label nameLabel = new Label(workspace.getResources().getString("TitlePrompt"));
 		nameField = new TextField();
 		nameField.setPrefWidth(100);
-		nameField.setText(editor.getEntity().getName().get());
+		nameField.setText(editor.getEntityWrapper().getName().get());
 		nameBox.getChildren().addAll(nameLabel, nameField);
 		nameBox.setAlignment(Pos.CENTER);
 
 		VBox imageBox = new VBox(20);
-		thumbnail = new Thumbnail(editor.getEntity().getImagePath(), 50, 50);
+		thumbnail = new Thumbnail(editor.getEntityWrapper().getImagePath(), 50, 50);
 		Button pickButton = componentMaker.makeButton("PickButton", e -> pickImage(), true);
 		imageBox.getChildren().addAll(thumbnail, pickButton);
 		imageBox.setAlignment(Pos.CENTER);
@@ -82,11 +82,11 @@ public class EntityInfo extends View {
 		}
 	}
 
-	protected String getName() {
+	public String getName() {
 		return nameField.getText();
 	}
 
-	protected String getImagePath() {
+	public String getImagePath() {
 		return thumbnail.getImagePath();
 	}
 

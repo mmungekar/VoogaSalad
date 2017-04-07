@@ -18,9 +18,14 @@ public abstract class Event extends GameObject implements EventInterface {
 		actions = new ArrayList<Action>();
 	}
 
+	// Necessary? 
 	@Override
 	public void addAction(Action action) {
 		actions.add(action);
+	}
+	
+	public List<Action> getActions() {
+		return actions;
 	}
 
 	@Override

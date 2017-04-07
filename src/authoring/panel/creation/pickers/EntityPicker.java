@@ -1,4 +1,4 @@
-package authoring.panel.editing;
+package authoring.panel.creation.pickers;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import authoring.Workspace;
+import authoring.panel.creation.EntityMaker;
 import authoring.utils.ClassFinder;
 import authoring.views.View;
 import engine.Entity;
@@ -29,13 +30,13 @@ public class EntityPicker extends View {
 	private static final String ENTITY_PACKAGE = "engine";
 
 	private Workspace workspace;
-	private EntityEditor editor;
+	private EntityMaker editor;
 	private Map<String, Class<?>> entityMap;
 
 	/**
 	 * @param title
 	 */
-	public EntityPicker(Workspace workspace, EntityEditor editor) {
+	public EntityPicker(Workspace workspace, EntityMaker editor) {
 		super("Entity Picker");
 		this.workspace = workspace;
 		this.editor = editor;

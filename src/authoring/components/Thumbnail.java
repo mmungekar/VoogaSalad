@@ -1,7 +1,7 @@
 /**
  * 
  */
-package authoring.utils;
+package authoring.components;
 
 import authoring.views.View;
 import javafx.beans.property.SimpleObjectProperty;
