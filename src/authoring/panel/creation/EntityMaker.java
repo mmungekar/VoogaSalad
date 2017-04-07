@@ -5,15 +5,15 @@ package authoring.panel.creation;
 
 import authoring.Workspace;
 import authoring.components.ComponentMaker;
-import authoring.panel.ConcreteEntity;
-import authoring.panel.creation.pickers.ActionPicker;
-import authoring.panel.creation.pickers.EntityPicker;
-import authoring.panel.creation.pickers.EventPicker;
+import authoring.panel.creation.editors.EntityEditor;
+import authoring.panel.creation.pickers.*;
 import authoring.panel.display.EntityDisplay;
 import authoring.utils.EntityWrapper;
 import authoring.views.ConcreteView;
 import authoring.views.View;
 import engine.Event;
+import engine.entities.CharacterEntity;
+import engine.game.EngineController;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.SplitPane;
@@ -32,10 +32,13 @@ public class EntityMaker {
 	private View view;
 	private SplitPane pane;
 	private EntityWrapper entityWrapper;
+	private EngineController engine;
+	
 	private EntityInfo entityInfo;
-	private EntityPicker entityPicker;
+	private EntityEditor entityEditor;
 	private EventPicker eventPicker;
 	private ActionPicker actionPicker;
+	
 	private Event selectedEvent;
 
 	/**
@@ -46,8 +49,9 @@ public class EntityMaker {
 		this.display = display;
 		this.entityWrapper = entity;
 		if (this.entityWrapper == null) {
-			this.entityWrapper = new EntityWrapper(new ConcreteEntity("Mario", "resources/images/Mario.png"));
+			this.entityWrapper = new EntityWrapper(new CharacterEntity("Mario", "resources/images/Mario.png"));
 		}
+		engine = new EngineController();
 		setupView();
 		setupStage();
 	}
@@ -59,11 +63,11 @@ public class EntityMaker {
 	private void setupView() {
 		view = new ConcreteView(workspace.getResources().getString("EntityMakerTitle"));
 		entityInfo = new EntityInfo(workspace, this);
-		entityPicker = new EntityPicker(workspace, this);
+		entityEditor = new EntityEditor(workspace, entityWrapper, engine.getAllEntities());
 		eventPicker = new EventPicker(workspace, this);
 		actionPicker = new ActionPicker(workspace, this);
-		pane = new SplitPane(entityInfo/*, entityPicker,*/, eventPicker, actionPicker);
-		pane.setDividerPositions(0.33, 0.66);
+		pane = new SplitPane(entityInfo, entityEditor, eventPicker, actionPicker);
+		pane.setDividerPositions(0.25, 0.5, 0.75);
 		view.setCenter(pane);
 	}
 	
@@ -78,7 +82,7 @@ public class EntityMaker {
 	}
 	
 	private Scene createScene() {
-		Scene scene = new Scene(view, 650, 300);
+		Scene scene = new Scene(view, 800, 300);
 		scene.getStylesheets().add(workspace.getResources().getString("StylesheetPath"));
 		return scene;
 	}
@@ -104,9 +108,6 @@ public class EntityMaker {
 	public void save() {
 		entityWrapper.getName().set(entityInfo.getName());
 		entityWrapper.getImagePath().set(entityInfo.getImagePath());
-		// add events and actions
-		// error checking
-		// save with game data
 		display.addEntity(entityWrapper);
 		dismiss();
 	}

@@ -1,6 +1,7 @@
 package authoring.panel.creation.pickers;
 
 import authoring.Workspace;
+import authoring.components.ComponentMaker;
 import authoring.panel.creation.EntityMaker;
 import authoring.panel.creation.editors.EventEditor;
 import engine.Event;
@@ -11,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
 
 /**
  * @author Elliott Bolzan
@@ -22,10 +24,13 @@ public class EventPicker extends Picker {
 	private EngineController engine = new EngineController();
 	private ListView<Event> list;
 	private Event currentlyEditing;
+	private ComponentMaker maker;
 
 	public EventPicker(Workspace workspace, EntityMaker editor) {
 		super(workspace, "EventPickerTitle");
 		this.editor = editor;
+		maker = new ComponentMaker(workspace.getResources());
+		update();
 	}
 
 	@Override
@@ -56,8 +61,10 @@ public class EventPicker extends Picker {
 
 	@Override
 	public void createNew() {
-		currentlyEditing = null;
-		new EventEditor(getWorkspace(), this, null, "NewEventTitle", engine.getAllEvents());
+		if (editor.getEntityWrapper() != null) {
+			currentlyEditing = null;
+			showEditor();
+		}
 	}
 
 	@Override
@@ -65,7 +72,9 @@ public class EventPicker extends Picker {
 		if (currentlyEditing != null) {
 			remove(currentlyEditing);
 		}
-		editor.getEntityWrapper().getEntity().getEvents().add((Event) element);
+		Event event = (Event) element;
+		event.setEntity(editor.getEntityWrapper().getEntity());
+		editor.getEntityWrapper().getEntity().getEvents().add(event);
 		update();
 	}
 
@@ -87,14 +96,19 @@ public class EventPicker extends Picker {
 	public void edit() {
 		if (selectionExists(list.getSelectionModel().getSelectedItem())) {
 			currentlyEditing = list.getSelectionModel().getSelectedItem();
-			new EventEditor(getWorkspace(), this, list.getSelectionModel().getSelectedItem(), "NewEventTitle",
-					engine.getAllEvents());
+			showEditor();
 		}
 	}
 
 	@Override
 	public void update() {
 		list.setItems(FXCollections.observableArrayList(editor.getEntityWrapper().getEntity().getEvents()));
+	}
+	
+	@Override
+	public void showEditor() {
+		EventEditor editor = new EventEditor(getWorkspace(), this, currentlyEditing, engine.getAllEvents());
+		maker.display("NewEventTitle", 300, 400, editor, Modality.APPLICATION_MODAL);
 	}
 
 }

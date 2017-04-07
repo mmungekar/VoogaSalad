@@ -1,6 +1,7 @@
 package authoring.panel.creation.pickers;
 
 import authoring.Workspace;
+import authoring.components.ComponentMaker;
 import authoring.panel.creation.EntityMaker;
 import authoring.panel.creation.editors.ActionEditor;
 import engine.Action;
@@ -9,6 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.stage.Modality;
 
 /**
  * @author Elliott Bolzan
@@ -20,10 +22,13 @@ public class ActionPicker extends Picker {
 	private EngineController engine = new EngineController();
 	private ListView<Action> list;
 	private Action currentlyEditing;
+	private ComponentMaker maker;
 
 	public ActionPicker(Workspace workspace, EntityMaker editor) {
 		super(workspace, "ActionPickerTitle");
 		this.editor = editor;
+		maker = new ComponentMaker(workspace.getResources());
+		update();
 	}
 
 	@Override
@@ -48,9 +53,9 @@ public class ActionPicker extends Picker {
 
 	@Override
 	public void createNew() {
-		if (editor.getSelectedEvent() != null) {
+		if (editor.getSelectedEvent() != null && editor.getEntityWrapper() != null) {
 			currentlyEditing = null;
-			new ActionEditor(getWorkspace(), this, null, "NewActionTitle", engine.getAllActions());
+			showEditor();
 		} else {
 			editor.showMessage(getWorkspace().getResources().getString("NoEventSelected"));
 		}
@@ -61,7 +66,9 @@ public class ActionPicker extends Picker {
 		if (currentlyEditing != null) {
 			remove(currentlyEditing);
 		}
-		editor.getSelectedEvent().getActions().add((Action) element);
+		Action action = (Action) element;
+		action.setEntity(editor.getEntityWrapper().getEntity());
+		editor.getSelectedEvent().getActions().add(action);
 		update();
 	}
 
@@ -82,8 +89,7 @@ public class ActionPicker extends Picker {
 	public void edit() {
 		if (selectionExists(list.getSelectionModel().getSelectedItem())) {
 			currentlyEditing = list.getSelectionModel().getSelectedItem();
-			new ActionEditor(getWorkspace(), this, list.getSelectionModel().getSelectedItem(), "NewActionTitle",
-					engine.getAllActions());
+			showEditor();
 		}
 	}
 
@@ -93,6 +99,12 @@ public class ActionPicker extends Picker {
 			list.setItems(FXCollections.observableArrayList(editor.getSelectedEvent().getActions()));
 		else
 			list.setItems(FXCollections.emptyObservableList());
+	}
+	
+	@Override
+	public void showEditor() {
+		ActionEditor editor = new ActionEditor(getWorkspace(), this, currentlyEditing, engine.getAllActions());
+		maker.display("NewActionTitle", 300, 400, editor, Modality.APPLICATION_MODAL);
 	}
 
 }

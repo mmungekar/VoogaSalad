@@ -11,6 +11,8 @@ import java.util.ResourceBundle;
 import authoring.views.View;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -23,6 +25,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
 
 /**
@@ -173,6 +177,17 @@ public class ComponentMaker {
 		button.setOnAction(action);
 		button.getStyleClass().add(style);
 		return button;
+	}
+
+	public void display(String titleProperty, double width, double height, View view, Modality modality) {
+		Stage stage = new Stage();
+		stage.initModality(modality);
+		stage.setTitle(resources.getString(titleProperty));
+		Scene scene = new Scene(view, width, height);
+		scene.getStylesheets().add(resources.getString("StylesheetPath"));
+		stage.setScene(scene);
+		stage.show();
+		stage.centerOnScreen();
 	}
 
 }

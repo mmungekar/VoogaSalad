@@ -1,6 +1,3 @@
-/**
- * 
- */
 package authoring.panel.creation.editors;
 
 import java.util.List;
@@ -21,9 +18,8 @@ public class ActionEditor extends Editor {
 	private EngineController engine = new EngineController();
 	private Action action;
 
-	public ActionEditor(Workspace workspace, ActionPicker picker, Action action, String titleProperty,
-			List<String> elements) {
-		super(workspace, titleProperty, elements, action);
+	public ActionEditor(Workspace workspace, ActionPicker picker, Action action, List<String> elements) {
+		super(workspace, elements, action, true);
 		this.picker = picker;
 		this.action = action;
 	}
@@ -31,7 +27,7 @@ public class ActionEditor extends Editor {
 	@Override
 	public void selected(String string) {
 		action = engine.createAction(string);
-		update(action.getParams());
+		update(action);
 	}
 
 	@Override

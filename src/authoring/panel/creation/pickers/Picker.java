@@ -52,5 +52,7 @@ public abstract class Picker extends EditableContainer {
 	public abstract void update();
 
 	public abstract void edit();
+	
+	public abstract void showEditor();
 
 }

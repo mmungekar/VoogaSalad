@@ -21,9 +21,8 @@ public class EventEditor extends Editor {
 	private EngineController engine = new EngineController();
 	private Event event;
 
-	public EventEditor(Workspace workspace, EventPicker picker, Event event, String titleProperty,
-			List<String> elements) {
-		super(workspace, titleProperty, elements, event);
+	public EventEditor(Workspace workspace, EventPicker picker, Event event, List<String> elements) {
+		super(workspace, elements, event, true);
 		this.picker = picker;
 		this.event = event;
 	}
@@ -31,7 +30,7 @@ public class EventEditor extends Editor {
 	@Override
 	public void selected(String string) {
 		event = engine.createEvent(string);
-		update(event.getParams());
+		update(event);
 	}
 
 	@Override
