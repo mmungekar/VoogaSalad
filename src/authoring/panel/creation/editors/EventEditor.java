@@ -1,6 +1,3 @@
-/**
- * 
- */
 package authoring.panel.creation.editors;
 
 import java.util.List;

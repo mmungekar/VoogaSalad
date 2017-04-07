@@ -48,6 +48,8 @@ public abstract class Editor extends View {
 		this.elements = elements;
 		this.showSave = showSave;
 		setupView(object);
+		if (object != null)
+			update(object);
 	}
 
 	private void setupView(GameObject object) {
