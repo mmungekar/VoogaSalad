@@ -101,13 +101,14 @@ public class EntityDisplay extends EditableContainer {
 
 	@Override
 	public void edit() {
-		new EntityMaker(getWorkspace(), this, table.getSelectionModel().getSelectedItem());
+		if (selectionExists(table.getSelectionModel().getSelectedItem()))
+			new EntityMaker(getWorkspace(), this, table.getSelectionModel().getSelectedItem());
 	}
 
 	@Override
 	public void delete() {
-		entities.getEntities().remove(table.getSelectionModel().getSelectedItem());
+		if (selectionExists(table.getSelectionModel().getSelectedItem()))
+			entities.getEntities().remove(table.getSelectionModel().getSelectedItem());
 	}
-
 
 }

@@ -20,11 +20,13 @@ public class ActionEditor extends Editor {
 	private ActionPicker picker;
 	private EngineController engine = new EngineController();
 	private Action action;
-	
-	public ActionEditor(Workspace workspace, ActionPicker picker, String titleProperty, List<String> elements) {
-		super(workspace, titleProperty, elements);
+
+	public ActionEditor(Workspace workspace, ActionPicker picker, Action action, String titleProperty,
+			List<String> elements) {
+		super(workspace, titleProperty, elements, action);
 		this.picker = picker;
-	}	
+		this.action = action;
+	}
 
 	@Override
 	public void selected(String string) {

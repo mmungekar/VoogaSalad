@@ -5,7 +5,9 @@ import java.util.List;
 
 import authoring.Workspace;
 import authoring.components.ComponentMaker;
+import authoring.components.EditingCell;
 import authoring.views.View;
+import engine.GameObject;
 import engine.Parameter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -43,19 +45,19 @@ public abstract class Editor extends View {
 	/**
 	 * @param title
 	 */
-	public Editor(Workspace workspace, String titleProperty, List<String> elements) {
+	public Editor(Workspace workspace, String titleProperty, List<String> elements, GameObject object) {
 		super("");
 		this.workspace = workspace;
 		this.elements = elements;
-		setupView();
+		setupView(object);
 		setupStage(titleProperty);
 	}
 
-	private void setupView() {
+	private void setupView(GameObject object) {
 		maker = new ComponentMaker(workspace.getResources());
 		setPadding(new Insets(10));
-		createChooserBox();
-		createTable();
+		createChooserBox(object);
+		createTable(object);
 		createButtonBox();
 	}
 
@@ -74,26 +76,24 @@ public abstract class Editor extends View {
 		return scene;
 	}
 
-	private void createChooserBox() {
+	private void createChooserBox(GameObject object) {
 		Label label = new Label(workspace.getResources().getString("TableEditorComboxTitle"));
 		label.setPadding(new Insets(5));
 		comboBox = new ComboBox<String>();
 		comboBox.getItems().addAll(elements);
 		comboBox.setOnAction((e) -> selected(comboBox.getSelectionModel().getSelectedItem()));
 		comboBox.prefWidthProperty().bind(widthProperty().subtract(label.widthProperty()).subtract(60));
+		if (object != null) {
+			comboBox.setValue(object.getDisplayName());
+		}
 		HBox box = createBox();
 		box.getChildren().addAll(label, comboBox);
 		setTop(box);
 	}
 
-	private void createTable() {
-		table = makeTable();
-		setCenter(table);
-	}
-
 	@SuppressWarnings("unchecked")
-	private TableView<Parameter> makeTable() {
-		TableView<Parameter> table = new TableView<>();
+	private void createTable(GameObject object) {
+		table = new TableView<>();
 		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		table.setPlaceholder(new Label(workspace.getResources().getString("NoParameters")));
 		table.prefHeightProperty().bind(heightProperty());
@@ -101,7 +101,10 @@ public abstract class Editor extends View {
 		ObservableList<Parameter> items = FXCollections.observableArrayList(parameters);
 		table.setItems(items);
 		table.getColumns().setAll(makeKeyColumn(), makeValueColumn());
-		return table;
+		if (object != null) {
+			table.setItems(FXCollections.observableArrayList(object.getParams()));
+		}
+		setCenter(table);
 	}
 
 	private TableColumn<Parameter, Object> makeKeyColumn() {

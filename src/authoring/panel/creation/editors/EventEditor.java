@@ -16,16 +16,18 @@ import engine.game.EngineController;
  *
  */
 public class EventEditor extends Editor {
-	
+
 	private EventPicker picker;
 	private EngineController engine = new EngineController();
 	private Event event;
-	
-	public EventEditor(Workspace workspace, EventPicker picker, String titleProperty, List<String> elements) {
-		super(workspace, titleProperty, elements);
+
+	public EventEditor(Workspace workspace, EventPicker picker, Event event, String titleProperty,
+			List<String> elements) {
+		super(workspace, titleProperty, elements, event);
 		this.picker = picker;
+		this.event = event;
 	}
-	
+
 	@Override
 	public void selected(String string) {
 		event = engine.createEvent(string);
@@ -35,7 +37,7 @@ public class EventEditor extends Editor {
 	@Override
 	public void save(List<Parameter> data) {
 		event.setParams(data);
-		picker.add(event);		
+		picker.add(event);
 	}
 
 }
