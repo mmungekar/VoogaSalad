@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import authoring.Workspace;
+import authoring.components.ComponentMaker;
 import authoring.panel.chat.Chat;
 import authoring.panel.display.EntityDisplay;
 import authoring.settings.Settings;
 import authoring.utils.Direction;
-import authoring.utils.ComponentMaker;
 import authoring.views.CollapsibleView;
 import authoring.views.View;
 
