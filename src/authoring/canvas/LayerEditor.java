@@ -31,7 +31,8 @@ public class LayerEditor extends TabPane
 {
 	Workspace workspace;
 	Canvas canvas;
-	Map<Tab, List<Node>> layerEntities;
+	Map<Integer, List<Node>> layerEntities;
+	int layerCount;
 
 	public LayerEditor(Workspace workspace)
 	{
@@ -42,9 +43,10 @@ public class LayerEditor extends TabPane
 	private void setup()
 	{
 		canvas = new Canvas(workspace);
-		layerEntities = new HashMap<Tab, List<Node>>();
+		layerEntities = new HashMap<Integer, List<Node>>();
+		layerCount = 0;
 		clickToAddEntity();
-		this.getTabs().add(newTab());
+		newTab();
 		this.setSide(Side.RIGHT);
 		this.setRotateGraphic(true);
 		this.setTabMinHeight(100);
@@ -77,40 +79,33 @@ public class LayerEditor extends TabPane
 		entity.setEffect(makeLayerEffect());
 	}
 	
-	public Tab makeNewTab(){
-		return newTab();
+	public void makeNewTab(){
+		newTab();
 	}
 
-	private Tab newTab(){
-		Tab tab = new Tab();
-		tab.setGraphic(makeTabLabel(String.format("Layer %d", this.getTabs().size()+1)));
-		layerEntities.put(tab, new ArrayList<Node>());
-		// tab.setContent(canvas);
-		this.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>()
-		{
-
-			@Override
-			public void changed(ObservableValue<? extends Tab> observable, Tab oldTab, Tab newTab)
-			{
-				for (List<Node> entityList : layerEntities.values()) {
-					for (Node entity : entityList) {
-						entity.setEffect(makeOffLayerEffect());
-						entity.toBack();
-					}
-				}
-				for (Node entity : layerEntities.get(newTab)) {
-					entity.setEffect(makeLayerEffect());
-					entity.toFront();
-				}
-				if(oldTab!=null){
-				oldTab.setContent(null);
-				}
-				newTab.setContent(canvas);
-			}
-		});
-		return tab;
+	private void newTab(){
+		//Tab tab = new Tab();
+		//tab.setGraphic(makeTabLabel(String.format("Layer %d", this.getTabs().size()+1)));
+		layerEntities.put(layerCount+1, new ArrayList<Node>());
 	}
-
+	
+	private void newLayerSelected(int oldVal, int newVal){
+	for (List<Node> entityList : layerEntities.values()) {
+		for (Node entity : entityList) {
+			entity.setEffect(makeOffLayerEffect());
+			entity.toBack();
+		}
+	}
+	for (Node entity : layerEntities.get(newVal)) {
+		entity.setEffect(makeLayerEffect());
+		entity.toFront();
+	}
+/*	if(oldVal!=0){
+	oldTab.setContent(null);
+	}
+	newTab.setContent(canvas); */
+	}
+	
 	private Effect makeLayerEffect()
 	{
 		DropShadow ds = new DropShadow();
@@ -127,14 +122,14 @@ public class LayerEditor extends TabPane
 		return dark;
 	}
 
-	private StackPane makeTabLabel(String text)
+/*	private StackPane makeTabLabel(String text)
 	{
 		Label l = new Label(text);
 		workspace.setNewLayer(text);
 		l.setRotate(-90);
 		StackPane stp = new StackPane(new Group(l));
 		return stp;
-	}
+	} */
 
 	/*private Tab makePlusTab()
 	{
