@@ -57,6 +57,7 @@ public class LayerEditor extends TabPane
 		rect.setHeight(100);
 		rect.setFill(Color.CORAL);
 		this.addEntity(rect, 0, 0);
+		System.out.println("Here");
 	}
 
 	private void clickToAddEntity()
@@ -75,7 +76,7 @@ public class LayerEditor extends TabPane
 	private void addEntity(Node entity, double x, double y)
 	{
 		canvas.addEntity(entity, x, y);
-		layerEntities.get(this.getSelectionModel().getSelectedItem()).add(entity);
+		layerEntities.get(layerCount).add(entity);
 		entity.setEffect(makeLayerEffect());
 	}
 	
@@ -86,7 +87,8 @@ public class LayerEditor extends TabPane
 	private void newTab(){
 		//Tab tab = new Tab();
 		//tab.setGraphic(makeTabLabel(String.format("Layer %d", this.getTabs().size()+1)));
-		layerEntities.put(layerCount+1, new ArrayList<Node>());
+		layerCount++;
+		layerEntities.put(layerCount, new ArrayList<Node>());
 	}
 	
 	private void newLayerSelected(int oldVal, int newVal){
