@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import authoring.Workspace;
+import authoring.views.View;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Side;
@@ -27,7 +28,7 @@ import javafx.scene.shape.Rectangle;
  * @author jimmy
  *
  */
-public class LayerEditor extends TabPane
+public class LayerEditor extends View
 {
 	Workspace workspace;
 	Canvas canvas;
@@ -36,6 +37,7 @@ public class LayerEditor extends TabPane
 
 	public LayerEditor(Workspace workspace)
 	{
+		super("");
 		this.workspace = workspace;
 		setup();
 	}
@@ -43,14 +45,15 @@ public class LayerEditor extends TabPane
 	private void setup()
 	{
 		canvas = new Canvas(workspace);
+		setCenter(canvas);
 		layerEntities = new HashMap<Integer, List<Node>>();
 		layerCount = 0;
 		clickToAddEntity();
 		newTab();
-		this.setSide(Side.RIGHT);
+		/*this.setSide(Side.RIGHT);
 		this.setRotateGraphic(true);
 		this.setTabMinHeight(100);
-		this.setTabMaxHeight(100);
+		this.setTabMaxHeight(100); */
 
 		Rectangle rect = new Rectangle();
 		rect.setWidth(100);
@@ -88,6 +91,7 @@ public class LayerEditor extends TabPane
 		//Tab tab = new Tab();
 		//tab.setGraphic(makeTabLabel(String.format("Layer %d", this.getTabs().size()+1)));
 		layerCount++;
+		workspace.setNewLayer(String.format("Layer %d",layerCount));
 		layerEntities.put(layerCount, new ArrayList<Node>());
 	}
 	
