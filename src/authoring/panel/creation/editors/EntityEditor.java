@@ -7,7 +7,6 @@ import authoring.utils.EntityWrapper;
 import engine.Entity;
 import engine.Parameter;
 import engine.game.EngineController;
-import javafx.collections.FXCollections;
 
 /**
  * @author Elliott Bolzan
@@ -27,7 +26,6 @@ public class EntityEditor extends Editor {
 	public EntityEditor(Workspace workspace, EntityWrapper entityWrapper, List<String> elements) {
 		super(workspace, elements, entityWrapper.getEntity(), false);
 		engine = new EngineController();
-		update(entityWrapper.getEntity());
 	}
 
 	@Override
