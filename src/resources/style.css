@@ -1,11 +1,12 @@
 .root {
     -fx-font-size: 10pt;
     -fx-font-family: "Helvetica";
-    -fx-base: #141414;
-    -fx-background: #141414;
+    -fx-base: #ECF0F1;
+    -fx-background: #ECF0F1;
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
-    -fx-accent: #6C7A89;
+    -fx-accent: #89C4F4;
+    -fx-border-width: 0;
 }
 
 .minimize, .tab-button {

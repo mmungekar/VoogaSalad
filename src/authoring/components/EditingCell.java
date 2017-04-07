@@ -23,16 +23,15 @@ public class EditingCell extends TableCell<Parameter, Object> {
 			super.startEdit();
 			if (getItem() == null || getItem() instanceof KeyCode) {
 				createKeyCodeField();
-				setText(null);
 				setGraphic(keyCodeField);
 				keyCodeField.selectAll();
 				keyCodeField.requestFocus();
 			} else {
 				createTextField();
-				setText(null);
 				setGraphic(textField);
 				textField.selectAll();
 			}
+			setText(null);
 		}
 	}
 
@@ -55,16 +54,21 @@ public class EditingCell extends TableCell<Parameter, Object> {
 					if (keyCodeField != null) {
 						keyCodeField.setText(getKeyCode().toString());
 					}
-					setText(null);
 					setGraphic(keyCodeField);
 				} else {
 					if (textField != null) {
 						textField.setText(getString());
 					}
-					setText(null);
 					setGraphic(textField);
 				}
+				setText(null);
 			} else {
+				if (getItem() instanceof KeyCode) {
+					setStyle("-fx-font-weight: bold;");
+				}
+				else {
+					setStyle("-fx-font-weight: normal;");
+				}
 				setText(getString());
 				setGraphic(null);
 			}
