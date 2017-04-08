@@ -1,5 +1,7 @@
 package engine.game.selectiongroup;
 
+import java.util.List;
+
 /**
  * Note: This is NOT part of any API since it is only used within the Game Engine.
  * @author Matthew Barbano
@@ -14,4 +16,5 @@ public interface SelectionGroup<T extends Selectable> {
 	public void set(int index, T element);
 	public void remove(int index);
 	public T get(int index);
+	public List<T> getListRepresentation();
 }
