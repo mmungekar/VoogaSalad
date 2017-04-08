@@ -95,7 +95,11 @@ public class LayerEditor extends View
 		layerEntities.put(layerCount, new ArrayList<Node>());
 	}
 	
-	private void newLayerSelected(int oldVal, int newVal){
+	public void selectNewLayer(int newLayer){
+		newLayerSelected(newLayer);
+	}
+	
+	private void newLayerSelected(int newVal){
 	for (List<Node> entityList : layerEntities.values()) {
 		for (Node entity : entityList) {
 			entity.setEffect(makeOffLayerEffect());

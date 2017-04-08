@@ -84,4 +84,8 @@ public class Workspace extends View {
 		//layer.getSelectionModel().select(layer.getTabs().size() - 2);
 	}
 
+	public void selectLayer(int arg2) {
+		levelEditor.getCurrentLayer().selectNewLayer(arg2);
+	}
+
 }
