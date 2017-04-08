@@ -2,7 +2,7 @@ package player;
 
 import java.util.ResourceBundle;
 
-import engine.game.GameLoop;
+import engine.game.gameloop.GameLoop;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
