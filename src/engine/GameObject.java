@@ -31,9 +31,9 @@ public abstract class GameObject {
 	public void setParams(List<Parameter> params) {
 		this.params = params;
 	}
-	
-	public Object getParam(String name){
-		for (Parameter param: params){
+
+	public Object getParam(String name) {
+		for (Parameter param : params) {
 			if (param.getName().equals(name))
 				return param.getObject();
 		}

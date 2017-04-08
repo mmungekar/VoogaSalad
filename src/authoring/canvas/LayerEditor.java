@@ -44,7 +44,7 @@ public class LayerEditor extends TabPane
 		canvas = new Canvas(workspace);
 		layerEntities = new HashMap<Tab, List<Node>>();
 		clickToAddEntity();
-		this.getTabs().add(makePlusTab());
+		this.getTabs().add(newTab());
 		this.setSide(Side.RIGHT);
 		this.setRotateGraphic(true);
 		this.setTabMinHeight(100);
@@ -76,11 +76,14 @@ public class LayerEditor extends TabPane
 		layerEntities.get(this.getSelectionModel().getSelectedItem()).add(entity);
 		entity.setEffect(makeLayerEffect());
 	}
+	
+	public Tab makeNewTab(){
+		return newTab();
+	}
 
-	private Tab newTab()
-	{
+	private Tab newTab(){
 		Tab tab = new Tab();
-		tab.setGraphic(makeTabLabel(String.format("Layer %d", this.getTabs().size())));
+		tab.setGraphic(makeTabLabel(String.format("Layer %d", this.getTabs().size()+1)));
 		layerEntities.put(tab, new ArrayList<Node>());
 		// tab.setContent(canvas);
 		this.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>()
@@ -99,7 +102,9 @@ public class LayerEditor extends TabPane
 					entity.setEffect(makeLayerEffect());
 					entity.toFront();
 				}
+				if(oldTab!=null){
 				oldTab.setContent(null);
+				}
 				newTab.setContent(canvas);
 			}
 		});
@@ -131,7 +136,7 @@ public class LayerEditor extends TabPane
 		return stp;
 	}
 
-	private Tab makePlusTab()
+	/*private Tab makePlusTab()
 	{
 		Tab plusTab = new Tab("+");
 		plusTab.setClosable(false);
@@ -147,6 +152,6 @@ public class LayerEditor extends TabPane
 			}
 
 		});
-		return plusTab;
-	}
+	return plusTab;
+	}*/ 
 }

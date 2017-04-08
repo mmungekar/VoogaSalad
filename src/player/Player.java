@@ -35,7 +35,6 @@ public class Player extends BorderPane {
 		stage.setTitle(resources.getString("PlayerTitle"));
 		stage.setMinWidth(600);
 		stage.setMinHeight(600);
-		stage.setOnCloseRequest(e -> System.exit(0));
 		
 		stage.setScene(this.buildScene());
 		stage.show();

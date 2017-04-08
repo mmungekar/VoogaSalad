@@ -1,7 +1,9 @@
 package engine.game;
 
 import java.lang.reflect.Constructor;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import engine.Event;
 import engine.GameObject;
@@ -11,13 +13,16 @@ import engine.Entity;
 public class EngineController {
 
 	private ClassFinder finder;
+	private ResourceBundle resources;
 
 	public EngineController() {
 		finder = new ClassFinder();
 	}
-	public List<String> getAllEntities(){
+
+	public List<String> getAllEntities() {
 		return findClasses("engine.entities");
 	}
+
 	public List<String> getAllActions() {
 		return findClasses("engine.actions");
 	}
@@ -25,21 +30,31 @@ public class EngineController {
 	public List<String> getAllEvents() {
 		return findClasses("engine.events");
 	}
-	
-	public Entity createEntity(String entity){
-		return (Entity) getInstance("engine.entities." + concatenate(entity));
+
+	public Entity createEntity(String entity) {
+		return (Entity) getInstance("engine.entities." + getClassName(entity, "Entity"));
 	}
 
 	public Event createEvent(String event) {
-		return (Event) getInstance("engine.events." + concatenate(event));
+		return (Event) getInstance("engine.events." + getClassName(event, "Event"));
 	}
 
 	public Action createAction(String action) {
-		return (Action) getInstance("engine.actions." + concatenate(action));
+		return (Action) getInstance("engine.actions." + getClassName(action, "Action"));
 	}
-	private String concatenate(String cat){
-		return cat.replaceAll("\\s+", "");
+
+	private String getClassName(String string, String type) {
+		resources = ResourceBundle.getBundle("resources/" + type);
+		Enumeration<String> enumeration = resources.getKeys();
+		while (enumeration.hasMoreElements()) {
+			String className = enumeration.nextElement();
+			if (resources.getString(className).equals(string)) {
+				return className;
+			}
+		}
+		return "";
 	}
+
 	private List<String> findClasses(String path) {
 		List<Class<?>> classes = finder.find(path);
 		return classes.stream().map(s -> {
@@ -61,4 +76,5 @@ public class EngineController {
 			return null;
 		}
 	}
+
 }
