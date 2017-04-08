@@ -8,6 +8,8 @@ import authoring.ActionButton;
 import authoring.Workspace;
 import authoring.canvas.Canvas;
 import authoring.views.View;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -40,7 +42,7 @@ public class LayerPanel extends View {
 		editorContainer = new VBox();
 		editorContainer.setSpacing(Integer.parseInt(workspace.getResources().getString("SettingsSpacing")));
 		Button addLayerButton = new ActionButton("Add Layer", event ->workspace.addLayer());
-		myBox.setPromptText(workspace.getResources().getString("LayerBoxPrompt"));
+		initLayerSelector();
 		Slider velocitySlider = new Slider(){{
            setMin(0);
            setMax(100);
@@ -55,6 +57,18 @@ public class LayerPanel extends View {
         myBox.getItems().add(newLayer);
     }
 	
+	private void initLayerSelector(){
+				myBox.setPromptText(workspace.getResources().getString("LayerBoxPrompt"));
+		        myBox.valueProperty().addListener(new ChangeListener() {
+
+		            @Override
+		            public void changed(ObservableValue arg0, Object arg1, Object arg2) {
+		            	System.out.println(Integer.parseInt(((String)arg2).split(" ")[1]));
+		            	workspace.selectLayer(Integer.parseInt(((String)arg2).split(" ")[1]));
+		            }
+		        });
+		        
+
+	}
 
 }
-
