@@ -5,7 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
-import com.apple.eawt.Application;
+//import com.apple.eawt.Application;
 
 import authoring.AuthoringEnvironment;
 import javafx.event.ActionEvent;
@@ -41,7 +41,7 @@ public class StartMenu extends BorderPane {
 	private void setIcon() {
 		URL path = getClass().getResource(iconPath);
 		try {
-	        Application.getApplication().setDockIconImage(new ImageIcon(path).getImage());
+	       // Application.getApplication().setDockIconImage(new ImageIcon(path).getImage());
 	    } catch (Exception e) {
 			this.stage.getIcons().add(new Image(iconPath));
 	    }
