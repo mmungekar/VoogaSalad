@@ -15,8 +15,7 @@ public class NextLevelAction extends Action {
 
 	@Override
 	public void act() {
-		// TODO call method on "levelStepStrategy" to begin next level"
-
+		levelStepStrategy.startNextLevel();
 	}
 
 }

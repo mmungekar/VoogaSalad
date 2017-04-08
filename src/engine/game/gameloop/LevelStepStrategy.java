@@ -103,6 +103,10 @@ public class LevelStepStrategy implements StepStrategy{
 		graphicsEngine.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
 	}
 	
+	public void startNextLevel(){
+		// TODO start next level
+	}
+	
 	//Temporary, for testing
 	private void instantiateTestEntitesEventsActions(){
 		//TEST - TODO ask Nikita, etc. how GAE does this
