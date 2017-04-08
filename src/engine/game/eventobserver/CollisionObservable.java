@@ -24,16 +24,6 @@ public class CollisionObservable extends EventObservable {
 		super();
 	}
 
-	private boolean isCollision(Entity first, Entity second) {
-		if (first.getMinX() + first.getWidth() < second.getMinX()
-				|| second.getMinX() + second.getWidth() < first.getWidth()
-				|| first.getMinY() + first.getHeight() < second.getMinY()
-				|| second.getMinY() + second.getHeight() < first.getMinY()) {
-			return false;
-		}
-		return true;
-	}
-
 	private CollisionSide collisionSide(Entity entityOne, Entity entityTwo) {
 		if (isHorizontalCollision(entityOne, entityTwo)) {
 			if (entityOne.getMinX() < entityTwo.getMinX()) {
@@ -93,6 +83,32 @@ public class CollisionObservable extends EventObservable {
 	 */
 	public List<Collision> getCollisions() {
 		return collisions;
+	}
+
+	private boolean isCollision(Entity first, Entity second) {
+		if (first.getMinX() + first.getWidth() < second.getMinX()
+				|| second.getMinX() + second.getWidth() < first.getMinX()
+				|| first.getMinY() + first.getHeight() < second.getMinY()
+				|| second.getMinY() + second.getHeight() < first.getMinY()) {
+			return false;
+		}
+		return true;
+	}
+
+	private static boolean isCollision(double minX1, double minX2, double minY1, double minY2, double width1,
+			double width2, double height1, double height2) {
+		if (minX1 + width1 < minX2 || minX2 + width2 < minX1 || minY1 + height1 < minY2 || minY2 + height2 < minY1) {
+			return false;
+		}
+		return true;
+	}
+
+	public static void main(String[] args) {
+		System.out.println("Collision? -> " + isCollision(0, 10, 0, 10, 5, 5, 5, 5));// false
+		System.out.println("Collision? -> " + isCollision(0, 10, 0, 10, 9.9, 10, 9.9, 10));// false
+		System.out.println("Collision? -> " + isCollision(0, 10, 0, 10, 10.1, 10, 9.9, 10));// false
+		System.out.println("Collision? -> " + isCollision(0, 10, 0, 10, 9.9, 10, 10.1, 10));// false
+		System.out.println("Collision? -> " + isCollision(0, 10, 0, 10, 10, 10, 10.1, 10));// true
 	}
 
 }

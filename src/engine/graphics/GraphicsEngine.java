@@ -3,9 +3,13 @@ package engine.graphics;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import engine.graphics.cameras.Camera;
+import engine.graphics.cameras.ScrollingCamera;
 import engine.Entity;
 import engine.EntityInterface;
-import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
 
 /**
  * @author Jay Doherty
@@ -15,19 +19,21 @@ import javafx.scene.Group;
  */
 public class GraphicsEngine {
 
+	private Camera camera;
 	private Collection<Entity> entities;
-	private Group root;
+	private Pane displayArea;
 	
-	public GraphicsEngine() {
+	public GraphicsEngine(Camera camera) {
+		this.camera = camera;
 		entities = new ArrayList<Entity>();
-		root = new Group();
+		this.setupView();
 	}
 	
 	/**
 	 * @return the graphical display for the game
 	 */
-	public Group getView() {
-		return root;
+	public Pane getView() {
+		return displayArea;
 	}
 	
 	/**
@@ -36,10 +42,8 @@ public class GraphicsEngine {
 	 */
 	public void update() {
 		this.clearView();
-		NodeFactory factory = new NodeFactory();
-		for(EntityInterface e : entities) {
-			root.getChildren().add(factory.getNodeFromEntity(e));	
-		}
+		this.drawAllEntities();
+		this.updateCamera();
 	}
 	
 	/**
@@ -51,6 +55,32 @@ public class GraphicsEngine {
 	}
 	
 	private void clearView() {
-		root.getChildren().clear();
+		displayArea.getChildren().clear();
+	}
+	
+	private void drawAllEntities() {
+		NodeFactory factory = new NodeFactory();
+		for(EntityInterface e : entities) {
+			displayArea.getChildren().add(factory.getNodeFromEntity(e));	
+		}
+	}
+	
+	private void setupView() {
+		displayArea = new Pane();
+		displayArea.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+		this.clipAtEdges(displayArea);
+	}
+	
+	private void clipAtEdges(Pane pane) {
+		Rectangle clipBoundaries = new Rectangle();
+		clipBoundaries.widthProperty().bind(pane.widthProperty());
+		clipBoundaries.heightProperty().bind(pane.heightProperty());
+		pane.setClip(clipBoundaries);
+	}
+	
+	private void updateCamera() {
+		camera.update();
+		displayArea.setTranslateX(-camera.getX());
+		displayArea.setTranslateY(-camera.getY());
 	}
 }

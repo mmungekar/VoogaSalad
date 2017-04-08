@@ -2,7 +2,7 @@ package player;
 
 import java.util.ResourceBundle;
 
-import engine.game.GameLoop;
+import engine.game.gameloop.GameLoop;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -35,7 +35,6 @@ public class Player extends BorderPane {
 		stage.setTitle(resources.getString("PlayerTitle"));
 		stage.setMinWidth(600);
 		stage.setMinHeight(600);
-		stage.setOnCloseRequest(e -> System.exit(0));
 		
 		stage.setScene(this.buildScene());
 		stage.show();

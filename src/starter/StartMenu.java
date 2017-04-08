@@ -1,6 +1,11 @@
 package starter;
 
+import java.io.File;
+import java.net.URL;
 import java.util.ResourceBundle;
+
+import javax.swing.ImageIcon;
+import com.apple.eawt.Application;
 
 import authoring.AuthoringEnvironment;
 import javafx.event.ActionEvent;
@@ -8,11 +13,15 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import player.PlayerMenu;
 
 public class StartMenu extends BorderPane {
@@ -20,10 +29,22 @@ public class StartMenu extends BorderPane {
 	private Stage stage;
 	private ResourceBundle resources = ResourceBundle.getBundle("resources/Starter");
 	private String stylesheetPath = resources.getString("StylesheetPath");
+	private String iconPath = resources.getString("IconPath");
+	private String logoPath = resources.getString("LogoPath");
 	
 	protected StartMenu(Stage primaryStage) {
 		this.stage = primaryStage;
+		this.setIcon();
 		this.buildStage();
+	}
+	
+	private void setIcon() {
+		URL path = getClass().getResource(iconPath);
+		try {
+	       Application.getApplication().setDockIconImage(new ImageIcon(path).getImage());
+	    } catch (Exception e) {
+			this.stage.getIcons().add(new Image(iconPath));
+	    }
 	}
 	
 	private void buildStage() {
@@ -38,30 +59,38 @@ public class StartMenu extends BorderPane {
 	}
 	
 	private Scene buildScene() {
-		Scene scene = new Scene(this, 400, 400);
+		Scene scene = new Scene(this, 380, 200);
 		scene.getStylesheets().add(stylesheetPath);
 		return scene;
 	}
 	
-	private VBox buildView() {
+	private BorderPane buildView() {
+		
+		ImageView imageView = new ImageView(new Image(logoPath));
+		imageView.setPreserveRatio(true);
+		imageView.setFitWidth(300);
+		
+		// Load FileChooser on Edit or Play.
 		Button newButton = makeButton("NewButton", e -> this.newGame());
-		Button chooseButton = makeButton("ChooseButton", e -> this.chooseGame());
 		Button editButton = makeButton("EditButton", e -> this.editGame());
 		Button playButton = makeButton("PlayButton", e -> this.playGame());
-		Button exitButton = makeButton("ExitButton", e -> System.exit(0));
 		
 		HBox editOrPlayButtons = new HBox(0);
 		editOrPlayButtons.getChildren().addAll(editButton, playButton);
-		
-		VBox chooseGameButtons = new VBox(0);
-		chooseGameButtons.getChildren().addAll(chooseButton, editOrPlayButtons);
-		
-		VBox buttons = new VBox(50);
+				
+		VBox buttons = new VBox();
 		buttons.setAlignment(Pos.CENTER);
-		buttons.maxWidthProperty().bind(stage.widthProperty().multiply(0.8));
-		buttons.getChildren().addAll(newButton, chooseGameButtons, exitButton);
+		buttons.setMaxWidth(140);
+		buttons.getChildren().addAll(newButton, editOrPlayButtons);
 		
-		return buttons;
+		VBox box = new VBox(imageView, buttons);
+		box.setAlignment(Pos.CENTER);
+		box.setSpacing(60);
+				
+		BorderPane pane = new BorderPane();
+		pane.setCenter(box);
+		
+		return pane;
 	}
 	
 	private void newGame() {
@@ -70,6 +99,11 @@ public class StartMenu extends BorderPane {
 	
 	private void chooseGame() {
 		//TODO: make file chooser
+		FileChooser chooser = new FileChooser();
+		chooser.setTitle(resources.getString("ChooserTitle"));
+		chooser.setInitialDirectory(new File(System.getProperty("user.dir")+resources.getString("DefaultDirectory")));
+		chooser.getExtensionFilters().setAll(new ExtensionFilter(resources.getString("ChooserFilter"), resources.getString("chooserExtension")));
+
 	}
 	
 	private void editGame() {

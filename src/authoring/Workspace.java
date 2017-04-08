@@ -7,9 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import authoring.canvas.LayerEditor;
 import authoring.canvas.LevelEditor;
+import authoring.components.ComponentMaker;
 import authoring.panel.Panel;
-import authoring.utils.ComponentMaker;
 import authoring.utils.EntityWrapper;
 import authoring.views.View;
 import javafx.geometry.Insets;
@@ -73,7 +74,18 @@ public class Workspace extends View {
 	}
 	
 	public void setNewLayer(String newLayer){
-		panel.updateSettings(newLayer);
+		panel.updateLayerPanel(newLayer);
+	}
+	
+	public void addLayer(){
+		LayerEditor layer = levelEditor.getCurrentLayer();
+		layer.makeNewTab();
+		//layer.getTabs().add(layer.getTabs().size() - 1, layer.makeNewTab());
+		//layer.getSelectionModel().select(layer.getTabs().size() - 2);
+	}
+
+	public void selectLayer(int arg2) {
+		levelEditor.getCurrentLayer().selectNewLayer(arg2);
 	}
 
 }
