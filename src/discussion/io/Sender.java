@@ -16,11 +16,14 @@ public class Sender extends Actor {
 	
 	public Sender(String host, int port, int bufferSize) {
 		super(host, port, bufferSize);
+		System.setProperty("java.net.preferIPv4Stack", "true");
 	}
 	
 	public void send(Message message) {
 		try {
 			MulticastSocket socket = new MulticastSocket(getPort());
+			//socket.connect(InetAddress.getByName(getHost()), getPort());
+			System.out.println("Connected: " + socket.isConnected());
 		    ByteArrayOutputStream stream = createOutputStream(message);
 		    sendPacket(socket, makePacket(stream));
 			socket.close();
@@ -55,9 +58,8 @@ public class Sender extends Actor {
 				InetAddress address = addresses.nextElement();
 				socket.setInterface(address);
 				socket.send(packet);
-				//break;
+				System.out.println("Sent on: " + address);
 			}
-			//break;
 		}
 	}
 

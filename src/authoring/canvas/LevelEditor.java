@@ -59,4 +59,5 @@ public class LevelEditor extends TabPane
 		});
 		return plusTab;
 	}
+	
 }

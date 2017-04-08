@@ -6,9 +6,6 @@ import authoring.components.Thumbnail;
 import authoring.panel.CreatedEntities;
 import authoring.panel.creation.EntityMaker;
 import authoring.utils.EntityWrapper;
-import engine.Action;
-import engine.Event;
-import engine.Parameter;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -53,6 +50,7 @@ public class EntityDisplay extends EditableContainer {
 			@Override
 			public void handle(MouseEvent event) {
 				entities.setSelectedEntity(table.getSelectionModel().getSelectedItem());
+				getWorkspace().updateToolbar(entities.getSelectedEntity().getImagePath().get());
 			}
 		});
 		return table;

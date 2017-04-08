@@ -82,5 +82,9 @@ public class Workspace extends View {
 		layer.getTabs().add(layer.getTabs().size() - 1, layer.makeNewTab());
 		layer.getSelectionModel().select(layer.getTabs().size() - 2);
 	}
+	
+	public void updateToolbar(String imagePath) {
+		//levelEditor.updateToolbar(imagePath);
+	}
 
 }

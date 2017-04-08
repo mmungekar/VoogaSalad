@@ -1,10 +1,13 @@
 package authoring.components;
 
+import authoring.Workspace;
 import engine.Parameter;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
@@ -16,6 +19,13 @@ public class EditingCell extends TableCell<Parameter, Object> {
 
 	private TextField textField;
 	private KeyCodeField keyCodeField;
+	private String invalidEdit;
+	private ComponentMaker maker;
+	
+	public EditingCell(Workspace workspace) {
+		maker = new ComponentMaker(workspace.getResources());
+		invalidEdit = workspace.getResources().getString("InvalidEdit");
+	}
 
 	@Override
 	public void startEdit() {
@@ -44,11 +54,18 @@ public class EditingCell extends TableCell<Parameter, Object> {
 
 	@Override
 	public void updateItem(Object item, boolean empty) {
-		super.updateItem(item, empty);
+		//super.updateItem(item, empty);
 		if (empty) {
-			setText(null);
-			setGraphic(null);
+			super.updateItem(item, empty);
 		} else {
+			/*Parameter param = (Parameter) getTableRow().getItem();
+			if (!param.getParameterClass().equals(item.getClass())) {
+				Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", invalidEdit);
+				alert.show();
+				super.updateItem(param, empty);
+				return;
+			}*/
+			super.updateItem(item, empty);
 			if (isEditing()) {
 				if (getItem() instanceof KeyCode) {
 					if (keyCodeField != null) {
@@ -63,12 +80,10 @@ public class EditingCell extends TableCell<Parameter, Object> {
 				}
 				setText(null);
 			} else {
-				if (getItem() instanceof KeyCode) {
+				if (getItem() instanceof KeyCode)
 					setStyle("-fx-font-weight: bold;");
-				}
-				else {
+				else
 					setStyle("-fx-font-weight: normal;");
-				}
 				setText(getString());
 				setGraphic(null);
 			}
@@ -101,7 +116,7 @@ public class EditingCell extends TableCell<Parameter, Object> {
 			}
 		});
 	}
-	
+
 	private void keyPressed(KeyEvent e) {
 		if (e.getCode().equals(KeyCode.ENTER)) {
 			textField.parentProperty().get().requestFocus();

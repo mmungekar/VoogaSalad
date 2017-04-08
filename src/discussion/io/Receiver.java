@@ -7,6 +7,7 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.net.NetworkInterface;
+import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -27,6 +28,7 @@ public class Receiver extends Actor implements Runnable {
 		super(host, port, bufferSize);
 		this.ID = ID;
 		delegates = new ArrayList<Delegate>();
+		System.setProperty("java.net.preferIPv4Stack", "true");
 	}
 
 	public void addReceiver(Connectable connectable, String key) {
@@ -35,13 +37,13 @@ public class Receiver extends Actor implements Runnable {
 
 	@Override
 	public void run() {
-		System.setProperty("java.net.preferIPv4Stack", "true");
 		try {
 			byte[] buffer = new byte[getBufferSize()];
 			DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
 			MulticastSocket socket = setupSocket();
 			while (true) {
 				socket.receive(packet);
+				System.out.println("Received something.");
 				Message message = getMessageFromBuffer(buffer);
 				processMessage(message);
 				packet.setLength(buffer.length);
@@ -53,7 +55,8 @@ public class Receiver extends Actor implements Runnable {
 
 	private MulticastSocket setupSocket() throws Exception {
 		MulticastSocket socket = new MulticastSocket(getPort());
-		Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+		socket.setReuseAddress(true);
+		/*Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
 		while (interfaces.hasMoreElements()) {
 			try {
 				NetworkInterface iface = interfaces.nextElement();
@@ -62,16 +65,23 @@ public class Receiver extends Actor implements Runnable {
 				}
 				Enumeration<InetAddress> addresses = iface.getInetAddresses();
 				while (addresses.hasMoreElements()) {
-					InetAddress address = addresses.nextElement();
-					socket.setInterface(address);
-					socket.joinGroup(InetAddress.getByName(getHost()));
-					//break;
+					try {
+						InetAddress address = addresses.nextElement();
+						System.out.println("Trying to sign up for: " + address);
+						socket.setInterface(address);
+						socket.joinGroup(InetAddress.getByName(getHost()));
+					} catch (Exception e) {
+						e.printStackTrace();
+						continue;
+					}
 				}
-				//break;
 			} catch (Exception e) {
+				e.printStackTrace();
 				continue;
 			}
-		}
+		}*/
+		socket.setInterface(InetAddress.getByName("10.188.16.255"));
+		socket.joinGroup(InetAddress.getByName(getHost()));
 		return socket;
 	}
 
