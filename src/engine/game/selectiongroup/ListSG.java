@@ -52,4 +52,9 @@ public class ListSG<T extends Selectable> implements SelectionGroup<T>{
 	public T get(int index) {
 		return list.get(index);
 	}
+	
+	@Override
+	public List<T> getListRepresentation(){
+		return list;
+	}
 }
