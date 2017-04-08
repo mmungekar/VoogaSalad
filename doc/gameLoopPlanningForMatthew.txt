@@ -1,0 +1,71 @@
+Setup Game:
+// Setup Observables - at beginning of entire game only
+
+
+Setup Level:
+//More Observables - at beginning of each level only
+// Give all Events belonging to Entities in the current Level their
+		// corresponding Observables
+// Attach entities in current level to observables
+// Start the GAE's current level - sets Entities to initial conditions - need to ask Nikita how to do this
+// Setup game view (Jay):
+	1. Instantiate GraphicsEngine
+	2. Set GraphicsEngine's entityCollection to Collection<Entity> in current level
+	3. Instantiate hero Entity and add it to Entity Collection (same Collection in memory in Level and GraphicsEngine) (for testing)
+	//TODO - Create Entities and attach Events/Actions in GAE...(need Nikita/Kyle)
+
+
+// Start timeline - will likely change
+
+Step Through Level:
+//Update observers
+//Update entities (the critical step)
+//Set input to process to false for input observables
+//Print data (debugging)
+//graphicsEngine.update() (Jay) (I think updates all graphics by how the backend Entities have changed)
+
+
+---------------------NEW PLAN-------------------
+//ARGUMENT: The graph like structure can be controlled by the GAE (VERY extension sprint).
+//No enum: Because will have if(---) make this object else(---) make different object somewhere; with generics, can type object at the start
+//Keeping Timeline in Screen class minimizes it as a parameter
+
+GameLoop:
+Fields:
+currentStepStrategy
+
+CONSTRUCTOR
+Setup Game:
+// Setup Observables - at beginning of entire game only
+- Instantiate all Screen<S extends StepStrategy> - constructor takes List of possible next steps (create and pass this List here too)
+
+START()
+Call start() on first screen.
+
+STEP() - will stop when appropriate
+if(step()){
+	currentScreen = currentScreen.getNextScreen();  //returns the StepStrategy object
+}
+
+GraphNode<T>
+- List<GraphNode> nextNodes
+- T value
+
+Screen extends GraphNode<Screen>:   //Alt: In GameLoop GraphNode<Screen<LevelStepStrategy>>, to get the screen, do graphNode.getValue() - returns the Screen
+Fields:
+- nextScreen
+- scene
+Constructor Screen(List<StepStrategy> possibleNextSteps)
+- set possibleNextSteps
+- set nextStep to first elt of possibleNextSteps (unless empty or null, in which case set it to "this")
+- setup timeline
+
+start()
+- starts timeline
+step() - returns true when need to move to next screen
+- calls appropriate StepStrategy's step() - make sure to stop timeline in there when appropriate and return true at that time!
+
+Priorities:
+1. Level Screen
+2. LevelManager Screen
+3. Transition Screens

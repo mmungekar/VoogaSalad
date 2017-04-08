@@ -39,12 +39,14 @@ public class StartMenu extends BorderPane {
 	}
 	
 	private void setIcon() {
+		/*
 		URL path = getClass().getResource(iconPath);
 		try {
 	        Application.getApplication().setDockIconImage(new ImageIcon(path).getImage());
 	    } catch (Exception e) {
 			this.stage.getIcons().add(new Image(iconPath));
 	    }
+	    */
 	}
 	
 	private void buildStage() {

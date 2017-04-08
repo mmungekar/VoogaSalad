@@ -1,8 +1,8 @@
 package testers;
 
-import engine.game.GameLoop;
 import engine.game.Level;
 import engine.game.LevelManager;
+import engine.game.gameloop.OldGameLoopBackup;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -24,7 +24,7 @@ public class TestGameEngineStartup extends Application{
 		levelManager.saveAllLevels();
 		//----------------------PRETEND ARE IN ENTIRELY SEPARATE MAIN METHODS---------------
 		//Playing phase (the following code is in the Game Player)
-		GameLoop gameLoop = new GameLoop("dummyGameMatthew.txt");
+		OldGameLoopBackup gameLoop = new OldGameLoopBackup("dummyGameMatthew.txt");
 		gameLoop.startTimeline();
 	}
 }
