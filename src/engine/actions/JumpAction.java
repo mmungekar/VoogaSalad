@@ -19,7 +19,5 @@ public class JumpAction extends Action {
 		double yMax = (Double) getParam("Max Jump Height");
 		double velocity = (-yMax) / ((Double) getParam("Jump Duration"));
 		entity.setYSpeed(velocity);
-		// and make sure another action is added that stops the jump on
-		// collision with a block from above.
 	}
 }
