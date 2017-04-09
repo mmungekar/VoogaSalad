@@ -4,7 +4,7 @@ import engine.Entity;
 import engine.Event;
 import engine.entities.CharacterEntity;
 import engine.events.CollisionEvent;
-import engine.events.InputEvent;
+import engine.events.KeyPressEvent;
 import engine.events.TimerEvent;
 import engine.game.LevelManager;
 import engine.game.eventobserver.CollisionObservable;
@@ -58,7 +58,7 @@ public class OldGameLoopBackup {
 		// corresponding Observables
 		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
 			for (Event event : entity.getEvents()) {
-				if (event instanceof InputEvent) {
+				if (event instanceof KeyPressEvent) {
 					event.addEventObservable(inputObservable);
 				}
 				else if (event instanceof CollisionEvent){
