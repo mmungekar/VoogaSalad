@@ -18,13 +18,17 @@ public class DragResizer
 	 * The margin around the control that a user can click in to start resizing
 	 * the region.
 	 */
-	private static final int RESIZE_MARGIN = 15;
-	private static final int TILE_SIZE = 25;
+	private static final int RESIZE_MARGIN = 5;
 
 	private final EntityDisplay region;
 
+	private int tileSize;
+
 	private double x;
 	private double y;
+
+	private double untiledHeight;
+	private double untiledWidth;
 
 	private boolean initMinWidth;
 	private boolean initMinHeight;
@@ -33,14 +37,15 @@ public class DragResizer
 	private boolean yDragging;
 	private boolean moveDragging;
 
-	private DragResizer(EntityDisplay entityDisplay)
+	private DragResizer(EntityDisplay entityDisplay, int gridSize)
 	{
 		region = entityDisplay;
+		tileSize = gridSize;
 	}
 
-	public static void makeResizable(EntityDisplay region)
+	public static void makeResizable(EntityDisplay region, int gridSize)
 	{
-		final DragResizer resizer = new DragResizer(region);
+		final DragResizer resizer = new DragResizer(region, gridSize);
 
 		region.setOnMousePressed(new EventHandler<MouseEvent>()
 		{
@@ -123,9 +128,12 @@ public class DragResizer
 
 			double mousex = event.getX();
 
-			double newWidth = region.getMinWidth() + (mousex - x);
+			double newWidth = untiledWidth + (mousex - x);
+			untiledWidth = newWidth;
 
-			region.setMinWidth(newWidth);
+			if (untiledWidth >= tileSize) {
+				region.setMinWidth(getTiledCoordinate(untiledWidth));
+			}
 
 			x = mousex;
 		}
@@ -134,9 +142,12 @@ public class DragResizer
 
 			double mousey = event.getY();
 
-			double newHeight = region.getMinHeight() + (mousey - y);
+			double newHeight = untiledHeight + (mousey - y);
+			untiledHeight = newHeight;
 
-			region.setMinHeight(newHeight);
+			if (untiledHeight >= tileSize) {
+				region.setMinHeight(getTiledCoordinate(untiledHeight));
+			}
 
 			y = mousey;
 		}
@@ -159,6 +170,7 @@ public class DragResizer
 
 			if (!initMinWidth) {
 				region.setMinWidth(region.getWidth());
+				untiledWidth = region.getWidth();
 				initMinWidth = true;
 			}
 			x = event.getX();
@@ -169,6 +181,7 @@ public class DragResizer
 
 			if (!initMinHeight) {
 				region.setMinHeight(region.getHeight());
+				untiledHeight = region.getHeight();
 				initMinHeight = true;
 			}
 			y = event.getY();
@@ -183,7 +196,10 @@ public class DragResizer
 
 	private double getTiledCoordinate(double coordinate)
 	{
-		double gridCoordinate = ((int) coordinate / TILE_SIZE) * TILE_SIZE;
+		double gridCoordinate = ((int) coordinate / tileSize) * tileSize;
+		if (coordinate % tileSize > tileSize / 2) {
+			return gridCoordinate + tileSize;
+		}
 		return gridCoordinate;
 	}
 }
