@@ -8,12 +8,12 @@ import java.util.Map;
 import authoring.Workspace;
 import authoring.components.ComponentMaker;
 import authoring.views.View;
+import engine.Entity;
 import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 
@@ -22,20 +22,23 @@ import javafx.scene.shape.Rectangle;
  * @author jimmy Modified by Mina Mungekar
  *
  */
-public class LayerEditor extends View {
+public class LayerEditor extends View
+{
 	Workspace workspace;
 	Canvas canvas;
 	Map<Integer, List<Node>> layerEntities;
 	int layerCount;
 	Bounds lastBounds;
 
-	public LayerEditor(Workspace workspace) {
+	public LayerEditor(Workspace workspace)
+	{
 		super("");
 		this.workspace = workspace;
 		setup();
 	}
 
-	private void setup() {
+	private void setup()
+	{
 		canvas = new Canvas(workspace);
 		setCenter(canvas);
 		layerEntities = new HashMap<Integer, List<Node>>();
@@ -45,7 +48,8 @@ public class LayerEditor extends View {
 		newTab();
 	}
 
-	private void clickToAddEntity() {
+	private void clickToAddEntity()
+	{
 		canvas.setPaneOnMouseClicked(e -> {
 			if (e.isControlDown()) {
 				placeEntity(e);
@@ -53,55 +57,62 @@ public class LayerEditor extends View {
 		});
 		canvas.setPaneOnMouseDragged(e -> {
 			try {
-				Bounds newBounds = boundsFromImage(getCurrentImageView().getImage(), e);
+				Bounds newBounds = boundsFromImage(getCurrentImage(), e);
 				if (e.isControlDown() && e.isShiftDown() && !lastBounds.intersects(newBounds)) {
 					lastBounds = newBounds;
 					placeEntity(e);
 				}
-			} catch (Exception exception) { }
+			} catch (Exception exception) {
+			}
 		});
 	}
 
-	private ImageView getCurrentImageView() {
-		Image image = new Image(workspace.getSelectedEntity().getEntity().getImagePath());
-		ImageView entity = new ImageView(image);
-		return entity;
+	private Image getCurrentImage()
+	{
+		return new Image(workspace.getSelectedEntity().getImagePath().get());
 	}
 
-	private void placeEntity(MouseEvent e) {
+	private void placeEntity(MouseEvent e)
+	{
 		try {
-			addEntity(getCurrentImageView(), e.getX(), e.getY());
+			addEntity(workspace.getSelectedEntity().getEntity(), e.getX(), e.getY());
 		} catch (Exception exception) {
 			showSelectMessage();
 		}
 	}
 
-	private Bounds boundsFromImage(Image image, MouseEvent e) {
+	private Bounds boundsFromImage(Image image, MouseEvent e)
+	{
 		Bounds bounds = new Rectangle(e.getX(), e.getY(), image.getWidth(), image.getHeight()).getBoundsInLocal();
 		return bounds;
 	}
 
-	private void addEntity(ImageView entity, double x, double y) {
-		canvas.addEntity(entity, x, y);
-		layerEntities.get(layerCount).add(entity);
+	private void addEntity(Entity entity, double x, double y)
+	{
+		EntityDisplay addedEntity = canvas.addEntity(entity, x, y);
+		layerEntities.get(layerCount).add(addedEntity);
 	}
 
-	public void makeNewTab() {
+	public void makeNewTab()
+	{
 		newTab();
 	}
 
-	private void newTab() {
+	private void newTab()
+	{
 		layerCount++;
 		layerEntities.put(layerCount, new ArrayList<Node>());
 		workspace.setNewLayer(String.format("Layer %d", layerCount));
 		// newLayerSelected(layerCount);
 	}
 
-	public void selectNewLayer(int newLayer) {
+	public void selectNewLayer(int newLayer)
+	{
 		newLayerSelected(newLayer);
 	}
 
-	private void newLayerSelected(int newVal) {
+	private void newLayerSelected(int newVal)
+	{
 		for (List<Node> entityList : layerEntities.values()) {
 			for (Node entity : entityList) {
 				entity.setOpacity(0.3);
@@ -114,12 +125,13 @@ public class LayerEditor extends View {
 			entity.toFront();
 		}
 	}
-	
-	private void showSelectMessage() {
+
+	private void showSelectMessage()
+	{
 		ComponentMaker maker = new ComponentMaker(workspace.getResources());
 		String message = workspace.getResources().getString("SelectAnEntity");
 		Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message);
 		alert.show();
 	}
-	
+
 }

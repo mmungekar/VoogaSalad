@@ -6,8 +6,6 @@ import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
 
-import com.apple.eawt.Application;
-
 import authoring.AuthoringEnvironment;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -25,7 +23,8 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import player.PlayerMenu;
 
-public class StartMenu extends BorderPane {
+public class StartMenu extends BorderPane
+{
 
 	private Stage stage;
 	private ResourceBundle resources = ResourceBundle.getBundle("resources/Starter");
@@ -33,13 +32,15 @@ public class StartMenu extends BorderPane {
 	private String iconPath = resources.getString("IconPath");
 	private String logoPath = resources.getString("LogoPath");
 
-	protected StartMenu(Stage primaryStage) {
+	protected StartMenu(Stage primaryStage)
+	{
 		this.stage = primaryStage;
 		this.setIcon();
 		this.buildStage();
 	}
 
-	private void setIcon() {
+	private void setIcon()
+	{
 		URL path = getClass().getResource(iconPath);
 		try {
 			Application.getApplication().setDockIconImage(new ImageIcon(path).getImage());
@@ -48,7 +49,8 @@ public class StartMenu extends BorderPane {
 		}
 	}
 
-	private void buildStage() {
+	private void buildStage()
+	{
 		stage.setTitle(resources.getString("Title"));
 		stage.setMinWidth(300);
 		stage.setMinHeight(300);
@@ -59,13 +61,15 @@ public class StartMenu extends BorderPane {
 		stage.show();
 	}
 
-	private Scene buildScene() {
+	private Scene buildScene()
+	{
 		Scene scene = new Scene(this, 380, 200);
 		scene.getStylesheets().add(stylesheetPath);
 		return scene;
 	}
 
-	private BorderPane buildView() {
+	private BorderPane buildView()
+	{
 
 		ImageView imageView = new ImageView(new Image(logoPath));
 		imageView.setPreserveRatio(true);
@@ -94,11 +98,13 @@ public class StartMenu extends BorderPane {
 		return pane;
 	}
 
-	private void newGame() {
+	private void newGame()
+	{
 		new AuthoringEnvironment();
 	}
 
-	private void chooseGame() {
+	private void chooseGame()
+	{
 		// TODO: make file chooser
 		FileChooser chooser = new FileChooser();
 		chooser.setTitle(resources.getString("ChooserTitle"));
@@ -108,17 +114,20 @@ public class StartMenu extends BorderPane {
 
 	}
 
-	private void editGame() {
+	private void editGame()
+	{
 		// TODO: make it so that it only works if game chosen
 		new AuthoringEnvironment();
 	}
 
-	private void playGame() {
+	private void playGame()
+	{
 		// TODO: make it so that it only works if game chosen
 		new PlayerMenu();
 	}
 
-	private Button makeButton(String label, EventHandler<ActionEvent> handler) {
+	private Button makeButton(String label, EventHandler<ActionEvent> handler)
+	{
 		Button button = new Button(resources.getString(label));
 		button.setOnAction(handler);
 		HBox.setHgrow(button, Priority.ALWAYS);
