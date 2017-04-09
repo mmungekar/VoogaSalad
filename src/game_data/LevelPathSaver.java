@@ -21,11 +21,11 @@ import org.w3c.dom.Element;
 public class LevelPathSaver {
 	
 	
-	List<String> filepaths;
-	DocumentBuilderFactory docFactory;
-	DocumentBuilder docBuilder;
-	Document doc;
-	String rootfolder;
+	private List<String> filepaths;
+	private DocumentBuilderFactory docFactory;
+	private DocumentBuilder docBuilder;
+	private Document doc;
+	private String rootfolder;
 	
 	
 	
@@ -35,7 +35,7 @@ public class LevelPathSaver {
 	}
 	
 	
-	private void saveLevelPaths(){
+	public void saveLevelPaths(){
 		
 	docFactory = DocumentBuilderFactory.newInstance();
 	try {
@@ -56,7 +56,7 @@ public class LevelPathSaver {
 	
 	
 	
-	writeContent(rootfolder + "levelpaths.xml");
+	writeContent(rootfolder + "/levelpaths.xml");
 	
 	}
 	
@@ -78,6 +78,7 @@ public class LevelPathSaver {
 	
 	
 	private void writeContent(String currfilepath){
+		System.out.println(currfilepath);
 		try{
 
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();

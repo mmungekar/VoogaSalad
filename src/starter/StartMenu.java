@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
+
 import com.apple.eawt.Application;
 
 import authoring.AuthoringEnvironment;
