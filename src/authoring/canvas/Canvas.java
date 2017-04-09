@@ -219,4 +219,5 @@ public class Canvas extends View
 		double gridY = ((int) y / TILE_SIZE) * TILE_SIZE;
 		return new Point2D(gridX, gridY);
 	}
+	
 }

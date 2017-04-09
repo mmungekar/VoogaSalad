@@ -117,7 +117,7 @@ public class Chat extends View {
 	}
 
 	private void appendToChat(Message message) {
-		chat.appendText(message.getUsername() + ": " + message.getMessage() + "\n");
+		chat.appendText(message.getUsername() + " > " + message.getMessage() + "\n");
 	}
 
 }
