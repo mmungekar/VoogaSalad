@@ -7,9 +7,8 @@ import java.util.Map;
 
 import authoring.Workspace;
 import authoring.views.View;
+import engine.Entity;
 import javafx.scene.Node;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 /**
  * 
@@ -45,16 +44,15 @@ public class LayerEditor extends View
 	{
 		canvas.setPaneOnMouseClicked(e -> {
 			if (e.isShiftDown()) {
-				ImageView entity = new ImageView(new Image(workspace.getSelectedEntity().getEntity().getImagePath()));
-				addEntity(entity, e.getX(), e.getY());
+				addEntity(workspace.getSelectedEntity().getEntity(), e.getX(), e.getY());
 			}
 		});
 	}
 
-	private void addEntity(ImageView entity, double x, double y)
+	private void addEntity(Entity entity, double x, double y)
 	{
-		canvas.addEntity(entity, x, y);
-		layerEntities.get(layerCount).add(entity);
+		EntityDisplay newEntity = canvas.addEntity(entity, x, y);
+		layerEntities.get(layerCount).add(newEntity);
 	}
 
 	public void makeNewTab()
