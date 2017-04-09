@@ -1,19 +1,13 @@
 package player;
 
-import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-public class OptionsMenu implements Menu{
-
-	@Override
-	public void back() {
-		// TODO Auto-generated method stub
-		
+public class OptionsMenu extends AbstractMenu{
+	
+	public OptionsMenu(Stage stage){
+		super(stage);
 	}
 
-	@Override
-	public Scene display() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 }

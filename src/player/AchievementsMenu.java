@@ -1,19 +1,10 @@
 package player;
 
-import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-public class AchievementsMenu implements Menu{
+public class AchievementsMenu extends AbstractMenu{
 
-	@Override
-	public void back() {
-		// TODO Auto-generated method stub
-		
+	public AchievementsMenu(Stage stage){
+		super(stage);
 	}
-
-	@Override
-	public Scene display() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

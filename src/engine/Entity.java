@@ -7,18 +7,24 @@ import java.util.stream.Collectors;
 import javafx.beans.property.SimpleDoubleProperty;
 
 public abstract class Entity extends GameObject implements EntityInterface {
-
-	public static final int ACCELERATION = -10;
-	private SimpleDoubleProperty x, y, width, height;
+	
+	public static final Integer ACCELERATION = -10;
+	private SimpleDoubleProperty x, y, width, height, zIndex;
 	private double xSpeed, ySpeed, xAcceleration, yAcceleration;
 	private List<Event> events;
 	private String name, imagePath;
 
 	public Entity(String name, String imagePath) {
 		super("Entity");
+		x = new SimpleDoubleProperty();
+		y = new SimpleDoubleProperty();
+		width = new SimpleDoubleProperty();
+		height = new SimpleDoubleProperty();
+		zIndex = new SimpleDoubleProperty();
 		events = new ArrayList<Event>();
 		this.name = name;
 		this.imagePath = imagePath;
+		events = new ArrayList<Event>();
 		//TODO: initialize these values to something other than 0,0,0,0
 		this.x = new SimpleDoubleProperty();
 		this.y = new SimpleDoubleProperty();
@@ -31,14 +37,18 @@ public abstract class Entity extends GameObject implements EntityInterface {
 	 * TODO: make sure to check state and set new state before acting.
 	 */
 	@Override
-	public void update(){
+	public void update() {
 		List<Event> actions = events.stream().filter(s -> s.act()).collect(Collectors.toList());
 		actions.forEach(event -> event.trigger());
 	}
-	
+
 	@Override
-	public void addEvent(Event event){
+	public void addEvent(Event event) {
 		this.events.add(event);
+	}
+	
+	public double getZ(){
+		return this.zIndex.get();
 	}
 
 	@Override
@@ -117,22 +127,6 @@ public abstract class Entity extends GameObject implements EntityInterface {
 		this.yAcceleration = yAcceleration;
 	}
 
-	public double getMinX() {
-		return getX() - getWidth() / 2;
-	}
-
-	public double getMaxX() {
-		return getX() + getWidth() / 2;
-	}
-
-	public double getMinY() {
-		return getY() - getHeight() / 2;
-	}
-
-	public double getMaxY() {
-		return getY() + getHeight() / 2;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -154,5 +148,5 @@ public abstract class Entity extends GameObject implements EntityInterface {
 	public List<Event> getEvents() {
 		return events;
 	}
-	
+
 }

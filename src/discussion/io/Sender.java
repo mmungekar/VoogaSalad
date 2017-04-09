@@ -55,9 +55,9 @@ public class Sender extends Actor {
 				InetAddress address = addresses.nextElement();
 				socket.setInterface(address);
 				socket.send(packet);
-				break;
+				//break;
 			}
-			break;
+			//break;
 		}
 	}
 

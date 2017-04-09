@@ -65,9 +65,9 @@ public class Receiver extends Actor implements Runnable {
 					InetAddress address = addresses.nextElement();
 					socket.setInterface(address);
 					socket.joinGroup(InetAddress.getByName(getHost()));
-					break;
+					//break;
 				}
-				break;
+				//break;
 			} catch (Exception e) {
 				continue;
 			}

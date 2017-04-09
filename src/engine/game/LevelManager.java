@@ -43,8 +43,8 @@ public class LevelManager {
 		return levels.get(currentLevel - 1);
 	}
 
-	public void moveToNextLevel() {
-		// TODO
+	public void moveToNextLevel(){
+		currentLevel++;
 	}
 
 	/**
@@ -100,6 +100,10 @@ public class LevelManager {
 	public void startCurrentLevel() {
 		getCurrentLevel().start();
 		
+	}
+	
+	public SelectionGroup<Level> getLevels(){
+		return levels;
 	}
 
 }

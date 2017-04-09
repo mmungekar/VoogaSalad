@@ -24,24 +24,14 @@ public class CollisionObservable extends EventObservable {
 		super();
 	}
 
-	private boolean isCollision(Entity first, Entity second) {
-		if (first.getMinX() + first.getWidth() < second.getMinX()
-				|| second.getMinX() + second.getWidth() < first.getWidth()
-				|| first.getMinY() + first.getHeight() < second.getMinY()
-				|| second.getMinY() + second.getHeight() < first.getMinY()) {
-			return false;
-		}
-		return true;
-	}
-
 	private CollisionSide collisionSide(Entity entityOne, Entity entityTwo) {
 		if (isHorizontalCollision(entityOne, entityTwo)) {
-			if (entityOne.getMinX() < entityTwo.getMinX()) {
+			if (entityOne.getX() < entityTwo.getX()) {
 				return CollisionSide.RIGHT;
 			}
 			return CollisionSide.LEFT;
 		}
-		if (entityOne.getMinY() < entityTwo.getMinY()) {
+		if (entityOne.getY() + entityOne.getHeight() < entityTwo.getY() + entityTwo.getHeight()) {
 			return CollisionSide.TOP;
 		}
 		return CollisionSide.BOTTOM;
@@ -53,23 +43,23 @@ public class CollisionObservable extends EventObservable {
 	}
 
 	private double getIntersectionWidth(Entity entityOne, Entity entityTwo) {
-		if (entityOne.getMaxX() < entityTwo.getMaxX()) {
-			if (entityOne.getMinX() < entityTwo.getMinX()) {
-				return entityOne.getMaxX() - entityTwo.getMinX();
+		if (entityOne.getX() + entityOne.getWidth() < entityTwo.getX() + entityTwo.getWidth()) {
+			if (entityOne.getX() < entityTwo.getX()) {
+				return (entityOne.getX() + entityOne.getWidth()) - entityTwo.getX();
 			}
 			return entityOne.getWidth();
 		}
-		return entityTwo.getMaxX() - entityOne.getMinX();
+		return (entityTwo.getX() + entityTwo.getWidth()) - entityOne.getX();
 	}
 
 	private double getIntersectionHeight(Entity entityOne, Entity entityTwo) {
-		if (entityOne.getMaxY() < entityTwo.getMaxY()) {
-			if (entityOne.getMinY() < entityTwo.getMinY()) {
-				return entityOne.getMaxY() - entityTwo.getMinY();
+		if (entityOne.getY() < entityTwo.getY()) {
+			if (entityOne.getY() + entityOne.getHeight() < entityTwo.getY() + entityTwo.getHeight()) {
+				return entityOne.getY() - (entityTwo.getY() + entityTwo.getHeight());
 			}
 			return entityOne.getHeight();
 		}
-		return entityTwo.getMaxY() - entityOne.getMinY();
+		return entityTwo.getY() - (entityOne.getY() + entityOne.getHeight());
 	}
 
 	/**
@@ -95,4 +85,14 @@ public class CollisionObservable extends EventObservable {
 		return collisions;
 	}
 
+	private boolean isCollision(Entity first, Entity second) {
+		if (first.getZ() != first.getZ()) {
+			if (first.getX() + first.getWidth() < second.getX() || second.getX() + second.getWidth() < first.getX()
+					|| first.getY() + first.getHeight() < second.getY()
+					|| second.getY() + second.getHeight() < first.getY()) {
+				return false;
+			}
+		}
+		return true;
+	}
 }
