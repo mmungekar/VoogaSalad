@@ -11,8 +11,7 @@ import javafx.scene.input.MouseEvent;
  * @author jimmy
  *
  */
-public class DragResizer
-{
+public class DragResizer {
 
 	/**
 	 * The margin around the control that a user can click in to start resizing
@@ -37,60 +36,48 @@ public class DragResizer
 	private boolean yDragging;
 	private boolean moveDragging;
 
-	private DragResizer(EntityDisplay entityDisplay, int gridSize)
-	{
+	private DragResizer(EntityDisplay entityDisplay, int gridSize) {
 		region = entityDisplay;
 		tileSize = gridSize;
 	}
 
-	public static void makeResizable(EntityDisplay region, int gridSize)
-	{
+	public static void makeResizable(EntityDisplay region, int gridSize) {
 		final DragResizer resizer = new DragResizer(region, gridSize);
 
-		region.setOnMousePressed(new EventHandler<MouseEvent>()
-		{
+		region.setOnMousePressed(new EventHandler<MouseEvent>() {
 			@Override
-			public void handle(MouseEvent event)
-			{
+			public void handle(MouseEvent event) {
 				resizer.mousePressed(event);
 			}
 		});
-		region.setOnMouseDragged(new EventHandler<MouseEvent>()
-		{
+		region.setOnMouseDragged(new EventHandler<MouseEvent>() {
 			@Override
-			public void handle(MouseEvent event)
-			{
+			public void handle(MouseEvent event) {
 				resizer.mouseDragged(event);
 			}
 		});
-		region.setOnMouseMoved(new EventHandler<MouseEvent>()
-		{
+		region.setOnMouseMoved(new EventHandler<MouseEvent>() {
 			@Override
-			public void handle(MouseEvent event)
-			{
+			public void handle(MouseEvent event) {
 				resizer.mouseOver(event);
 			}
 		});
-		region.setOnMouseReleased(new EventHandler<MouseEvent>()
-		{
+		region.setOnMouseReleased(new EventHandler<MouseEvent>() {
 			@Override
-			public void handle(MouseEvent event)
-			{
+			public void handle(MouseEvent event) {
 				resizer.mouseReleased(event);
 			}
 		});
 	}
 
-	protected void mouseReleased(MouseEvent event)
-	{
+	protected void mouseReleased(MouseEvent event) {
 		xDragging = false;
 		yDragging = false;
 		moveDragging = false;
 		region.setCursor(Cursor.DEFAULT);
 	}
 
-	protected void mouseOver(MouseEvent event)
-	{
+	protected void mouseOver(MouseEvent event) {
 		if ((isInXDraggableZone(event) && isInYDraggableZone(event)) || (xDragging && yDragging)) {
 			region.setCursor(Cursor.SE_RESIZE);
 		} else if (isInXDraggableZone(event) || xDragging) {
@@ -106,25 +93,21 @@ public class DragResizer
 		}
 	}
 
-	private boolean isInXDraggableZone(MouseEvent event)
-	{
-		return event.getX() > (region.getWidth() - RESIZE_MARGIN);
+	private boolean isInXDraggableZone(MouseEvent event) {
+		return event.getX() > (region.getWidth() - RESIZE_MARGIN) && region.isSelected();
 	}
 
-	private boolean isInYDraggableZone(MouseEvent event)
-	{
-		return event.getY() > (region.getHeight() - RESIZE_MARGIN);
+	private boolean isInYDraggableZone(MouseEvent event) {
+		return event.getY() > (region.getHeight() - RESIZE_MARGIN) && region.isSelected();
 	}
 
-	private boolean isInMoveDraggableZone(MouseEvent event)
-	{
+	private boolean isInMoveDraggableZone(MouseEvent event) {
 		return event.getX() > 0 && event.getX() < region.getWidth() - RESIZE_MARGIN && event.getY() > 0
 				&& event.getY() < region.getHeight() - RESIZE_MARGIN;
 	}
 
-	protected void mouseDragged(MouseEvent event)
-	{
-		if (xDragging) {
+	protected void mouseDragged(MouseEvent event) {
+		if (xDragging && region.isSelected()) {
 
 			double mousex = event.getX();
 
@@ -138,7 +121,7 @@ public class DragResizer
 			x = mousex;
 		}
 
-		if (yDragging) {
+		if (yDragging && region.isSelected()) {
 
 			double mousey = event.getY();
 
@@ -162,8 +145,7 @@ public class DragResizer
 		}
 	}
 
-	protected void mousePressed(MouseEvent event)
-	{
+	protected void mousePressed(MouseEvent event) {
 
 		if (isInXDraggableZone(event)) {
 			xDragging = true;
@@ -194,8 +176,7 @@ public class DragResizer
 		}
 	}
 
-	private double getTiledCoordinate(double coordinate)
-	{
+	private double getTiledCoordinate(double coordinate) {
 		double gridCoordinate = ((int) coordinate / tileSize) * tileSize;
 		if (coordinate % tileSize > tileSize / 2) {
 			return gridCoordinate + tileSize;

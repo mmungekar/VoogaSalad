@@ -24,23 +24,20 @@ import javafx.scene.shape.Rectangle;
  * @author jimmy Modified by Mina Mungekar
  *
  */
-public class LayerEditor extends View
-{
+public class LayerEditor extends View {
 	Workspace workspace;
 	Canvas canvas;
 	Map<Integer, List<EntityDisplay>> layerEntities;
 	int layerCount;
 	Bounds lastBounds;
 
-	public LayerEditor(Workspace workspace)
-	{
+	public LayerEditor(Workspace workspace) {
 		super("");
 		this.workspace = workspace;
 		setup();
 	}
 
-	private void setup()
-	{
+	private void setup() {
 		canvas = new Canvas(workspace);
 		setCenter(canvas);
 		layerEntities = new HashMap<Integer, List<EntityDisplay>>();
@@ -51,8 +48,7 @@ public class LayerEditor extends View
 		newTab();
 	}
 
-	private void clickToAddEntity()
-	{
+	private void clickToAddEntity() {
 		canvas.setPaneOnMouseClicked(e -> {
 			if (e.isControlDown()) {
 				placeEntity(e);
@@ -70,11 +66,9 @@ public class LayerEditor extends View
 		});
 	}
 
-	private void typeToDelete()
-	{
+	private void typeToDelete() {
 		workspace.setOnKeyPressed(e -> {
-			if (e.getCode().equals(KeyCode.DELETE)) {
-
+			if (e.getCode().equals(KeyCode.BACK_SPACE)) {
 				Map<List<EntityDisplay>, EntityDisplay> removedEntities = new HashMap<List<EntityDisplay>, EntityDisplay>();
 				for (List<EntityDisplay> list : layerEntities.values()) {
 					Iterator<EntityDisplay> iter = list.iterator();
@@ -92,13 +86,11 @@ public class LayerEditor extends View
 		});
 	}
 
-	private Image getCurrentImage()
-	{
+	private Image getCurrentImage() {
 		return new Image(workspace.getSelectedEntity().getImagePath().get());
 	}
 
-	private void placeEntity(MouseEvent e)
-	{
+	private void placeEntity(MouseEvent e) {
 		try {
 			addEntity(workspace.getSelectedEntity().getEntity(), e.getX(), e.getY());
 		} catch (Exception exception) {
@@ -106,14 +98,12 @@ public class LayerEditor extends View
 		}
 	}
 
-	private Bounds boundsFromImage(Image image, MouseEvent e)
-	{
+	private Bounds boundsFromImage(Image image, MouseEvent e) {
 		Bounds bounds = new Rectangle(e.getX(), e.getY(), image.getWidth(), image.getHeight()).getBoundsInLocal();
 		return bounds;
 	}
 
-	private void addEntity(Entity entity, double x, double y)
-	{
+	private void addEntity(Entity entity, double x, double y) {
 		EntityDisplay addedEntity = canvas.addEntity(entity, x, y);
 		layerEntities.get(layerCount).add(addedEntity);
 		addedEntity.setOnMouseClicked(e -> {
@@ -128,26 +118,22 @@ public class LayerEditor extends View
 		});
 	}
 
-	public void makeNewTab()
-	{
+	public void makeNewTab() {
 		newTab();
 	}
 
-	private void newTab()
-	{
+	private void newTab() {
 		layerCount++;
 		layerEntities.put(layerCount, new ArrayList<EntityDisplay>());
 		workspace.setNewLayer(String.format("Layer %d", layerCount));
 		// newLayerSelected(layerCount);
 	}
 
-	public void selectNewLayer(int newLayer)
-	{
+	public void selectNewLayer(int newLayer) {
 		newLayerSelected(newLayer);
 	}
 
-	private void newLayerSelected(int newVal)
-	{
+	private void newLayerSelected(int newVal) {
 		for (List<EntityDisplay> entityList : layerEntities.values()) {
 			for (Node entity : entityList) {
 				entity.setOpacity(0.3);
@@ -161,8 +147,7 @@ public class LayerEditor extends View
 		}
 	}
 
-	private void showSelectMessage()
-	{
+	private void showSelectMessage() {
 		ComponentMaker maker = new ComponentMaker(workspace.getResources());
 		String message = workspace.getResources().getString("SelectAnEntity");
 		Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message);
