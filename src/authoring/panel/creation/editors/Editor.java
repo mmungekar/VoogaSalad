@@ -19,6 +19,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
@@ -38,6 +40,7 @@ public abstract class Editor extends View {
 	private List<Parameter> parameters = new ArrayList<Parameter>();
 	private TableView<Parameter> table;
 	private boolean showSave;
+	private ComponentMaker maker;
 
 	/**
 	 * @param title
@@ -47,6 +50,7 @@ public abstract class Editor extends View {
 		this.workspace = workspace;
 		this.elements = elements;
 		this.showSave = showSave;
+		maker = new ComponentMaker(workspace.getResources());
 		setupView(object);
 		if (object != null)
 			update(object);
@@ -68,8 +72,7 @@ public abstract class Editor extends View {
 		comboBox.prefWidthProperty().bind(widthProperty());
 		if (object == null) {
 			comboBox.setValue(workspace.getResources().getString("Type"));
-		}
-		else {
+		} else {
 			comboBox.setValue(object.getDisplayName());
 		}
 		description = new Label();
@@ -77,7 +80,7 @@ public abstract class Editor extends View {
 		description.textProperty().addListener(e -> descriptionChanged());
 		setTop(new VBox(comboBox, description));
 	}
-	
+
 	private void descriptionChanged() {
 		description.setPadding(new Insets(description.getText().equals("") ? 0 : 8));
 	}
@@ -110,7 +113,7 @@ public abstract class Editor extends View {
 		column.setCellFactory(new Callback<TableColumn<Parameter, Object>, TableCell<Parameter, Object>>() {
 			@Override
 			public TableCell<Parameter, Object> call(TableColumn<Parameter, Object> param) {
-				return new EditingCell();
+				return new EditingCell(workspace);
 			}
 		});
 		column.setOnEditCommit(new EventHandler<CellEditEvent<Parameter, Object>>() {
@@ -127,7 +130,6 @@ public abstract class Editor extends View {
 	}
 
 	private void createButtonBox() {
-		ComponentMaker maker = new ComponentMaker(workspace.getResources());
 		Button saveButton = maker.makeButton("TableEditorSaveButton", e -> save(), true);
 		setBottom(saveButton);
 	}
@@ -151,5 +153,5 @@ public abstract class Editor extends View {
 	public abstract void selected(String string);
 
 	public abstract void save(List<Parameter> data);
-	
+
 }
