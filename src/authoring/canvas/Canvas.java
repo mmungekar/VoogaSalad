@@ -5,6 +5,7 @@ import java.util.List;
 
 import authoring.Workspace;
 import authoring.views.View;
+import engine.Entity;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
@@ -12,7 +13,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -85,11 +85,13 @@ public class Canvas extends View {
 		return scrollScreen;
 	}
 
-	public void addEntity(ImageView entity) {
+	public void addEntity(Entity entity)
+	{
 		this.addEntity(entity, 0, 0);
 	}
 
-	public void addEntity(ImageView entity, double x, double y) {
+	public EntityDisplay addEntity(Entity entity, double x, double y)
+	{
 		EntityDisplay newEntity = new EntityDisplay(entity, TILE_SIZE, x, y);
 		Point2D tiledCoordinate = getTiledCoordinate(x, y);
 		newEntity.setTranslateX(tiledCoordinate.getX());
@@ -100,6 +102,7 @@ public class Canvas extends View {
 		makeDraggable(newEntity);
 		updateLayerBounds();
 		updateDisplay();
+		return newEntity;
 	}
 
 	private void drawGrid() {
