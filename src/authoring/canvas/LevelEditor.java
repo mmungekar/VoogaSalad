@@ -34,9 +34,9 @@ public class LevelEditor extends View {
 
 	private void setup() {
 		tabPane = new TabPane();
-		setCenter(tabPane);
 		tabPane.getTabs().add(newTab());
 		tabPane.getTabs().add(makePlusTab());
+		setCenter(tabPane);
 		this.addToolbar();
 	}
 
