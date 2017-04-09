@@ -5,14 +5,17 @@ import engine.Entity;
 
 public class MoveAction extends Action {
 
+	public MoveAction(Entity entity) {
+		super(entity);
+	}
+
 	@Override
 	public void act() {
 		Entity entity = getEntity();
-		entity.setYSpeed(entity.getYSpeed() + entity.getYAcceleration() * (Double)entity.getParam("Time step"));
-		entity.setXSpeed(entity.getXSpeed() + entity.getXAcceleration() * (Double)entity.getParam("Time step"));
+		entity.setXSpeed(entity.getXSpeed() + entity.getXAcceleration() * (Double)entity.getParam("Time Step"));
+		entity.setYSpeed(entity.getYSpeed() + entity.getYAcceleration() * (Double)entity.getParam("Time Step"));
 		
-		entity.setX(entity.getX() + entity.getXSpeed()* (Double)entity.getParam("Time step"));
-		entity.setX(entity.getY() + entity.getYSpeed()* (Double)entity.getParam("Time step"));
-
+		entity.setX(entity.getX() + entity.getXSpeed()* (Double)entity.getParam("Time Step"));
+		entity.setY(entity.getY() + entity.getYSpeed()* (Double)entity.getParam("Time Step"));
 	}
 }

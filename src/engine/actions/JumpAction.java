@@ -6,9 +6,10 @@ import engine.Parameter;
 
 public class JumpAction extends Action {
 
-	public JumpAction() {
-		addParam(new Parameter("Max Jump Height", Double.class, 0));
-		addParam(new Parameter("Jump Duration", Double.class, 0));
+	public JumpAction(Entity entity) {
+		super(entity);
+		addParam(new Parameter("Max Jump Height", Double.class, 10.0));
+		addParam(new Parameter("Jump Duration", Double.class, 1.0));
 	}
 
 	@Override
@@ -16,7 +17,7 @@ public class JumpAction extends Action {
 		Entity entity = getEntity();
 		double yCur = entity.getY();
 		double yMax = (Double) getParam("Max Jump Height");
-		double velocity = (yMax - yCur) / ((Double) getParam("Jump Duration"));
+		double velocity = (-yMax) / ((Double) getParam("Jump Duration"));
 		entity.setYSpeed(velocity);
 		entity.setYAcceleration(Entity.ACCELERATION);
 		// and make sure another action is added that stops the jump on

@@ -4,12 +4,18 @@ import engine.Action;
 import engine.Entity;
 import engine.Event;
 import engine.actions.DieAction;
+import engine.actions.JumpAction;
+import engine.actions.MoveAction;
+import engine.actions.ShiftHorizontalAction;
 import engine.entities.CharacterEntity;
+import engine.events.AlwaysEvent;
+import engine.events.InputEvent;
 import engine.events.TimerEvent;
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 import engine.graphics.cameras.ScrollingCamera;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 
 public class LevelStepStrategy implements StepStrategy{
@@ -112,12 +118,33 @@ public class LevelStepStrategy implements StepStrategy{
 		mario.setY(200);
 		mario.setWidth(100);
 		mario.setHeight(100);
+		
 		TimerEvent timeRunsOut = new TimerEvent(); //trigger time currently hardcoded to 0 in constructor
 		timeRunsOut.setComparsion(true, true);
 		mario.addEvent(timeRunsOut);
-		DieAction die = new DieAction();
-		die.tempEntity(mario);   //TODO mario is temporary parameter - Nikita needs fix (NullPointerException)
+		DieAction die = new DieAction(mario);
+		//die.tempEntity(mario);   //TODO mario is temporary parameter - Nikita needs fix (NullPointerException)
 		timeRunsOut.addAction(die);
+		
+		InputEvent upPressed = new InputEvent(KeyCode.UP); 
+		mario.addEvent(upPressed);
+		JumpAction jump = new JumpAction(mario); 
+		upPressed.addAction(jump);
+		
+		InputEvent rightPressed = new InputEvent(KeyCode.RIGHT);
+		mario.addEvent(rightPressed);
+		ShiftHorizontalAction stepRight = new ShiftHorizontalAction(mario, 10.0);
+		rightPressed.addAction(stepRight);
+		
+		InputEvent leftPressed = new InputEvent(KeyCode.LEFT);
+		mario.addEvent(leftPressed);
+		ShiftHorizontalAction stepLeft = new ShiftHorizontalAction(mario, -10.0);
+		leftPressed.addAction(stepLeft);
+		
+		AlwaysEvent movement = new AlwaysEvent();
+		mario.addEvent(movement);
+		movement.addAction(new MoveAction(mario));
+		
 		levelManager.getCurrentLevel().getEntities().add(mario);
 	}
 }

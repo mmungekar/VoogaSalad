@@ -11,8 +11,8 @@ public class InputEvent extends Event {
 	 * need to initialize me with a string, not a keycode (can't instantiate
 	 * KeyCode object)
 	 */
-	public InputEvent() {
-		addParam(new Parameter("Key", KeyCode.class, KeyCode.UNDEFINED));
+	public InputEvent(KeyCode keyToListenFor) {
+		addParam(new Parameter("Key", KeyCode.class, keyToListenFor));
 	}
 
 	@Override	

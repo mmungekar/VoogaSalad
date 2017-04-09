@@ -1,10 +1,12 @@
 package engine.actions;
 
 import engine.Action;
+import engine.Entity;
 
 public class ZeroVerticalSpeedAction extends Action {
 
-	public ZeroVerticalSpeedAction() {
+	public ZeroVerticalSpeedAction(Entity entity) {
+		super(entity);
 	}
 
 	@Override
