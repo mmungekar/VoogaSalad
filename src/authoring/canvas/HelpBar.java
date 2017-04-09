@@ -24,7 +24,7 @@ public class HelpBar extends View {
 	
 	private void setup() {
 		ToolBar bar = new ToolBar();
-		Label instructions = new Label("Control-click to add the selected entity to the canvas.");
+		Label instructions = new Label("Control-click to add the selected entity to the canvas. Add shift and drag for more.");
 		instructions.setPadding(new Insets(4));
 		HBox box = new HBox(instructions);
 		HBox.setHgrow(box, Priority.ALWAYS);
