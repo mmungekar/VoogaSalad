@@ -11,7 +11,7 @@ public class ZeroHorizontalSpeedAction extends Action {
 
 	@Override
 	public void act() {
-		getEntity().setX(0);
+		getEntity().setXSpeed(0);
 	}
 
 }

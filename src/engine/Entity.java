@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
 public abstract class Entity extends GameObject implements EntityInterface {
@@ -53,7 +54,15 @@ public abstract class Entity extends GameObject implements EntityInterface {
 
 	@Override
 	public void setX(double x) {
-		this.x.set(x);;
+		this.x.set(x);
+	}
+	
+	public ReadOnlyDoubleProperty xProperty() {
+		return ReadOnlyDoubleProperty.readOnlyDoubleProperty(x);
+	}
+	
+	public ReadOnlyDoubleProperty yProperty() {
+		return ReadOnlyDoubleProperty.readOnlyDoubleProperty(y);
 	}
 
 	@Override

@@ -1,14 +1,19 @@
 package engine.game.gameloop;
 
 import engine.Action;
+import engine.Collision;
+import engine.CollisionSide;
 import engine.Entity;
 import engine.Event;
 import engine.actions.DieAction;
 import engine.actions.JumpAction;
 import engine.actions.MoveAction;
 import engine.actions.ShiftHorizontalAction;
+import engine.actions.ZeroDownSpeedAction;
+import engine.entities.BlockEntity;
 import engine.entities.CharacterEntity;
 import engine.events.AlwaysEvent;
+import engine.events.CollisionEvent;
 import engine.events.InputEvent;
 import engine.events.TimerEvent;
 import engine.game.LevelManager;
@@ -52,7 +57,8 @@ public class LevelStepStrategy implements StepStrategy{
 		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
 			entity.update();
 		}
-
+		
+		observableBundle.getCollisionObservable().getCollisions().clear();
 		observableBundle.getInputObservable().setInputToProcess(false);
 		graphicsEngine.update();
 		printStepData(); //TODO Remove after debugging
@@ -119,16 +125,21 @@ public class LevelStepStrategy implements StepStrategy{
 		mario.setWidth(100);
 		mario.setHeight(100);
 		
+		Entity block = new BlockEntity("Block", "file:" + System.getProperty("user.dir") + "/src/resources/images/block.png");
+		block.setX(200);
+		block.setY(400);
+		block.setWidth(100);
+		block.setHeight(100);
+		
 		TimerEvent timeRunsOut = new TimerEvent(); //trigger time currently hardcoded to 0 in constructor
 		timeRunsOut.setComparsion(true, true);
 		mario.addEvent(timeRunsOut);
 		DieAction die = new DieAction(mario);
-		//die.tempEntity(mario);   //TODO mario is temporary parameter - Nikita needs fix (NullPointerException)
 		timeRunsOut.addAction(die);
 		
 		InputEvent upPressed = new InputEvent(KeyCode.UP); 
 		mario.addEvent(upPressed);
-		JumpAction jump = new JumpAction(mario); 
+		JumpAction jump = new JumpAction(mario, 15.0); 
 		upPressed.addAction(jump);
 		
 		InputEvent rightPressed = new InputEvent(KeyCode.RIGHT);
@@ -145,6 +156,12 @@ public class LevelStepStrategy implements StepStrategy{
 		mario.addEvent(movement);
 		movement.addAction(new MoveAction(mario));
 		
+		CollisionEvent groundCollision = new CollisionEvent();
+		groundCollision.setCollision(new Collision(mario,block, CollisionSide.TOP));
+		block.addEvent(groundCollision);
+		groundCollision.addAction(new ZeroDownSpeedAction(mario));
+		
 		levelManager.getCurrentLevel().getEntities().add(mario);
+		levelManager.getCurrentLevel().getEntities().add(block);
 	}
 }
