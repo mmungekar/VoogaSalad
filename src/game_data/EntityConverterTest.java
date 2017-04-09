@@ -9,7 +9,7 @@ import engine.entities.CharacterEntity;
 public class EntityConverterTest {
 	public static void main(String[] args) {
 		
-		Entity entity = new CharacterEntity();
+		Entity entity = new CharacterEntity("Mario","src/resources/images/mario.png");
 		entity.setName("Guilherme");
 		entity.setX(100);
 		entity.setY(55);
