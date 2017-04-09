@@ -42,11 +42,15 @@ public class Receiver extends Actor implements Runnable {
 			DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
 			MulticastSocket socket = setupSocket();
 			while (true) {
-				socket.receive(packet);
-				System.out.println("Received something.");
-				Message message = getMessageFromBuffer(buffer);
-				processMessage(message);
-				packet.setLength(buffer.length);
+				try {
+					socket.receive(packet);
+					System.out.println("Received something.");
+					Message message = getMessageFromBuffer(buffer);
+					processMessage(message);
+					packet.setLength(buffer.length);
+				} catch (Exception e) {
+					continue;
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -56,30 +60,20 @@ public class Receiver extends Actor implements Runnable {
 	private MulticastSocket setupSocket() throws Exception {
 		MulticastSocket socket = new MulticastSocket(getPort());
 		socket.setReuseAddress(true);
-		/*Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
-		while (interfaces.hasMoreElements()) {
-			try {
-				NetworkInterface iface = interfaces.nextElement();
-				if (iface.isLoopback() || !iface.isUp()) {
-					continue;
-				}
-				Enumeration<InetAddress> addresses = iface.getInetAddresses();
-				while (addresses.hasMoreElements()) {
-					try {
-						InetAddress address = addresses.nextElement();
-						System.out.println("Trying to sign up for: " + address);
-						socket.setInterface(address);
-						socket.joinGroup(InetAddress.getByName(getHost()));
-					} catch (Exception e) {
-						e.printStackTrace();
-						continue;
-					}
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-				continue;
-			}
-		}*/
+		/*
+		 * Enumeration<NetworkInterface> interfaces =
+		 * NetworkInterface.getNetworkInterfaces(); while
+		 * (interfaces.hasMoreElements()) { try { NetworkInterface iface =
+		 * interfaces.nextElement(); if (iface.isLoopback() || !iface.isUp()) {
+		 * continue; } Enumeration<InetAddress> addresses =
+		 * iface.getInetAddresses(); while (addresses.hasMoreElements()) { try {
+		 * InetAddress address = addresses.nextElement();
+		 * System.out.println("Trying to sign up for: " + address);
+		 * socket.setInterface(address);
+		 * socket.joinGroup(InetAddress.getByName(getHost())); } catch
+		 * (Exception e) { e.printStackTrace(); continue; } } } catch (Exception
+		 * e) { e.printStackTrace(); continue; } }
+		 */
 		socket.setInterface(InetAddress.getByName("10.188.16.255"));
 		socket.joinGroup(InetAddress.getByName(getHost()));
 		return socket;

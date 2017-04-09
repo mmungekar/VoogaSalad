@@ -11,9 +11,9 @@ import discussion.response.*;
  */
 public class Discussion {
 	
-	private static final String HOST = "224.0.0.4";
+	private static final String HOST = "239.255.42.100";
 	private static final int PORT = 9000;
-	private static final int BUFFER_SIZE = 5000;
+	private static final int BUFFER_SIZE = 512;
 	
 	private Sender sender;
 	private Receiver receiver;

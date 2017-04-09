@@ -60,7 +60,7 @@ public class LayerEditor extends View
 		rect.setHeight(100);
 		rect.setFill(Color.CORAL);
 		this.addEntity(rect, 0, 0);
-		System.out.println("Here");
+
 	}
 
 	private void clickToAddEntity()

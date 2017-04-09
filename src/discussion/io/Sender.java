@@ -22,8 +22,6 @@ public class Sender extends Actor {
 	public void send(Message message) {
 		try {
 			MulticastSocket socket = new MulticastSocket(getPort());
-			//socket.connect(InetAddress.getByName(getHost()), getPort());
-			System.out.println("Connected: " + socket.isConnected());
 		    ByteArrayOutputStream stream = createOutputStream(message);
 		    sendPacket(socket, makePacket(stream));
 			socket.close();
