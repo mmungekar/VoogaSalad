@@ -8,6 +8,7 @@ public class CharacterEntity extends Entity {
 	public CharacterEntity(String name, String imagePath) {
 		super(name, imagePath);
 		addParam(new Parameter("Lives", Integer.class, 5));
+		addParam(new Parameter("Time step", Double.class, 1.0));
 	}
 	
 	public int getLives(){

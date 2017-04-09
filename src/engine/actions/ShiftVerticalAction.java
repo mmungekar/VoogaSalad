@@ -1,6 +1,7 @@
 package engine.actions;
 
 import engine.Action;
+import engine.Entity;
 import engine.Parameter;
 
 /**
@@ -11,8 +12,9 @@ import engine.Parameter;
  */
 public class ShiftVerticalAction extends Action {
 	
-	public ShiftVerticalAction(){
-		addParam(new Parameter("Move amount", Double.class, 0));		
+	public ShiftVerticalAction(Entity entity, double shiftAmount){
+		super(entity);
+		addParam(new Parameter("Move amount", Double.class, shiftAmount));		
 	}
 
 	@Override
