@@ -1,9 +1,16 @@
 package authoring.canvas;
 
+import java.util.Optional;
+
 import authoring.Workspace;
+import authoring.components.ComponentMaker;
 import authoring.views.View;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.Event;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
@@ -38,7 +45,18 @@ public class LevelEditor extends View {
 		tab.setText("untitled");
 		currentLevel = new LayerEditor(workspace);
 		tab.setContent(currentLevel);
+		tab.setOnCloseRequest(e -> closeRequest(e));
 		return tab;
+	}
+	
+	private void closeRequest(Event e) {
+		ComponentMaker maker = new ComponentMaker(workspace.getResources());
+		String message = workspace.getResources().getString("ConfirmationContent");
+		Alert alert = maker.makeAlert(AlertType.CONFIRMATION, "ConfirmationTitle", "ConfirmationHeader", message);
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() != ButtonType.OK){
+		    e.consume();
+		}
 	}
 
 	public LayerEditor getCurrentLevel() {
