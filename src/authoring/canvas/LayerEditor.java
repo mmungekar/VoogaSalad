@@ -2,6 +2,7 @@ package authoring.canvas;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 
@@ -26,7 +28,7 @@ public class LayerEditor extends View
 {
 	Workspace workspace;
 	Canvas canvas;
-	Map<Integer, List<Node>> layerEntities;
+	Map<Integer, List<EntityDisplay>> layerEntities;
 	int layerCount;
 	Bounds lastBounds;
 
@@ -41,10 +43,11 @@ public class LayerEditor extends View
 	{
 		canvas = new Canvas(workspace);
 		setCenter(canvas);
-		layerEntities = new HashMap<Integer, List<Node>>();
+		layerEntities = new HashMap<Integer, List<EntityDisplay>>();
 		layerCount = 0;
 		lastBounds = new Rectangle().getBoundsInLocal();
 		clickToAddEntity();
+		typeToDelete();
 		newTab();
 	}
 
@@ -63,6 +66,28 @@ public class LayerEditor extends View
 					placeEntity(e);
 				}
 			} catch (Exception exception) {
+			}
+		});
+	}
+
+	private void typeToDelete()
+	{
+		workspace.setOnKeyPressed(e -> {
+			if (e.getCode().equals(KeyCode.DELETE)) {
+
+				Map<List<EntityDisplay>, EntityDisplay> removedEntities = new HashMap<List<EntityDisplay>, EntityDisplay>();
+				for (List<EntityDisplay> list : layerEntities.values()) {
+					Iterator<EntityDisplay> iter = list.iterator();
+
+					while (iter.hasNext()) {
+						EntityDisplay entity = iter.next();
+
+						if (entity.isSelected()) {
+							iter.remove();
+							canvas.removeEntity(entity);
+						}
+					}
+				}
 			}
 		});
 	}
@@ -91,6 +116,16 @@ public class LayerEditor extends View
 	{
 		EntityDisplay addedEntity = canvas.addEntity(entity, x, y);
 		layerEntities.get(layerCount).add(addedEntity);
+		addedEntity.setOnMouseClicked(e -> {
+			if (!e.isShiftDown()) {
+				for (List<EntityDisplay> list : layerEntities.values()) {
+					for (EntityDisplay display : list) {
+						display.setSelected(false);
+					}
+				}
+			}
+			addedEntity.setSelected(!addedEntity.isSelected());
+		});
 	}
 
 	public void makeNewTab()
@@ -101,7 +136,7 @@ public class LayerEditor extends View
 	private void newTab()
 	{
 		layerCount++;
-		layerEntities.put(layerCount, new ArrayList<Node>());
+		layerEntities.put(layerCount, new ArrayList<EntityDisplay>());
 		workspace.setNewLayer(String.format("Layer %d", layerCount));
 		// newLayerSelected(layerCount);
 	}
@@ -113,7 +148,7 @@ public class LayerEditor extends View
 
 	private void newLayerSelected(int newVal)
 	{
-		for (List<Node> entityList : layerEntities.values()) {
+		for (List<EntityDisplay> entityList : layerEntities.values()) {
 			for (Node entity : entityList) {
 				entity.setOpacity(0.3);
 				entity.toBack();
