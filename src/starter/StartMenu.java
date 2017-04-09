@@ -4,6 +4,10 @@ import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javax.swing.ImageIcon;
+
+import com.apple.eawt.Application;
+
 import authoring.AuthoringEnvironment;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -40,10 +44,9 @@ public class StartMenu extends BorderPane
 	private void setIcon()
 	{
 		URL path = getClass().getResource(iconPath);
-		try {
-			// Application.getApplication().setDockIconImage(new
-			// ImageIcon(path).getImage());
-		} catch (Exception e) {
+		if (isOSX()) {
+			new OSXIconLoader(path);
+		} else {
 			this.stage.getIcons().add(new Image(iconPath));
 		}
 	}
@@ -133,4 +136,9 @@ public class StartMenu extends BorderPane
 		button.setMaxWidth(Double.MAX_VALUE);
 		return button;
 	}
+	
+	private boolean isOSX() {
+		return System.getProperty("os.name").equals("Mac OS X");
+	}
+	
 }
