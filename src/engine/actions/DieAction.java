@@ -13,25 +13,19 @@ import engine.game.gameloop.LevelStepStrategy;
  */
 public class DieAction extends Action{
 	private LevelStepStrategy levelStepStrategy;
-	private Entity tempEntity; //TEMPORARY, to get around a NullPointerException that Nikita needs to fix (getEntity() returns null)
 	
-	public DieAction(){
-		
+	public DieAction(Entity entity){
+		super(entity);
 	}
 	
 	public void setLevelStepStrategy(LevelStepStrategy levelStepStrategy) {
 		this.levelStepStrategy = levelStepStrategy;
 	}
-	
-	public void tempEntity(Entity tempEntity){
-		this.tempEntity = tempEntity;
-	}
 
 	@Override
 	public void act() {
-		//CharacterEntity entity = (CharacterEntity) getEntity();  //TODO Throw VoogaException here if not CharacterEntity
+		CharacterEntity entity = (CharacterEntity) getEntity();  //TODO Throw VoogaException here if not CharacterEntity
 		//Decrement lives
-		CharacterEntity entity = (CharacterEntity) tempEntity;
 		entity.setLives(entity.getLives() - 1);
 		System.out.println("Die action triggered");
 		

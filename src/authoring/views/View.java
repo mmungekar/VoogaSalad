@@ -28,7 +28,6 @@ public abstract class View extends BorderPane {
 	 */
 	public View(String title) {
 		this.title = title;
-		setMinSize(0, 280);
 	}
 
 	/**

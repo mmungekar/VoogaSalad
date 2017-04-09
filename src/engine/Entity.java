@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
 public abstract class Entity extends GameObject implements EntityInterface {
 	
-	public static final Integer ACCELERATION = -10;
+	public static final Integer ACCELERATION = 1;
 	private SimpleDoubleProperty x, y, width, height, zIndex;
 	private double xSpeed, ySpeed, xAcceleration, yAcceleration;
 	private List<Event> events;
@@ -25,12 +26,7 @@ public abstract class Entity extends GameObject implements EntityInterface {
 		this.name = name;
 		this.imagePath = imagePath;
 		events = new ArrayList<Event>();
-		//TODO: initialize these values to something other than 0,0,0,0
-		this.x = new SimpleDoubleProperty();
-		this.y = new SimpleDoubleProperty();
-		this.width = new SimpleDoubleProperty();
-		this.height = new SimpleDoubleProperty();
-		addParam(new Parameter("Time Step", Double.class, 0));
+		addParam(new Parameter("Time Step", Double.class, 0.5));
 	} 
 
 	/**
@@ -38,8 +34,8 @@ public abstract class Entity extends GameObject implements EntityInterface {
 	 */
 	@Override
 	public void update() {
-		List<Event> actions = events.stream().filter(s -> s.act()).collect(Collectors.toList());
-		actions.forEach(event -> event.trigger());
+		List<Event> eventsToTrigger = events.stream().filter(s -> s.act()).collect(Collectors.toList());
+		eventsToTrigger.forEach(event -> event.trigger());
 	}
 
 	@Override
@@ -58,7 +54,15 @@ public abstract class Entity extends GameObject implements EntityInterface {
 
 	@Override
 	public void setX(double x) {
-		this.x.set(x);;
+		this.x.set(x);
+	}
+	
+	public ReadOnlyDoubleProperty xProperty() {
+		return ReadOnlyDoubleProperty.readOnlyDoubleProperty(x);
+	}
+	
+	public ReadOnlyDoubleProperty yProperty() {
+		return ReadOnlyDoubleProperty.readOnlyDoubleProperty(y);
 	}
 
 	@Override
@@ -68,7 +72,7 @@ public abstract class Entity extends GameObject implements EntityInterface {
 
 	@Override
 	public void setY(double y) {
-		this.y.set(y);;
+		this.y.set(y);
 	}
 
 	@Override
