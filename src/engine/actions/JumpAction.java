@@ -15,11 +15,10 @@ public class JumpAction extends Action {
 	@Override
 	public void act() {
 		Entity entity = getEntity();
-		double yCur = entity.getY();
+		//double yCur = entity.getY();
 		double yMax = (Double) getParam("Max Jump Height");
 		double velocity = (-yMax) / ((Double) getParam("Jump Duration"));
 		entity.setYSpeed(velocity);
-		entity.setYAcceleration(Entity.ACCELERATION);
 		// and make sure another action is added that stops the jump on
 		// collision with a block from above.
 	}
