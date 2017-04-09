@@ -12,20 +12,23 @@ import javafx.scene.control.TabPane;
  * @author jimmy
  *
  */
-public class LevelEditor extends View {
-	
+public class LevelEditor extends View
+{
+
 	Workspace workspace;
 	TabPane tabPane;
 	LayerEditor currentLevel;
 	HelpBar helpBar;
 
-	public LevelEditor(Workspace workspace) {
+	public LevelEditor(Workspace workspace)
+	{
 		super("");
 		this.workspace = workspace;
 		setup();
 	}
 
-	private void setup() {
+	private void setup()
+	{
 		tabPane = new TabPane();
 		setCenter(tabPane);
 		tabPane.getTabs().add(newTab());
@@ -33,7 +36,8 @@ public class LevelEditor extends View {
 		this.addToolbar();
 	}
 
-	private Tab newTab() {
+	private Tab newTab()
+	{
 		Tab tab = new Tab();
 		tab.setText("untitled");
 		currentLevel = new LayerEditor(workspace);
@@ -41,16 +45,20 @@ public class LevelEditor extends View {
 		return tab;
 	}
 
-	public LayerEditor getCurrentLevel() {
+	public LayerEditor getCurrentLevel()
+	{
 		return currentLevel;
 	}
 
-	private Tab makePlusTab() {
+	private Tab makePlusTab()
+	{
 		Tab plusTab = new Tab("+");
 		plusTab.setClosable(false);
-		tabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
+		tabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>()
+		{
 			@Override
-			public void changed(ObservableValue<? extends Tab> observable, Tab oldTab, Tab newTab) {
+			public void changed(ObservableValue<? extends Tab> observable, Tab oldTab, Tab newTab)
+			{
 				if (newTab.getText().equals("+")) {
 					tabPane.getTabs().add(tabPane.getTabs().size() - 1, newTab());
 					tabPane.getSelectionModel().select(tabPane.getTabs().size() - 2);
@@ -60,10 +68,11 @@ public class LevelEditor extends View {
 		});
 		return plusTab;
 	}
-	
-	private void addToolbar() {
+
+	private void addToolbar()
+	{
 		helpBar = new HelpBar();
 		setBottom(helpBar);
 	}
-	
+
 }

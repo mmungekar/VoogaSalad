@@ -12,78 +12,79 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 /**
  * 
  * @author jimmy Modified by Mina Mungekar
  *
  */
-public class LayerEditor extends View {
+public class LayerEditor extends View
+{
 	Workspace workspace;
 	Canvas canvas;
-	Map<Integer, List<Node>> layerEntities;
+	Map<Integer, List<EntityDisplay>> layerEntities;
 	int layerCount;
 
-	public LayerEditor(Workspace workspace) {
+	public LayerEditor(Workspace workspace)
+	{
 		super("");
 		this.workspace = workspace;
 		setup();
 	}
 
-	private void setup() {
+	private void setup()
+	{
 		canvas = new Canvas(workspace);
 		setCenter(canvas);
-		layerEntities = new HashMap<Integer, List<Node>>();
+		layerEntities = new HashMap<Integer, List<EntityDisplay>>();
 		layerCount = 0;
 		clickToAddEntity();
 		newTab();
 
-		Rectangle rect = new Rectangle();
-		rect.setWidth(100);
-		rect.setHeight(100);
-		rect.setFill(Color.CORAL);
-		this.addEntity(rect, 0, 0);
-
 	}
 
-	private void clickToAddEntity() {
+	private void clickToAddEntity()
+	{
 		canvas.setOnMouseClicked(e -> {
 			if (e.isShiftDown()) {
-				Rectangle rect = new Rectangle();
-				rect.setWidth(100);
-				rect.setHeight(100);
-				rect.setFill(Color.BLUE);
-				addEntity(rect, e.getX(), e.getY());
+				addEntity(new ImageView(new Image(workspace.getSelectedEntity().getImagePath().getValue())), e.getX(),
+						e.getY());
 			}
 		});
 	}
 
-	private void addEntity(Node entity, double x, double y) {
+	private void addEntity(ImageView entity, double x, double y)
+	{
 		canvas.addEntity(entity, x, y);
-		layerEntities.get(layerCount).add(entity);
+		layerEntities.get(layerCount).add(new EntityDisplay(entity, x, y));
 		entity.setEffect(makeLayerEffect());
 	}
 
-	public void makeNewTab() {
+	public void makeNewTab()
+	{
 		newTab();
 	}
 
-	private void newTab() {
+	private void newTab()
+	{
 		layerCount++;
-		layerEntities.put(layerCount, new ArrayList<Node>());
+		layerEntities.put(layerCount, new ArrayList<EntityDisplay>());
 		workspace.setNewLayer(String.format("Layer %d", layerCount));
 		// newLayerSelected(layerCount);
 	}
 
-	public void selectNewLayer(int newLayer) {
+	public void selectNewLayer(int newLayer)
+	{
 		newLayerSelected(newLayer);
 	}
 
-	private void newLayerSelected(int newVal) {
-		for (List<Node> entityList : layerEntities.values()) {
-			for (Node entity : entityList) {
+	private void newLayerSelected(int newVal)
+	{
+		for (List<EntityDisplay> entityList : layerEntities.values()) {
+			for (EntityDisplay entity : entityList) {
 				entity.setEffect(makeOffLayerEffect());
 				entity.toBack();
 			}
@@ -95,7 +96,8 @@ public class LayerEditor extends View {
 		}
 	}
 
-	private Effect makeLayerEffect() {
+	private Effect makeLayerEffect()
+	{
 		DropShadow ds = new DropShadow();
 		ds.setOffsetY(10.0);
 		ds.setOffsetX(10.0);
@@ -103,7 +105,8 @@ public class LayerEditor extends View {
 		return ds;
 	}
 
-	private Effect makeOffLayerEffect() {
+	private Effect makeOffLayerEffect()
+	{
 		Lighting dark = new Lighting();
 		dark.setLight(new Light.Distant(45, 45, Color.BLACK));
 		return dark;
