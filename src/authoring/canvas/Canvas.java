@@ -5,6 +5,8 @@ import java.util.List;
 
 import authoring.Workspace;
 import authoring.views.View;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
@@ -100,6 +102,7 @@ public class Canvas extends View
 		// entity.setCursor(Cursor.CLOSED_HAND);
 		// makeDraggable(newEntity);
 		this.makeDraggable();
+		makeDraggable(newEntity);
 		updateLayerBounds();
 	}
 
@@ -135,19 +138,44 @@ public class Canvas extends View
 		gridMarker.setFill(Color.GREY);
 		gridNodes.getChildren().add(gridMarker);
 	}
-	//
-	// private void clickToAddEntity()
-	// {
-	// layer.setOnMouseClicked(e -> {
-	// if (e.isShiftDown()) {
-	// Rectangle rect = new Rectangle();
-	// rect.setWidth(100);
-	// rect.setHeight(100);
-	// rect.setFill(Color.CORAL);
-	// this.addEntity(rect, e.getX(), e.getY());
-	// }
-	// });
-	// }
+
+	private void makeDraggable(EntityDisplay entity)
+	{
+		entity.translateXProperty().addListener(new ChangeListener<Number>()
+		{
+
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldX, Number newX)
+			{
+				scrollScreen.setHvalue(newX.doubleValue() / (width - entity.getWidth()));
+				if (newX.intValue() < 0) {
+					entity.setTranslateX(0);
+				} else if (newX.intValue() + entity.getWidth() > width) {
+					System.out.println("ASDFDAS");
+					updateLayerBounds();
+					updateDisplay();
+				}
+			}
+
+		});
+
+		entity.translateYProperty().addListener(new ChangeListener<Number>()
+		{
+
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldY, Number newY)
+			{
+				scrollScreen.setVvalue(newY.doubleValue() / (height - entity.getHeight()));
+				if (newY.intValue() < 0) {
+					entity.setTranslateY(0);
+				} else if (newY.intValue() + entity.getHeight() > height) {
+					updateLayerBounds();
+					updateDisplay();
+				}
+			}
+
+		});
+	}
 
 	/**
 	 * Makes the given node draggable so that you can move it around on the
@@ -158,12 +186,13 @@ public class Canvas extends View
 	 */
 	private void makeDraggable()
 	{
-		this.setOnMouseDragged(new EventHandler<MouseEvent>()
+		scrollScreen.setOnMouseDragged(new EventHandler<MouseEvent>()
 		{
 
 			@Override
 			public void handle(MouseEvent event)
 			{
+				System.out.println("HI");
 				for (EntityDisplay entity : entities) {
 					if (entity.intersects(event.getX(), event.getY(), 0, 0)) {
 						scrollScreen.setHvalue(entity.getTranslateX() / (width - entity.getWidth()));
@@ -242,22 +271,20 @@ public class Canvas extends View
 
 	private void updateLayerBounds()
 	{
-		// double maxX;
-		// double maxY;
-		// for (Node entity : entities) {
-		// double nodeMaxX = entity.getTranslateX() +
-		// entity.getBoundsInParent().getWidth();
-		// double nodeMaxY = entity.getTranslateY() +
-		// entity.getBoundsInParent().getHeight();
-		// if (nodeMaxX > maxX) {
-		// maxX = nodeMaxX;
-		// }
-		// if (nodeMaxY > maxY) {
-		// maxY = nodeMaxY;
-		// }
-		// }
-		// this.width = maxX;
-		// this.height = maxY;
+		double maxX = 100;
+		double maxY = 100;
+		for (EntityDisplay entity : entities) {
+			double nodeMaxX = entity.getTranslateX() + entity.getBoundsInParent().getWidth();
+			double nodeMaxY = entity.getTranslateY() + entity.getBoundsInParent().getHeight();
+			if (nodeMaxX > maxX) {
+				maxX = nodeMaxX;
+			}
+			if (nodeMaxY > maxY) {
+				maxY = nodeMaxY;
+			}
+		}
+		this.width = maxX;
+		this.height = maxY;
 	}
 
 	private Point2D getTiledCoordinate(double x, double y)
