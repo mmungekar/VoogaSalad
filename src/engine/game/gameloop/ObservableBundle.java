@@ -3,7 +3,8 @@ package engine.game.gameloop;
 import engine.Entity;
 import engine.Event;
 import engine.events.CollisionEvent;
-import engine.events.InputEvent;
+import engine.events.KeyPressEvent;
+import engine.events.KeyReleaseEvent;
 import engine.events.TimerEvent;
 import engine.game.LevelManager;
 import engine.game.eventobserver.CollisionObservable;
@@ -69,7 +70,7 @@ public class ObservableBundle {
 	public void setObservablesInEvents(LevelManager levelManager){
 		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
 			for (Event event : entity.getEvents()) {
-				if (event instanceof InputEvent) {
+				if (event instanceof KeyPressEvent || event instanceof KeyReleaseEvent) {
 					event.addEventObservable(inputObservable);
 				}
 				else if (event instanceof CollisionEvent){
