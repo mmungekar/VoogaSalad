@@ -44,8 +44,8 @@ public class Chat extends View {
 
 	private void setup() {
 		username = "User_" + Integer.toString(new Random().nextInt(1000));
-		discussion = new Discussion();
-		discussion.listenOnChannel(e -> receivedMessage(e), CHANNEL);
+		//discussion = new Discussion();
+		//discussion.listenOnChannel(e -> receivedMessage(e), CHANNEL);
 		viewSetup();
 	}
 	
@@ -107,7 +107,7 @@ public class Chat extends View {
 	private void send() {
 		Message message = new Message(username, sendField.getText());
 		appendToChat(message);
-		discussion.send(message, CHANNEL);
+		//discussion.send(message, CHANNEL);
 		sendField.setText("");
 	}
 

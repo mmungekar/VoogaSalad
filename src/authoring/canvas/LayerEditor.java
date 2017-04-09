@@ -58,9 +58,7 @@ public class LayerEditor extends View {
 					lastBounds = newBounds;
 					placeEntity(e);
 				}
-			} catch (Exception exception) {
-				showSelectMessage();
-			}
+			} catch (Exception exception) { }
 		});
 	}
 
