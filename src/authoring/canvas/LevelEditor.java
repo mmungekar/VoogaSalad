@@ -80,7 +80,7 @@ public class LevelEditor extends View {
 	}
 	
 	private void addToolbar() {
-		helpBar = new HelpBar();
+		helpBar = new HelpBar(workspace);
 		setBottom(helpBar);
 	}
 	
