@@ -7,16 +7,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import authoring.canvas.LayerEditor;
 import authoring.canvas.LevelEditor;
 import authoring.components.ComponentMaker;
+import authoring.components.HTMLDisplay;
 import authoring.panel.Panel;
 import authoring.utils.EntityWrapper;
 import authoring.views.View;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.SplitPane;
-import javafx.scene.control.Tab;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 
 /**
  * @author Elliott Bolzan Modified by Mina Mungekar, Jimmy Shackford
@@ -72,20 +74,17 @@ public class Workspace extends View {
 		// return canvas's entities (i.e. canvas.getLevel())
 		return new ArrayList<>();
 	}
-	
-	public void setNewLayer(String newLayer){
+
+	public void setNewLayer(String newLayer) {
 		panel.updateLayerPanel(newLayer);
 	}
-	
-	public void addLayer(){
-		LayerEditor layer = levelEditor.getCurrentLayer();
-		layer.makeNewTab();
-		//layer.getTabs().add(layer.getTabs().size() - 1, layer.makeNewTab());
-		//layer.getSelectionModel().select(layer.getTabs().size() - 2);
+
+	public void addLayer() {
+		levelEditor.getCurrentLevel().makeNewTab();
 	}
 
 	public void selectLayer(int arg2) {
-		levelEditor.getCurrentLayer().selectNewLayer(arg2);
+		levelEditor.getCurrentLevel().selectNewLayer(arg2);
 	}
-
+	
 }

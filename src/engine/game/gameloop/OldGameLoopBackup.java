@@ -4,7 +4,7 @@ import engine.Entity;
 import engine.Event;
 import engine.entities.CharacterEntity;
 import engine.events.CollisionEvent;
-import engine.events.InputEvent;
+import engine.events.KeyPressEvent;
 import engine.events.TimerEvent;
 import engine.game.LevelManager;
 import engine.game.eventobserver.CollisionObservable;
@@ -58,7 +58,7 @@ public class OldGameLoopBackup {
 		// corresponding Observables
 		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
 			for (Event event : entity.getEvents()) {
-				if (event instanceof InputEvent) {
+				if (event instanceof KeyPressEvent) {
 					event.addEventObservable(inputObservable);
 				}
 				else if (event instanceof CollisionEvent){
@@ -106,10 +106,14 @@ public class OldGameLoopBackup {
 		timeline.play();
 	}
 	
+	public Pane getGameView() {
+		return graphicsEngine.getView();
+	}
+	
 	private void setupGameView() {
-		graphicsEngine = new GraphicsEngine(new ScrollingCamera(1,0));
+		graphicsEngine = new GraphicsEngine(new ScrollingCamera(0.5,0));
 		graphicsEngine.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
-		//TEST
+		//TODO: Remove the following (just for tests)
 		Entity mario = new CharacterEntity("Mario", "file:" + System.getProperty("user.dir") + "/src/resources/images/mario.png");
 		mario.setX(200);
 		mario.setY(200);
@@ -118,10 +122,6 @@ public class OldGameLoopBackup {
 		levelManager.getCurrentLevel().getEntities().add(mario);		
 	}
 
-	public Pane getGameView() {
-		return graphicsEngine.getView();
-	}
-	
 	private void step() {
 		inputObservable.updateObservers();
 		collisionObservable.updateObservers();

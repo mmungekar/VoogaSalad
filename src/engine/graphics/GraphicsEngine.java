@@ -8,6 +8,7 @@ import engine.graphics.cameras.ScrollingCamera;
 import engine.Entity;
 import engine.EntityInterface;
 import javafx.scene.Node;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 
@@ -41,8 +42,6 @@ public class GraphicsEngine {
 	 * current entities.
 	 */
 	public void update() {
-		this.clearView();
-		this.drawAllEntities();
 		this.updateCamera();
 	}
 	
@@ -52,6 +51,8 @@ public class GraphicsEngine {
 	 */
 	public void setEntitiesCollection(Collection<Entity> entities) {
 		this.entities = entities;
+		this.clearView();
+		this.drawAllEntities();
 	}
 	
 	private void clearView() {
@@ -60,8 +61,11 @@ public class GraphicsEngine {
 	
 	private void drawAllEntities() {
 		NodeFactory factory = new NodeFactory();
-		for(EntityInterface e : entities) {
-			displayArea.getChildren().add(factory.getNodeFromEntity(e));	
+		for(Entity e : entities) {
+			ImageView node = (ImageView)factory.getNodeFromEntity(e);
+			node.xProperty().bind(e.xProperty());
+			node.yProperty().bind(e.yProperty());
+			displayArea.getChildren().add(node);	
 		}
 	}
 	
@@ -69,6 +73,7 @@ public class GraphicsEngine {
 		displayArea = new Pane();
 		displayArea.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 		this.clipAtEdges(displayArea);
+		this.drawAllEntities();
 	}
 	
 	private void clipAtEdges(Pane pane) {

@@ -2,161 +2,156 @@ package authoring.canvas;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import authoring.Workspace;
+import authoring.components.ComponentMaker;
 import authoring.views.View;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.geometry.Side;
-import javafx.scene.Group;
+import engine.Entity;
+import javafx.geometry.Bounds;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Effect;
-import javafx.scene.effect.Light;
-import javafx.scene.effect.Lighting;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 
 /**
  * 
- * @author jimmy
+ * @author jimmy Modified by Mina Mungekar
  *
  */
-public class LayerEditor extends View
-{
+public class LayerEditor extends View {
 	Workspace workspace;
 	Canvas canvas;
-	Map<Integer, List<Node>> layerEntities;
+	Map<Integer, List<EntityDisplay>> layerEntities;
 	int layerCount;
+	Bounds lastBounds;
 
-	public LayerEditor(Workspace workspace)
-	{
+	public LayerEditor(Workspace workspace) {
 		super("");
 		this.workspace = workspace;
 		setup();
 	}
 
-	private void setup()
-	{
+	private void setup() {
 		canvas = new Canvas(workspace);
 		setCenter(canvas);
-		layerEntities = new HashMap<Integer, List<Node>>();
+		layerEntities = new HashMap<Integer, List<EntityDisplay>>();
 		layerCount = 0;
+		lastBounds = new Rectangle().getBoundsInLocal();
 		clickToAddEntity();
+		typeToDelete();
 		newTab();
-		/*this.setSide(Side.RIGHT);
-		this.setRotateGraphic(true);
-		this.setTabMinHeight(100);
-		this.setTabMaxHeight(100); */
-
-		Rectangle rect = new Rectangle();
-		rect.setWidth(100);
-		rect.setHeight(100);
-		rect.setFill(Color.CORAL);
-		this.addEntity(rect, 0, 0);
-		System.out.println("Here");
 	}
 
-	private void clickToAddEntity()
-	{
-		canvas.setOnMouseClicked(e -> {
-			if (e.isShiftDown()) {
-				Rectangle rect = new Rectangle();
-				rect.setWidth(100);
-				rect.setHeight(100);
-				rect.setFill(Color.BLUE);
-				addEntity(rect, e.getX(), e.getY());
+	private void clickToAddEntity() {
+		canvas.setPaneOnMouseClicked(e -> {
+			if (e.isControlDown()) {
+				placeEntity(e);
+			}
+		});
+		canvas.setPaneOnMouseDragged(e -> {
+			try {
+				Bounds newBounds = boundsFromImage(getCurrentImage(), e);
+				if (e.isControlDown() && e.isShiftDown() && !lastBounds.intersects(newBounds)) {
+					lastBounds = newBounds;
+					placeEntity(e);
+				}
+			} catch (Exception exception) {
 			}
 		});
 	}
 
-	private void addEntity(Node entity, double x, double y)
-	{
-		canvas.addEntity(entity, x, y);
-		layerEntities.get(layerCount).add(entity);
-		entity.setEffect(makeLayerEffect());
-	}
-	
-	public void makeNewTab(){
-		newTab();
-	}
+	private void typeToDelete() {
+		workspace.setOnKeyPressed(e -> {
+			if (e.getCode().equals(KeyCode.BACK_SPACE)) {
+				Map<List<EntityDisplay>, EntityDisplay> removedEntities = new HashMap<List<EntityDisplay>, EntityDisplay>();
+				for (List<EntityDisplay> list : layerEntities.values()) {
+					Iterator<EntityDisplay> iter = list.iterator();
 
-	private void newTab(){
-		//Tab tab = new Tab();
-		//tab.setGraphic(makeTabLabel(String.format("Layer %d", this.getTabs().size()+1)));
-		layerCount++;
-		workspace.setNewLayer(String.format("Layer %d",layerCount));
-		layerEntities.put(layerCount, new ArrayList<Node>());
-	}
-	
-	public void selectNewLayer(int newLayer){
-		newLayerSelected(newLayer);
-	}
-	
-	private void newLayerSelected(int newVal){
-	for (List<Node> entityList : layerEntities.values()) {
-		for (Node entity : entityList) {
-			entity.setEffect(makeOffLayerEffect());
-			entity.toBack();
-		}
-	}
-	for (Node entity : layerEntities.get(newVal)) {
-		entity.setEffect(makeLayerEffect());
-		entity.toFront();
-	}
-/*	if(oldVal!=0){
-	oldTab.setContent(null);
-	}
-	newTab.setContent(canvas); */
-	}
-	
-	private Effect makeLayerEffect()
-	{
-		DropShadow ds = new DropShadow();
-		ds.setOffsetY(10.0);
-		ds.setOffsetX(10.0);
-		ds.setColor(Color.GRAY);
-		return ds;
-	}
+					while (iter.hasNext()) {
+						EntityDisplay entity = iter.next();
 
-	private Effect makeOffLayerEffect()
-	{
-		Lighting dark = new Lighting();
-		dark.setLight(new Light.Distant(45, 45, Color.BLACK));
-		return dark;
-	}
-
-/*	private StackPane makeTabLabel(String text)
-	{
-		Label l = new Label(text);
-		workspace.setNewLayer(text);
-		l.setRotate(-90);
-		StackPane stp = new StackPane(new Group(l));
-		return stp;
-	} */
-
-	/*private Tab makePlusTab()
-	{
-		Tab plusTab = new Tab("+");
-		plusTab.setClosable(false);
-		this.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>()
-		{
-			@Override
-			public void changed(ObservableValue<? extends Tab> observable, Tab oldTab, Tab newTab)
-			{
-				if (newTab.getText() != null && newTab.getText().equals("+")) {
-					getTabs().add(getTabs().size() - 1, newTab());
-					getSelectionModel().select(getTabs().size() - 2);
+						if (entity.isSelected()) {
+							iter.remove();
+							canvas.removeEntity(entity);
+						}
+					}
 				}
 			}
-
 		});
-	return plusTab;
-	}*/ 
+	}
+
+	private Image getCurrentImage() {
+		return new Image(workspace.getSelectedEntity().getImagePath().get());
+	}
+
+	private void placeEntity(MouseEvent e) {
+		try {
+			addEntity(workspace.getSelectedEntity().getEntity(), e.getX(), e.getY());
+		} catch (Exception exception) {
+			showSelectMessage();
+		}
+	}
+
+	private Bounds boundsFromImage(Image image, MouseEvent e) {
+		Bounds bounds = new Rectangle(e.getX(), e.getY(), image.getWidth(), image.getHeight()).getBoundsInLocal();
+		return bounds;
+	}
+
+	private void addEntity(Entity entity, double x, double y) {
+		EntityDisplay addedEntity = canvas.addEntity(entity, x, y);
+		layerEntities.get(layerCount).add(addedEntity);
+		addedEntity.setOnMouseClicked(e -> {
+			if (!e.isShiftDown()) {
+				for (List<EntityDisplay> list : layerEntities.values()) {
+					for (EntityDisplay display : list) {
+						display.setSelected(false);
+					}
+				}
+			}
+			addedEntity.setSelected(!addedEntity.isSelected());
+		});
+	}
+
+	public void makeNewTab() {
+		newTab();
+	}
+
+	private void newTab() {
+		layerCount++;
+		layerEntities.put(layerCount, new ArrayList<EntityDisplay>());
+		workspace.setNewLayer(String.format("Layer %d", layerCount));
+		// newLayerSelected(layerCount);
+	}
+
+	public void selectNewLayer(int newLayer) {
+		newLayerSelected(newLayer);
+	}
+
+	private void newLayerSelected(int newVal) {
+		for (List<EntityDisplay> entityList : layerEntities.values()) {
+			for (Node entity : entityList) {
+				entity.setOpacity(0.3);
+				entity.toBack();
+			}
+		}
+
+		for (Node entity : layerEntities.get(newVal)) {
+			entity.setOpacity(1);
+			entity.toFront();
+		}
+	}
+
+	private void showSelectMessage() {
+		ComponentMaker maker = new ComponentMaker(workspace.getResources());
+		String message = workspace.getResources().getString("SelectAnEntity");
+		Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message);
+		alert.show();
+	}
+
 }
