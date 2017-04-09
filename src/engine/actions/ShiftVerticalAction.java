@@ -9,9 +9,9 @@ import engine.Parameter;
  * @author Kyle Finke
  *
  */
-public class VerticalAction extends Action {
+public class ShiftVerticalAction extends Action {
 	
-	public VerticalAction(){
+	public ShiftVerticalAction(){
 		addParam(new Parameter("Move amount", Double.class, 0));		
 	}
 
