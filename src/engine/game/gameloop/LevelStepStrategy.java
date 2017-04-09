@@ -99,7 +99,8 @@ public class LevelStepStrategy implements StepStrategy{
 	}
 	
 	private void setupGameView() {
-		graphicsEngine = new GraphicsEngine(new ScrollingCamera(1,0));
+		//TODO: set the camera x/y speed
+		graphicsEngine = new GraphicsEngine(new ScrollingCamera(0,0));
 		graphicsEngine.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
 	}
 	

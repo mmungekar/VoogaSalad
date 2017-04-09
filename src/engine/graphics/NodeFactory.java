@@ -19,8 +19,8 @@ public class NodeFactory implements NodeFactoryInterface {
 	@Override
 	public Node getNodeFromEntity(EntityInterface entity) {
 		ImageView node = new ImageView(new Image(entity.getImagePath()));
-		node.setX(entity.getX() - entity.getWidth()/2);
-		node.setY(entity.getY() - entity.getHeight()/2);
+		node.setX(entity.getX());
+		node.setY(entity.getY());
 		node.setFitWidth(entity.getWidth());
 		node.setFitHeight(entity.getHeight());
 		return node;
