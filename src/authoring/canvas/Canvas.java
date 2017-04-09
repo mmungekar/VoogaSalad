@@ -52,6 +52,11 @@ public class Canvas extends View
 		setup();
 	}
 
+	public void setPaneOnMouseClicked(EventHandler<? super MouseEvent> eventHandler)
+	{
+		layer.setOnMouseClicked(eventHandler);
+	}
+
 	private void setup()
 	{
 		gridNodes = new Group();
@@ -104,6 +109,7 @@ public class Canvas extends View
 		this.makeDraggable();
 		makeDraggable(newEntity);
 		updateLayerBounds();
+		updateDisplay();
 	}
 
 	// public void addEntityRegion(Node entity)
@@ -151,10 +157,9 @@ public class Canvas extends View
 				if (newX.intValue() < 0) {
 					entity.setTranslateX(0);
 				} else if (newX.intValue() + entity.getWidth() > width) {
-					System.out.println("ASDFDAS");
 					updateLayerBounds();
-					updateDisplay();
 				}
+				updateDisplay();
 			}
 
 		});
@@ -170,10 +175,19 @@ public class Canvas extends View
 					entity.setTranslateY(0);
 				} else if (newY.intValue() + entity.getHeight() > height) {
 					updateLayerBounds();
-					updateDisplay();
 				}
+				updateDisplay();
 			}
 
+		});
+
+		entity.minHeightProperty().addListener(e -> {
+			updateLayerBounds();
+			updateDisplay();
+		});
+		entity.minWidthProperty().addListener(e -> {
+			updateLayerBounds();
+			updateDisplay();
 		});
 	}
 

@@ -43,7 +43,7 @@ public class LayerEditor extends View
 
 	private void clickToAddEntity()
 	{
-		canvas.setOnMouseClicked(e -> {
+		canvas.setPaneOnMouseClicked(e -> {
 			if (e.isShiftDown()) {
 				ImageView entity = new ImageView(new Image(workspace.getSelectedEntity().getEntity().getImagePath()));
 				addEntity(entity, e.getX(), e.getY());
