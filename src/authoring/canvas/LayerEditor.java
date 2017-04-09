@@ -26,6 +26,7 @@ import javafx.scene.shape.Rectangle;
 /**
  * 
  * @author jimmy
+ * Modified by Mina Mungekar
  *
  */
 public class LayerEditor extends View
@@ -50,11 +51,7 @@ public class LayerEditor extends View
 		layerCount = 0;
 		clickToAddEntity();
 		newTab();
-		/*this.setSide(Side.RIGHT);
-		this.setRotateGraphic(true);
-		this.setTabMinHeight(100);
-		this.setTabMaxHeight(100); */
-
+	
 		Rectangle rect = new Rectangle();
 		rect.setWidth(100);
 		rect.setHeight(100);
@@ -88,11 +85,10 @@ public class LayerEditor extends View
 	}
 
 	private void newTab(){
-		//Tab tab = new Tab();
-		//tab.setGraphic(makeTabLabel(String.format("Layer %d", this.getTabs().size()+1)));
 		layerCount++;
-		workspace.setNewLayer(String.format("Layer %d",layerCount));
 		layerEntities.put(layerCount, new ArrayList<Node>());
+		workspace.setNewLayer(String.format("Layer %d",layerCount));
+		//newLayerSelected(layerCount);
 	}
 	
 	public void selectNewLayer(int newLayer){
@@ -106,15 +102,12 @@ public class LayerEditor extends View
 			entity.toBack();
 		}
 	}
+	
 	for (Node entity : layerEntities.get(newVal)) {
 		entity.setEffect(makeLayerEffect());
 		entity.toFront();
-	}
-/*	if(oldVal!=0){
-	oldTab.setContent(null);
-	}
-	newTab.setContent(canvas); */
-	}
+			}
+		}
 	
 	private Effect makeLayerEffect()
 	{
@@ -131,32 +124,4 @@ public class LayerEditor extends View
 		dark.setLight(new Light.Distant(45, 45, Color.BLACK));
 		return dark;
 	}
-
-/*	private StackPane makeTabLabel(String text)
-	{
-		Label l = new Label(text);
-		workspace.setNewLayer(text);
-		l.setRotate(-90);
-		StackPane stp = new StackPane(new Group(l));
-		return stp;
-	} */
-
-	/*private Tab makePlusTab()
-	{
-		Tab plusTab = new Tab("+");
-		plusTab.setClosable(false);
-		this.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>()
-		{
-			@Override
-			public void changed(ObservableValue<? extends Tab> observable, Tab oldTab, Tab newTab)
-			{
-				if (newTab.getText() != null && newTab.getText().equals("+")) {
-					getTabs().add(getTabs().size() - 1, newTab());
-					getSelectionModel().select(getTabs().size() - 2);
-				}
-			}
-
-		});
-	return plusTab;
-	}*/ 
 }
