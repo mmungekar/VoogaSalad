@@ -18,10 +18,11 @@ public class DragResizer
 	 * The margin around the control that a user can click in to start resizing
 	 * the region.
 	 */
-	private static final int RESIZE_MARGIN = 15;
-	private static final int TILE_SIZE = 25;
+	private static final int RESIZE_MARGIN = 5;
 
 	private final EntityDisplay region;
+
+	private int tileSize;
 
 	private double x;
 	private double y;
@@ -36,14 +37,15 @@ public class DragResizer
 	private boolean yDragging;
 	private boolean moveDragging;
 
-	private DragResizer(EntityDisplay entityDisplay)
+	private DragResizer(EntityDisplay entityDisplay, int gridSize)
 	{
 		region = entityDisplay;
+		tileSize = gridSize;
 	}
 
-	public static void makeResizable(EntityDisplay region)
+	public static void makeResizable(EntityDisplay region, int gridSize)
 	{
-		final DragResizer resizer = new DragResizer(region);
+		final DragResizer resizer = new DragResizer(region, gridSize);
 
 		region.setOnMousePressed(new EventHandler<MouseEvent>()
 		{
@@ -129,7 +131,9 @@ public class DragResizer
 			double newWidth = untiledWidth + (mousex - x);
 			untiledWidth = newWidth;
 
-			region.setMinWidth(getTiledCoordinate(untiledWidth));
+			if (untiledWidth >= tileSize) {
+				region.setMinWidth(getTiledCoordinate(untiledWidth));
+			}
 
 			x = mousex;
 		}
@@ -141,7 +145,9 @@ public class DragResizer
 			double newHeight = untiledHeight + (mousey - y);
 			untiledHeight = newHeight;
 
-			region.setMinHeight(getTiledCoordinate(untiledHeight));
+			if (untiledHeight >= tileSize) {
+				region.setMinHeight(getTiledCoordinate(untiledHeight));
+			}
 
 			y = mousey;
 		}
@@ -190,9 +196,9 @@ public class DragResizer
 
 	private double getTiledCoordinate(double coordinate)
 	{
-		double gridCoordinate = ((int) coordinate / TILE_SIZE) * TILE_SIZE;
-		if (coordinate % TILE_SIZE > TILE_SIZE / 2) {
-			return gridCoordinate + TILE_SIZE;
+		double gridCoordinate = ((int) coordinate / tileSize) * tileSize;
+		if (coordinate % tileSize > tileSize / 2) {
+			return gridCoordinate + tileSize;
 		}
 		return gridCoordinate;
 	}
