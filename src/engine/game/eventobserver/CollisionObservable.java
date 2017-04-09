@@ -86,13 +86,11 @@ public class CollisionObservable extends EventObservable {
 	}
 
 	private boolean isCollision(Entity first, Entity second) {
-		if (first.getZ() != first.getZ()) {
-			if (first.getX() + first.getWidth() < second.getX() || second.getX() + second.getWidth() < first.getX()
-					|| first.getY() + first.getHeight() < second.getY()
-					|| second.getY() + second.getHeight() < first.getY()) {
-				return false;
-			}
-		}
-		return true;
+		return !(	first.getZ() != second.getZ() || 
+					first.getX() + first.getWidth() < second.getX() || 
+					second.getX() + second.getWidth() < first.getX() ||
+					first.getY() + first.getHeight() < second.getY() ||
+					second.getY() + second.getHeight() < first.getY()
+				);
 	}
 }
