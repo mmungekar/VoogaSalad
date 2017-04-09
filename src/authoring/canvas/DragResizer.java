@@ -3,8 +3,14 @@ package authoring.canvas;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Region;
 
+/**
+ * Some code borrowed from
+ * http://stackoverflow.com/questions/16925612/how-to-resize-component-with-mouse-drag-in-javafx
+ * 
+ * @author jimmy
+ *
+ */
 public class DragResizer
 {
 
@@ -12,22 +18,27 @@ public class DragResizer
 	 * The margin around the control that a user can click in to start resizing
 	 * the region.
 	 */
-	private static final int RESIZE_MARGIN = 10;
+	private static final int RESIZE_MARGIN = 15;
+	private static final int TILE_SIZE = 25;
 
-	private final Region region;
+	private final EntityDisplay region;
 
+	private double x;
 	private double y;
 
+	private boolean initMinWidth;
 	private boolean initMinHeight;
 
-	private boolean dragging;
+	private boolean xDragging;
+	private boolean yDragging;
+	private boolean moveDragging;
 
-	private DragResizer(Region aRegion)
+	private DragResizer(EntityDisplay entityDisplay)
 	{
-		region = aRegion;
+		region = entityDisplay;
 	}
 
-	public static void makeResizable(Region region)
+	public static void makeResizable(EntityDisplay region)
 	{
 		final DragResizer resizer = new DragResizer(region);
 
@@ -67,57 +78,112 @@ public class DragResizer
 
 	protected void mouseReleased(MouseEvent event)
 	{
-		dragging = false;
+		xDragging = false;
+		yDragging = false;
+		moveDragging = false;
 		region.setCursor(Cursor.DEFAULT);
 	}
 
 	protected void mouseOver(MouseEvent event)
 	{
-		if (isInDraggableZone(event) || dragging) {
+		if ((isInXDraggableZone(event) && isInYDraggableZone(event)) || (xDragging && yDragging)) {
+			region.setCursor(Cursor.SE_RESIZE);
+		} else if (isInXDraggableZone(event) || xDragging) {
+			region.setCursor(Cursor.E_RESIZE);
+		} else if (isInYDraggableZone(event) || yDragging) {
 			region.setCursor(Cursor.S_RESIZE);
+		} else if (isInMoveDraggableZone(event) && !moveDragging) {
+			region.setCursor(Cursor.CLOSED_HAND);
+		} else if (moveDragging) {
+			region.setCursor(Cursor.NONE);
 		} else {
 			region.setCursor(Cursor.DEFAULT);
 		}
 	}
 
-	protected boolean isInDraggableZone(MouseEvent event)
+	private boolean isInXDraggableZone(MouseEvent event)
+	{
+		return event.getX() > (region.getWidth() - RESIZE_MARGIN);
+	}
+
+	private boolean isInYDraggableZone(MouseEvent event)
 	{
 		return event.getY() > (region.getHeight() - RESIZE_MARGIN);
 	}
 
+	private boolean isInMoveDraggableZone(MouseEvent event)
+	{
+		return event.getX() > 0 && event.getX() < region.getWidth() - RESIZE_MARGIN && event.getY() > 0
+				&& event.getY() < region.getHeight() - RESIZE_MARGIN;
+	}
+
 	protected void mouseDragged(MouseEvent event)
 	{
-		if (!dragging) {
-			return;
+		if (xDragging) {
+
+			double mousex = event.getX();
+
+			double newWidth = region.getMinWidth() + (mousex - x);
+
+			region.setMinWidth(newWidth);
+
+			x = mousex;
 		}
 
-		double mousey = event.getY();
+		if (yDragging) {
 
-		double newHeight = region.getMinHeight() + (mousey - y);
+			double mousey = event.getY();
 
-		region.setMinHeight(newHeight);
+			double newHeight = region.getMinHeight() + (mousey - y);
 
-		y = mousey;
+			region.setMinHeight(newHeight);
+
+			y = mousey;
+		}
+
+		if (moveDragging) {
+			region.setCursor(Cursor.NONE);
+			double mouseX = event.getX();
+			double mouseY = event.getY();
+
+			region.setTranslateX(getTiledCoordinate(region.getTranslateX() + mouseX - region.getWidth() / 2));
+			region.setTranslateY(getTiledCoordinate(region.getTranslateY() + mouseY - region.getHeight() / 2));
+		}
 	}
 
 	protected void mousePressed(MouseEvent event)
 	{
 
-		// ignore clicks outside of the draggable margin
-		if (!isInDraggableZone(event)) {
-			return;
+		if (isInXDraggableZone(event)) {
+			xDragging = true;
+
+			if (!initMinWidth) {
+				region.setMinWidth(region.getWidth());
+				initMinWidth = true;
+			}
+			x = event.getX();
 		}
 
-		dragging = true;
+		if (isInYDraggableZone(event)) {
+			yDragging = true;
 
-		// make sure that the minimum height is set to the current height once,
-		// setting a min height that is smaller than the current height will
-		// have no effect
-		if (!initMinHeight) {
-			region.setMinHeight(region.getHeight());
-			initMinHeight = true;
+			if (!initMinHeight) {
+				region.setMinHeight(region.getHeight());
+				initMinHeight = true;
+			}
+			y = event.getY();
 		}
 
-		y = event.getY();
+		if (isInMoveDraggableZone(event)) {
+			moveDragging = true;
+			x = event.getX();
+			y = event.getY();
+		}
+	}
+
+	private double getTiledCoordinate(double coordinate)
+	{
+		double gridCoordinate = ((int) coordinate / TILE_SIZE) * TILE_SIZE;
+		return gridCoordinate;
 	}
 }

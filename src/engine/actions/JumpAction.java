@@ -16,7 +16,7 @@ public class JumpAction extends Action {
 		Entity entity = getEntity();
 		double yCur = entity.getY();
 		double yMax = (Double) getParam("Max Jump Height");
-		double velocity = (yMax - yCur) / ((Double) getParam("JumpDuration"));
+		double velocity = (yMax - yCur) / ((Double) getParam("Jump Duration"));
 		entity.setYSpeed(velocity);
 		entity.setYAcceleration(Entity.ACCELERATION);
 		// and make sure another action is added that stops the jump on

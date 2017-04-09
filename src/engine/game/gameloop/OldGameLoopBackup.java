@@ -1,4 +1,4 @@
-package engine.game;
+package engine.game.gameloop;
 
 import engine.Entity;
 import engine.Event;
@@ -6,6 +6,7 @@ import engine.entities.CharacterEntity;
 import engine.events.CollisionEvent;
 import engine.events.InputEvent;
 import engine.events.TimerEvent;
+import engine.game.LevelManager;
 import engine.game.eventobserver.CollisionObservable;
 import engine.game.eventobserver.InputObservable;
 import engine.game.eventobserver.TimerObservable;
@@ -21,9 +22,10 @@ import javafx.util.Duration;
  * Manages the highest level of time flow in the game.
  * 
  * @author Matthew Barbano
+ * @author Jay Doherty
  *
  */
-public class GameLoop {
+public class OldGameLoopBackup {
 	public static final int FRAME_TIME_MILLISECONDS = 20;
 	private GraphicsEngine graphicsEngine;
 	private LevelManager levelManager;
@@ -38,7 +40,7 @@ public class GameLoop {
 	 * 
 	 * @param currentLevelManager
 	 */
-	public GameLoop(Scene gameScene, String gameFilename) {
+	public OldGameLoopBackup(Scene gameScene, String gameFilename) {
 		// Setup Observables - at beginning of entire game only
 		inputObservable = new InputObservable();
 		collisionObservable = new CollisionObservable();
@@ -75,12 +77,13 @@ public class GameLoop {
 			timerObservable.attach(entity);
 		}
 
-		// Start the GAE's current level
+		// Start the GAE's current level in Level Manager
 		levelManager.startCurrentLevel();
 
 		//Set up graphical view
 		setupGameView();
 		
+		//Start timeline
 		setupTimeline();
 	}
 
@@ -103,10 +106,14 @@ public class GameLoop {
 		timeline.play();
 	}
 	
+	public Pane getGameView() {
+		return graphicsEngine.getView();
+	}
+	
 	private void setupGameView() {
-		graphicsEngine = new GraphicsEngine(new ScrollingCamera(1,0));
+		graphicsEngine = new GraphicsEngine(new ScrollingCamera(0.5,0));
 		graphicsEngine.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
-		//TEST
+		//TODO: Remove the following (just for tests)
 		Entity mario = new CharacterEntity("Mario", "file:" + System.getProperty("user.dir") + "/src/resources/images/mario.png");
 		mario.setX(200);
 		mario.setY(200);
@@ -115,17 +122,13 @@ public class GameLoop {
 		levelManager.getCurrentLevel().getEntities().add(mario);		
 	}
 
-	public Pane getGameView() {
-		return graphicsEngine.getView();
-	}
-	
 	private void step() {
 		inputObservable.updateObservers();
 		collisionObservable.updateObservers();
 		timerObservable.updateObservers();   //ticks the clock (need to at beginning of step(), not end, because onFinished of Timeline called at END of time elapsed
 		
 		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
-			//entity.update();               //TODO <-----------------Comment out when Nikita finishes
+			entity.update();
 		}
 
 		inputObservable.setInputToProcess(false);

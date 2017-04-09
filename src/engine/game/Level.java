@@ -82,7 +82,7 @@ public class Level implements LevelInterface, Selectable{
 	}
 	
 	private void setToInitialConditions(){
-		System.out.println("Setting to initial conditions");  //For testing
+		System.out.println("Setting to initial conditions");  //TODO For testing
 	}
 	
 	public TimerManager getTimerManager(){

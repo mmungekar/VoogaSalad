@@ -6,33 +6,31 @@ import java.util.List;
 import java.util.Map;
 
 import authoring.Workspace;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.geometry.Side;
-import javafx.scene.Group;
+import authoring.views.View;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Effect;
+import javafx.scene.effect.Light;
+import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 /**
  * 
- * @author jimmy
+ * @author jimmy Modified by Mina Mungekar
  *
  */
-public class LayerEditor extends TabPane
+public class LayerEditor extends View
 {
 	Workspace workspace;
 	Canvas canvas;
-	Map<Tab, List<Node>> layerEntities;
+	Map<Integer, List<EntityDisplay>> layerEntities;
+	int layerCount;
 
 	public LayerEditor(Workspace workspace)
 	{
+		super("");
 		this.workspace = workspace;
 		setup();
 	}
@@ -40,113 +38,77 @@ public class LayerEditor extends TabPane
 	private void setup()
 	{
 		canvas = new Canvas(workspace);
-		layerEntities = new HashMap<Tab, List<Node>>();
+		setCenter(canvas);
+		layerEntities = new HashMap<Integer, List<EntityDisplay>>();
+		layerCount = 0;
 		clickToAddEntity();
-		this.getTabs().add(newTab());
-		this.setSide(Side.RIGHT);
-		this.setRotateGraphic(true);
-		this.setTabMinHeight(100);
-		this.setTabMaxHeight(100);
+		newTab();
 
-		Rectangle rect = new Rectangle();
-		rect.setWidth(100);
-		rect.setHeight(100);
-		rect.setFill(Color.CORAL);
-		this.addEntity(rect, 0, 0);
 	}
 
 	private void clickToAddEntity()
 	{
 		canvas.setOnMouseClicked(e -> {
 			if (e.isShiftDown()) {
-				Node entity = new ImageView(new Image(workspace.getSelectedEntity().getEntity().getImagePath()));
-				addEntity(entity, e.getX(), e.getY());
+				addEntity(new ImageView(new Image(workspace.getSelectedEntity().getImagePath().getValue())), e.getX(),
+						e.getY());
 			}
 		});
-		// canvas.setOnMouseMoved(e -> {
-		// Node entity = new ImageView(new
-		// Image(workspace.getSelectedEntity().getEntity().getImagePath()));
-		// if (e.isShiftDown()) {
-		// entity.setTranslateX(e.getX() - entity.getBoundsInLocal().getWidth()
-		// / 2);
-		// entity.setTranslateY(e.getY() - entity.getBoundsInLocal().getHeight()
-		// / 2);
-		// getChildren().add(entity);
-		// }
-		// onMouseMovedProperty().addListener(e2 -> {
-		// System.out.print("HI");
-		// getChildren().remove(entity);
-		// });
-		// });
 	}
 
-	private void addEntity(Node entity, double x, double y)
+	private void addEntity(ImageView entity, double x, double y)
 	{
 		canvas.addEntity(entity, x, y);
-		layerEntities.get(this.getSelectionModel().getSelectedItem()).add(entity);
-	}
-	
-	public Tab makeNewTab(){
-		return newTab();
+		layerEntities.get(layerCount).add(new EntityDisplay(entity, x, y));
+		entity.setEffect(makeLayerEffect());
 	}
 
-	private Tab newTab(){
-		Tab tab = new Tab();
-		tab.setGraphic(makeTabLabel(String.format("Layer %d", this.getTabs().size()+1)));
-		layerEntities.put(tab, new ArrayList<Node>());
-		// TODO: Change tab closing policy so that you can't delete a layer
-		// unless all entities within it
-		// have been deleted.
-		this.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>()
-		{
-
-			@Override
-			public void changed(ObservableValue<? extends Tab> observable, Tab oldTab, Tab newTab)
-			{
-				for (List<Node> entityList : layerEntities.values()) {
-					for (Node entity : entityList) {
-						entity.toBack();
-						entity.setOpacity(0.3);
-					}
-				}
-				for (Node entity : layerEntities.get(newTab)) {
-					entity.toFront();
-					entity.setOpacity(1);
-				}
-				if(oldTab!=null){
-				oldTab.setContent(null);
-				}
-				newTab.setContent(canvas);
-			}
-		});
-		return tab;
-	}
-
-	private StackPane makeTabLabel(String text)
+	public void makeNewTab()
 	{
-		Label l = new Label(text);
-		workspace.setNewLayer(text);
-		l.setRotate(-90);
-		StackPane stp = new StackPane(new Group(l));
-		return stp;
+		newTab();
 	}
 
-	/*private Tab makePlusTab()
+	private void newTab()
 	{
-		Tab plusTab = new Tab("+");
-		plusTab.setClosable(false);
-		this.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>()
-		{
-			@Override
-			public void changed(ObservableValue<? extends Tab> observable, Tab oldTab, Tab newTab)
-			{
-				if (newTab.getText() != null && newTab.getText().equals("+")) {
-					getTabs().add(getTabs().size() - 1, newTab());
-					getSelectionModel().select(getTabs().size() - 2);
-				}
-			}
+		layerCount++;
+		layerEntities.put(layerCount, new ArrayList<EntityDisplay>());
+		workspace.setNewLayer(String.format("Layer %d", layerCount));
+		// newLayerSelected(layerCount);
+	}
 
-		});
-	return plusTab;
-	}*/ 
+	public void selectNewLayer(int newLayer)
+	{
+		newLayerSelected(newLayer);
+	}
+
+	private void newLayerSelected(int newVal)
+	{
+		for (List<EntityDisplay> entityList : layerEntities.values()) {
+			for (EntityDisplay entity : entityList) {
+				entity.setEffect(makeOffLayerEffect());
+				entity.toBack();
+			}
+		}
+
+		for (Node entity : layerEntities.get(newVal)) {
+			entity.setEffect(makeLayerEffect());
+			entity.toFront();
+		}
+	}
+
+	private Effect makeLayerEffect()
+	{
+		DropShadow ds = new DropShadow();
+		ds.setOffsetY(10.0);
+		ds.setOffsetX(10.0);
+		ds.setColor(Color.GRAY);
+		return ds;
+	}
+
+	private Effect makeOffLayerEffect()
+	{
+		Lighting dark = new Lighting();
+		dark.setLight(new Light.Distant(45, 45, Color.BLACK));
+		return dark;
+	}
 }

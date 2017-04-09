@@ -1,6 +1,6 @@
 package testers;
 
-import engine.game.GameLoop;
+import engine.game.gameloop.OldGameLoopBackup;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -19,7 +19,7 @@ public class TestGameMarioMove extends Application{
 	public void start(Stage stage) throws Exception{
 		//The Game Player must give me all parameters to the GameLoop constructor, since GameLoop is instantiated in it
 		Scene scene = new Scene(new Group(), 250, 250, Color.BLUE);
-		GameLoop gameLoop = new GameLoop(scene, "dummyGameMatthew.txt");
+		OldGameLoopBackup gameLoop = new OldGameLoopBackup(scene, "dummyGameMatthew.txt");
 		gameLoop.startTimeline();
 	}
 

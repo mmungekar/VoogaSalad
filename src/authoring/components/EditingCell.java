@@ -1,10 +1,13 @@
 package authoring.components;
 
+import authoring.Workspace;
 import engine.Parameter;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
@@ -16,6 +19,13 @@ public class EditingCell extends TableCell<Parameter, Object> {
 
 	private TextField textField;
 	private KeyCodeField keyCodeField;
+	private String invalidEdit;
+	private ComponentMaker maker;
+
+	public EditingCell(Workspace workspace) {
+		maker = new ComponentMaker(workspace.getResources());
+		invalidEdit = workspace.getResources().getString("InvalidEdit");
+	}
 
 	@Override
 	public void startEdit() {
@@ -45,33 +55,26 @@ public class EditingCell extends TableCell<Parameter, Object> {
 	@Override
 	public void updateItem(Object item, boolean empty) {
 		super.updateItem(item, empty);
-		if (empty) {
-			setText(null);
-			setGraphic(null);
-		} else {
-			if (isEditing()) {
-				if (getItem() instanceof KeyCode) {
-					if (keyCodeField != null) {
-						keyCodeField.setText(getKeyCode().toString());
-					}
-					setGraphic(keyCodeField);
-				} else {
-					if (textField != null) {
-						textField.setText(getString());
-					}
-					setGraphic(textField);
+		if (isEditing()) {
+			if (getItem() instanceof KeyCode) {
+				if (keyCodeField != null) {
+					keyCodeField.setText(getKeyCode().toString());
 				}
-				setText(null);
+				setGraphic(keyCodeField);
 			} else {
-				if (getItem() instanceof KeyCode) {
-					setStyle("-fx-font-weight: bold;");
+				if (textField != null) {
+					textField.setText(getString());
 				}
-				else {
-					setStyle("-fx-font-weight: normal;");
-				}
-				setText(getString());
-				setGraphic(null);
+				setGraphic(textField);
 			}
+			setText(null);
+		} else {
+			if (getItem() instanceof KeyCode)
+				setStyle("-fx-font-weight: bold;");
+			else
+				setStyle("-fx-font-weight: normal;");
+			setText(getString());
+			setGraphic(null);
 		}
 	}
 
@@ -82,7 +85,7 @@ public class EditingCell extends TableCell<Parameter, Object> {
 			@Override
 			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
 				if (!newValue) {
-					commitEdit(textField.getText());
+					validateInput();
 				}
 			}
 		});
@@ -101,7 +104,7 @@ public class EditingCell extends TableCell<Parameter, Object> {
 			}
 		});
 	}
-	
+
 	private void keyPressed(KeyEvent e) {
 		if (e.getCode().equals(KeyCode.ENTER)) {
 			textField.parentProperty().get().requestFocus();
@@ -114,6 +117,23 @@ public class EditingCell extends TableCell<Parameter, Object> {
 
 	private KeyCode getKeyCode() {
 		return getItem() == null ? null : (KeyCode) getItem();
+	}
+
+	private void validateInput() {
+		Parameter param = (Parameter) getTableRow().getItem();
+		String input = textField.getText();
+		try {
+			if (param.getParameterClass().equals(Integer.class)) {
+				Integer.parseInt(input);
+			} else if (param.getParameterClass().equals(Double.class)) {
+				Double.parseDouble(input);
+			}
+			commitEdit(input);
+		} catch (Exception e) {
+			String content = String.format(invalidEdit, param.getParameterClass().getSimpleName());
+			Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", content);
+			alert.show();
+		}
 	}
 
 }

@@ -17,7 +17,7 @@ public class Thumbnail extends View {
 	private ImageView imageView = new ImageView();
 
 	public Thumbnail(SimpleStringProperty path, int width, int height) {
-		super("Thumbmnail");
+		super("Thumbnail");
 		image = new SimpleObjectProperty<Image>();
 		path.addListener(e -> setImage(path.get()));
 		imageView.setFitWidth(width);

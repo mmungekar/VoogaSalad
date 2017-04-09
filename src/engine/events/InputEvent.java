@@ -12,7 +12,7 @@ public class InputEvent extends Event {
 	 * KeyCode object)
 	 */
 	public InputEvent() {
-		addParam(new Parameter("Key", KeyCode.class));
+		addParam(new Parameter("Key", KeyCode.class, KeyCode.UNDEFINED));
 	}
 
 	@Override	

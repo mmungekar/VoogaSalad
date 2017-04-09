@@ -6,13 +6,11 @@ import java.util.List;
 import authoring.Workspace;
 import authoring.views.View;
 import javafx.event.EventHandler;
-import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
-import javafx.scene.Cursor;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -40,10 +38,10 @@ public class Canvas extends View
 	private Group gridNodes;
 	private ScrollPane scrollScreen;
 	// private Map<Node, Region> entityRegions;
-	private List<Node> entities;
+	private List<EntityDisplay> entities;
 	private Pane layer;
-	private double width;
-	private double height;
+	private double width = 1000;
+	private double height = 1000;
 
 	public Canvas(Workspace workspace)
 	{
@@ -56,7 +54,7 @@ public class Canvas extends View
 	{
 		gridNodes = new Group();
 		// entityRegions = new HashMap<Node, Region>();
-		entities = new ArrayList<Node>();
+		entities = new ArrayList<EntityDisplay>();
 		scrollScreen = createLayer();
 		this.setCenter(scrollScreen);
 	}
@@ -76,21 +74,32 @@ public class Canvas extends View
 		return scrollScreen;
 	}
 
-	public void addEntity(Node entity)
+	public void addEntity(ImageView entity)
 	{
 		this.addEntity(entity, 0, 0);
 	}
 
-	public void addEntity(Node entity, double x, double y)
+	public void addEntity(ImageView entity, double x, double y)
 	{
+		EntityDisplay newEntity = new EntityDisplay(entity, x, y);
 		Point2D tiledCoordinate = getTiledCoordinate(x, y);
-		entity.setTranslateX(tiledCoordinate.getX());
-		entity.setTranslateY(tiledCoordinate.getY());
-		entities.add(entity);
+		newEntity.setTranslateX(tiledCoordinate.getX());
+		newEntity.setTranslateY(tiledCoordinate.getY());
+		entities.add(newEntity);
 		// addEntityRegion(entity);
-		layer.getChildren().add(entity);
-		entity.setCursor(Cursor.CLOSED_HAND);
-		makeDraggable(entity);
+		// Region entityRegion = new Region();
+		// entityRegion.setBorder(
+		// new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID,
+		// null, new BorderWidths(3))));
+		// entityRegion.setPrefHeight(100);
+		// entityRegion.setPrefWidth(100);
+		// DragResizer.makeResizable(entityRegion);
+		// layer.getChildren().add(entityRegion);
+
+		layer.getChildren().add(newEntity);
+		// entity.setCursor(Cursor.CLOSED_HAND);
+		// makeDraggable(newEntity);
+		this.makeDraggable();
 		updateLayerBounds();
 	}
 
@@ -147,59 +156,78 @@ public class Canvas extends View
 	 * @param node
 	 *            Node to be made draggable
 	 */
-	private void makeDraggable(Node node)
+	private void makeDraggable()
 	{
-		node.setOnMouseDragged(new EventHandler<MouseEvent>()
+		this.setOnMouseDragged(new EventHandler<MouseEvent>()
 		{
 
 			@Override
 			public void handle(MouseEvent event)
 			{
-				node.setCursor(Cursor.NONE);
-				Bounds scrollViewportBounds = scrollScreen.getViewportBounds();
-
-				double settingsWidth = workspace.getPane().getChildrenUnmodifiable().get(0).getBoundsInParent()
-						.getWidth();
-
-				double horizontalScrollAmount = scrollScreen.getHvalue() * (width - (scrollViewportBounds.getWidth()));
-				double verticalScrollAmount = scrollScreen.getVvalue() * (height - (scrollViewportBounds.getHeight()));
-
-				double nodeWidth = node.getBoundsInParent().getWidth();
-				double nodeHeight = node.getBoundsInParent().getHeight();
-
-				// double tabHeaderHeight = levelsPane.getTabMaxHeight();
-
-				double newX = event.getSceneX() - settingsWidth + horizontalScrollAmount - (nodeWidth / 2);
-				// double newY = event.getSceneY() - tabHeaderHeight +
-				// verticalScrollAmount - (nodeHeight / 2);
-				double newY = event.getSceneY() + verticalScrollAmount - (nodeHeight / 2);
-
-				if (newX < 0) {
-					newX = 0;
+				for (EntityDisplay entity : entities) {
+					if (entity.intersects(event.getX(), event.getY(), 0, 0)) {
+						scrollScreen.setHvalue(entity.getTranslateX() / (width - entity.getWidth()));
+					}
 				}
-				if (newY < 0) {
-					newY = 0;
-				}
-
-				Point2D translateAmount = getTiledCoordinate(newX, newY);
-				node.setTranslateX(translateAmount.getX());
-				node.setTranslateY(translateAmount.getY());
-
-				updateDisplay();
-
-				if (width > scrollViewportBounds.getMaxX()) {
-					scrollScreen.setHvalue(newX / (width - nodeWidth));
-				}
-				if (height > scrollViewportBounds.getMaxY()) {
-					scrollScreen.setVvalue(newY / (height - nodeHeight));
-				}
-
 			}
-		});
 
-		node.setOnMouseReleased(e -> {
-			node.setCursor(Cursor.CLOSED_HAND);
 		});
+		// node.setOnMouseDragged(new EventHandler<MouseEvent>()
+		// {
+		//
+		// @Override
+		// public void handle(MouseEvent event)
+		// {
+		// node.setCursor(Cursor.NONE);
+		// Bounds scrollViewportBounds = scrollScreen.getViewportBounds();
+		//
+		// double settingsWidth =
+		// workspace.getPane().getChildrenUnmodifiable().get(0).getBoundsInParent()
+		// .getWidth();
+		//
+		// double horizontalScrollAmount = scrollScreen.getHvalue() * (width -
+		// (scrollViewportBounds.getWidth()));
+		// double verticalScrollAmount = scrollScreen.getVvalue() * (height -
+		// (scrollViewportBounds.getHeight()));
+		//
+		// double nodeWidth = node.getBoundsInParent().getWidth();
+		// double nodeHeight = node.getBoundsInParent().getHeight();
+		//
+		// // double tabHeaderHeight = levelsPane.getTabMaxHeight();
+		//
+		// double newX = event.getSceneX() - settingsWidth +
+		// horizontalScrollAmount - (nodeWidth / 2);
+		// // double newY = event.getSceneY() - tabHeaderHeight +
+		// // verticalScrollAmount - (nodeHeight / 2);
+		// double newY = event.getSceneY() + verticalScrollAmount - (nodeHeight
+		// / 2);
+		//
+		// if (newX < 0) {
+		// newX = 0;
+		// }
+		// if (newY < 0) {
+		// newY = 0;
+		// }
+		//
+		// Point2D translateAmount = getTiledCoordinate(newX, newY);
+		// node.setTranslateX(translateAmount.getX());
+		// node.setTranslateY(translateAmount.getY());
+		//
+		// updateDisplay();
+		//
+		// if (width > scrollViewportBounds.getMaxX()) {
+		// scrollScreen.setHvalue(newX / (width - nodeWidth));
+		// }
+		// if (height > scrollViewportBounds.getMaxY()) {
+		// scrollScreen.setVvalue(newY / (height - nodeHeight));
+		// }
+		//
+		// }
+		// });
+		//
+		// node.setOnMouseReleased(e -> {
+		// // node.setCursor(Cursor.CLOSED_HAND);
+		// });
 	}
 
 	private void updateDisplay()
@@ -214,20 +242,22 @@ public class Canvas extends View
 
 	private void updateLayerBounds()
 	{
-		double maxX = 0;
-		double maxY = 0;
-		for (Node entity : entities) {
-			double nodeMaxX = entity.getTranslateX() + entity.getBoundsInParent().getWidth();
-			double nodeMaxY = entity.getTranslateY() + entity.getBoundsInParent().getHeight();
-			if (nodeMaxX > maxX) {
-				maxX = nodeMaxX;
-			}
-			if (nodeMaxY > maxY) {
-				maxY = nodeMaxY;
-			}
-		}
-		this.width = maxX;
-		this.height = maxY;
+		// double maxX;
+		// double maxY;
+		// for (Node entity : entities) {
+		// double nodeMaxX = entity.getTranslateX() +
+		// entity.getBoundsInParent().getWidth();
+		// double nodeMaxY = entity.getTranslateY() +
+		// entity.getBoundsInParent().getHeight();
+		// if (nodeMaxX > maxX) {
+		// maxX = nodeMaxX;
+		// }
+		// if (nodeMaxY > maxY) {
+		// maxY = nodeMaxY;
+		// }
+		// }
+		// this.width = maxX;
+		// this.height = maxY;
 	}
 
 	private Point2D getTiledCoordinate(double x, double y)
@@ -236,4 +266,5 @@ public class Canvas extends View
 		double gridY = ((int) y / TILE_SIZE) * TILE_SIZE;
 		return new Point2D(gridX, gridY);
 	}
+	
 }
