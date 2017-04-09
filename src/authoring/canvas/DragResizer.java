@@ -26,6 +26,9 @@ public class DragResizer
 	private double x;
 	private double y;
 
+	private double untiledHeight;
+	private double untiledWidth;
+
 	private boolean initMinWidth;
 	private boolean initMinHeight;
 
@@ -123,9 +126,10 @@ public class DragResizer
 
 			double mousex = event.getX();
 
-			double newWidth = region.getMinWidth() + (mousex - x);
+			double newWidth = untiledWidth + (mousex - x);
+			untiledWidth = newWidth;
 
-			region.setMinWidth(newWidth);
+			region.setMinWidth(getTiledCoordinate(untiledWidth));
 
 			x = mousex;
 		}
@@ -134,9 +138,10 @@ public class DragResizer
 
 			double mousey = event.getY();
 
-			double newHeight = region.getMinHeight() + (mousey - y);
+			double newHeight = untiledHeight + (mousey - y);
+			untiledHeight = newHeight;
 
-			region.setMinHeight(newHeight);
+			region.setMinHeight(getTiledCoordinate(untiledHeight));
 
 			y = mousey;
 		}
@@ -159,6 +164,7 @@ public class DragResizer
 
 			if (!initMinWidth) {
 				region.setMinWidth(region.getWidth());
+				untiledWidth = region.getWidth();
 				initMinWidth = true;
 			}
 			x = event.getX();
@@ -169,6 +175,7 @@ public class DragResizer
 
 			if (!initMinHeight) {
 				region.setMinHeight(region.getHeight());
+				untiledHeight = region.getHeight();
 				initMinHeight = true;
 			}
 			y = event.getY();
@@ -184,6 +191,9 @@ public class DragResizer
 	private double getTiledCoordinate(double coordinate)
 	{
 		double gridCoordinate = ((int) coordinate / TILE_SIZE) * TILE_SIZE;
+		if (coordinate % TILE_SIZE > TILE_SIZE / 2) {
+			return gridCoordinate + TILE_SIZE;
+		}
 		return gridCoordinate;
 	}
 }
