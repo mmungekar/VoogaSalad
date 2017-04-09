@@ -50,7 +50,6 @@ public class EntityDisplay extends EditableContainer {
 			@Override
 			public void handle(MouseEvent event) {
 				entities.setSelectedEntity(table.getSelectionModel().getSelectedItem());
-				getWorkspace().updateToolbar(entities.getSelectedEntity().getImagePath().get());
 			}
 		});
 		return table;

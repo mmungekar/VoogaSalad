@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import authoring.canvas.LayerEditor;
 import authoring.canvas.LevelEditor;
 import authoring.components.ComponentMaker;
 import authoring.panel.Panel;
@@ -16,7 +15,6 @@ import authoring.views.View;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.SplitPane;
-import javafx.scene.control.Tab;
 
 /**
  * @author Elliott Bolzan Modified by Mina Mungekar, Jimmy Shackford
@@ -83,10 +81,6 @@ public class Workspace extends View {
 
 	public void selectLayer(int arg2) {
 		levelEditor.getCurrentLevel().selectNewLayer(arg2);
-	}
-	
-	public void updateToolbar(String imagePath) {
-		//levelEditor.updateToolbar(imagePath);
 	}
 
 }
