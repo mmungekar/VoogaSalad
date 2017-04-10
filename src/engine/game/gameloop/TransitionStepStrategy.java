@@ -29,7 +29,7 @@ public abstract class TransitionStepStrategy implements StepStrategy {
 			GraphicsEngine graphicsEngine) {
 		this.graphicsEngine = graphicsEngine;
 		//TODO Also display number of lives left for lose a life transition
-		//graphicsEngine.fillScreenWithText(ResourceBundle.getBundle(RESOURCES_NAME).getString(resourceFileTextName));
+		graphicsEngine.fillScreenWithText(ResourceBundle.getBundle(RESOURCES_NAME).getString(resourceFileTextName));
 	}
 	
 	@Override

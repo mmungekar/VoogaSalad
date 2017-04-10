@@ -52,19 +52,4 @@ public class Screen{
 	public Timeline getTimeline(){
 		return timeline;
 	}
-	
-	public void setNextScreen(Screen nextScreen){
-		 if(possibleNextScreens.indexOf(nextScreen) == -1){
-			  //TODO throw a VoogaException
-		 }
-		 this.nextScreen = nextScreen;
-	}
-	
-	public Pane getGameView(){
-		 return currentStepStrategy.getGameView();
-	}
-	
-	public Label getGameScorebar(){
-		 return currentStepStrategy.getGameScorebar();
-	}
 }
