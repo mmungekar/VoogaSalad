@@ -18,8 +18,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import player.PlayerMenu;
 
@@ -49,7 +47,7 @@ public class StartMenu extends BorderPane {
 	private void buildStage() {
 		stage.setTitle(resources.getString("Title"));
 		stage.setMinWidth(380);
-		stage.setMinHeight(200);
+		stage.setMinHeight(300);
 		stage.setOnCloseRequest(e -> System.exit(0));
 		stage.setScene(this.buildScene());
 		this.setCenter(this.buildView());
@@ -57,7 +55,7 @@ public class StartMenu extends BorderPane {
 	}
 
 	private Scene buildScene() {
-		Scene scene = new Scene(this, 380, 200);
+		Scene scene = new Scene(this, 380, 300);
 		scene.getStylesheets().add(stylesheetPath);
 		return scene;
 	}
@@ -97,8 +95,7 @@ public class StartMenu extends BorderPane {
 	private String chooseGame() {
 		ComponentMaker maker = new ComponentMaker(resources);
 		DirectoryChooser chooser = maker.makeDirectoryChooser(
-				System.getProperty("user.dir") + resources.getString("DefaultDirectory"),
-				resources.getString("ChooserTitle"));
+				System.getProperty("user.dir") + resources.getString("DefaultDirectory"), "ChooserTitle");
 		File selectedDirectory = chooser.showDialog(stage);
 		if (selectedDirectory == null) {
 			return "";
@@ -108,11 +105,10 @@ public class StartMenu extends BorderPane {
 	}
 
 	private void editGame() {
-		//new AuthoringEnvironment(chooseGame());
+		new AuthoringEnvironment(chooseGame());
 	}
 
 	private void playGame() {
-		// TODO: make it so that it only works if game chosen
 		new PlayerMenu();
 	}
 

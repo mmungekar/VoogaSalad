@@ -11,8 +11,6 @@ public abstract class GameObject {
 	private List<Parameter> params;
 	private Entity entity;
 	private ResourceBundle gameObjectExceptions = ResourceBundle.getBundle("resources/GameObjectExceptions");
-
-	public GameObject(){}
 	
 	public GameObject(String name) {
 		resources = ResourceBundle.getBundle("resources/" + name);
@@ -24,6 +22,7 @@ public abstract class GameObject {
 	}
 
 	public String getDisplayDescription() {
+		System.out.println(resources);
 		return resources.getString(getClass().getSimpleName() + "Description");
 	}
 

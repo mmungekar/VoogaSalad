@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import engine.Event;
-import engine.GameObject;
-import sun.reflect.ReflectionFactory;
 import engine.Action;
 import engine.Entity;
 
@@ -33,17 +31,15 @@ public class EngineController {
 	}
 
 	public Entity createEntity(String entity) {
-		return (Entity) getInstance("engine.entities." + getClassName(entity, "Entity"));
+		return (Entity) getInstance("engine.entities." + getClassName(entity, "Entity"), "Entity");
 	}
 
 	public Event createEvent(String event) {
-		Event something = (Event) getInstance("engine.events." + getClassName(event, "Event"));
-		System.out.println(something);
-		return something;
+		return (Event) getInstance("engine.events." + getClassName(event, "Event"), "Event");
 	}
 
 	public Action createAction(String action) {
-		return (Action) getInstance("engine.actions." + getClassName(action, "Action"));
+		return (Action) getInstance("engine.actions." + getClassName(action, "Action"), "Action");
 	}
 
 	private String getClassName(String string, String type) {
@@ -66,21 +62,11 @@ public class EngineController {
 		}).collect(Collectors.toList());
 	}
 
-	private Object getInstance(String path) {
+	private Object getInstance(String path, String type) {
 		try {
-			/*
-			 * Class<?> clazz = Class.forName(path); Constructor<?> ctor =
-			 * clazz.getDeclaredConstructor(); return ctor.newInstance();
-			 */
-
 			Class<?> clazz = Class.forName(path);
-			ReflectionFactory rf = ReflectionFactory.getReflectionFactory();
-			Constructor objDef = GameObject.class.getDeclaredConstructor();
-			Constructor intConstr = rf.newConstructorForSerialization(clazz, objDef);
-			return clazz.cast(intConstr.newInstance());
-			
-			/*Constructor<?> ctor = clazz.getDeclaredConstructor();
-			return ctor.newInstance();*/
+			Constructor<?> ctor = clazz.getDeclaredConstructor();
+			return ctor.newInstance();
 
 		} catch (Exception e) {
 			e.printStackTrace();
