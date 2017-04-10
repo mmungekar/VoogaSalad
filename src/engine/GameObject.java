@@ -12,8 +12,9 @@ public abstract class GameObject {
 	private Entity entity;
 	private ResourceBundle gameObjectExceptions = ResourceBundle.getBundle("resources/GameObjectExceptions");
 
-	public GameObject(){}
-	
+	public GameObject() {
+	}
+
 	public GameObject(String name) {
 		resources = ResourceBundle.getBundle("resources/" + name);
 		params = new ArrayList<Parameter>();
@@ -34,8 +35,8 @@ public abstract class GameObject {
 	public void addParam(Parameter param) {
 		params.add(param);
 	}
-	
-	public void updateParam(String name, Object value){
+
+	public void updateParam(String name, Object value) {
 		findParameter(name).setObject(value);
 	}
 
@@ -43,7 +44,7 @@ public abstract class GameObject {
 		this.params = params;
 	}
 
-	public Object getParam(String name){
+	public Object getParam(String name) {
 		return findParameter(name).getObject();
 	}
 
@@ -54,8 +55,8 @@ public abstract class GameObject {
 	public Entity getEntity() {
 		return entity;
 	}
-	
-	private Parameter findParameter(String name){
+
+	private Parameter findParameter(String name) {
 		try {
 			for (Parameter param : params) {
 				if (param.getName().equals(name))
@@ -64,6 +65,6 @@ public abstract class GameObject {
 		} catch (Exception e) {
 			throw new GameObjectException(gameObjectExceptions.getString("NoParameter"));
 		}
-		return null;		
+		return null;
 	}
 }

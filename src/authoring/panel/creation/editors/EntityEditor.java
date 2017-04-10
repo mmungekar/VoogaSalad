@@ -3,7 +3,6 @@ package authoring.panel.creation.editors;
 import java.util.List;
 
 import authoring.Workspace;
-import authoring.utils.EntityWrapper;
 import engine.Entity;
 import engine.Parameter;
 import engine.game.EngineController;
@@ -23,8 +22,8 @@ public class EntityEditor extends Editor {
 	 * @param elements
 	 * @param object
 	 */
-	public EntityEditor(Workspace workspace, EntityWrapper entityWrapper, List<String> elements) {
-		super(workspace, elements, entityWrapper.getEntity(), false);
+	public EntityEditor(Workspace workspace, Entity entity, List<String> elements) {
+		super(workspace, elements, entity, false);
 		engine = new EngineController();
 	}
 

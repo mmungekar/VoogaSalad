@@ -12,6 +12,10 @@ import engine.Parameter;
  */
 public class ShiftVerticalAction extends Action {
 	
+	public ShiftVerticalAction(){
+		super(null);
+	}
+	
 	public ShiftVerticalAction(Entity entity, double shiftAmount){
 		super(entity);
 		addParam(new Parameter("Move amount", Double.class, shiftAmount));		

@@ -6,7 +6,8 @@ import java.util.Collection;
 import engine.graphics.cameras.Camera;
 import engine.graphics.cameras.ScrollingCamera;
 import engine.Entity;
-import javafx.scene.Node;
+import engine.game.LevelManager;
+import engine.game.gameloop.Scorebar;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -24,14 +25,19 @@ import javafx.scene.text.Font;
  */
 public class GraphicsEngine {
 
-	private Camera camera;
 	private Collection<Entity> entities;
+	private Camera camera;
+	private Scorebar scorebar;
+	
 	private Pane displayArea;
+	private Label scorebarDisplay;
 	
 	public GraphicsEngine() {
 		this.camera = new ScrollingCamera(0,0);
-		entities = new ArrayList<Entity>();
+		this.entities = new ArrayList<Entity>();
+		this.scorebar = new Scorebar(null);
 		this.setupView();
+		this.setupScorebar();
 	}
 	
 	/**
@@ -41,10 +47,43 @@ public class GraphicsEngine {
 		return displayArea;
 	}
 	
+	public Label getScorebarDisplay() {
+		return scorebarDisplay;
+	}
+	
+	/**
+	 * Sets the camera used to move around the display
+	 * @param newCamera
+	 */
 	public void setCamera(Camera newCamera) {
 		this.camera = newCamera;
 	}
 	
+	public void setScorebar(Scorebar currentManager) {
+		this.scorebar = currentManager;
+	}
+	
+	/**
+	 * Sets the collection of entities that will be drawn on every call to update.
+	 * @param entities : current entities to draw on screen
+	 */
+	public void setEntitiesCollection(Collection<Entity> entities) {
+		this.entities = entities;
+		this.updateView();
+	}
+	
+	/**
+	 * Call this every frame to animate the camera.
+	 */
+	public void updateFrame() {
+		this.updateCamera();
+		this.updateScorebar();
+	}
+	
+	/**
+	 * Clears the display and places text on the screen.
+	 * @param text : 
+	 */
 	public void fillScreenWithText(String text) {
 		this.clearView();
 		Label label = new Label(text);
@@ -53,36 +92,22 @@ public class GraphicsEngine {
 		displayArea.getChildren().add(label);
 	}
 	
-	/*
-	public void setScoreBar(ScoreBar currentManager) {
-		this.scorebar = currentManager;
-	}
-	*/
-	
 	/**
-	 * Sets the collection of entities that will be drawn on every call to update.
-	 * @param entities : current entities to draw on screen
+	 * Call this conservatively, it seems to require a lot of memory.
 	 */
-	public void setEntitiesCollection(Collection<Entity> entities) {
-		this.entities = entities;
-		this.redrawView();
+	public void updateView() {
+		this.clearView();
+		this.drawAllEntities();
 	}
 	
-	/**
-	 * Call this every frame to animate the camera.
-	 */
-	public void updateFrame() {
+	private void updateCamera() {
 		camera.update();
 		displayArea.setTranslateX(-camera.getX());
 		displayArea.setTranslateY(-camera.getY());
 	}
 	
-	/**
-	 * Call this conservatively, it seems to require a lot of memory.
-	 */
-	public void redrawView() {
-		this.clearView();
-		this.drawAllEntities();
+	private void updateScorebar() {
+		scorebarDisplay.setText(String.format("Time: %s \nLives: %s \nScore: %s", scorebar.getTime(), scorebar.getLives(), scorebar.getScore()));
 	}
 	
 	private void clearView() {
@@ -106,6 +131,11 @@ public class GraphicsEngine {
 		VBox.setVgrow(displayArea, Priority.ALWAYS);
 		this.clipAtEdges(displayArea);
 		this.drawAllEntities();
+	}
+	
+	private void setupScorebar() {
+		scorebarDisplay = new Label();
+		this.updateScorebar();
 	}
 	
 	private void clipAtEdges(Pane pane) {
