@@ -47,8 +47,8 @@ public class OldGameLoopBackup {
 		timerObservable = new TimerObservable();
 		
 		// Setup levelManager
-		levelManager = new LevelManager();
-		levelManager.loadAllSavedLevels(gameFilename);
+		levelManager = new LevelManager(gameFilename);
+		//levelManager.loadAllSavedLevels(gameFilename);
 		
 		//More Observables - at beginning of each level only
 		inputObservable.setupInputListeners(gameScene);
@@ -78,7 +78,7 @@ public class OldGameLoopBackup {
 		}
 
 		// Start the GAE's current level in Level Manager
-		levelManager.startCurrentLevel();
+		//levelManager.startCurrentLevel();
 
 		//Set up graphical view
 		setupGameView();
@@ -114,12 +114,12 @@ public class OldGameLoopBackup {
 		graphicsEngine = new GraphicsEngine();
 		graphicsEngine.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
 		//TODO: Remove the following (just for tests)
-		Entity mario = new CharacterEntity("Mario", "file:" + System.getProperty("user.dir") + "/src/resources/images/mario.png");
-		mario.setX(200);
-		mario.setY(200);
-		mario.setWidth(100);
-		mario.setHeight(100);
-		levelManager.getCurrentLevel().getEntities().add(mario);		
+		//Entity mario = new CharacterEntity("Mario", "file:" + System.getProperty("user.dir") + "/src/resources/images/mario.png");
+		//mario.setX(200);
+		//mario.setY(200);
+		//mario.setWidth(100);
+		//mario.setHeight(100);
+		//levelManager.getCurrentLevel().getEntities().add(mario);		
 	}
 
 	private void step() {

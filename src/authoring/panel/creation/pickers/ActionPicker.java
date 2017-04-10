@@ -25,7 +25,7 @@ public class ActionPicker extends Picker {
 	private ComponentMaker maker;
 
 	public ActionPicker(Workspace workspace, EntityMaker editor) {
-		super(workspace, "ActionPickerTitle");
+		super(workspace, "ActionPickerTitle", editor);
 		this.editor = editor;
 		maker = new ComponentMaker(workspace.getResources());
 		update();

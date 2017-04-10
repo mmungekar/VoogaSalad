@@ -27,6 +27,7 @@ public class ActionEditor extends Editor {
 	@Override
 	public void selected(String string) {
 		action = engine.createAction(string);
+		action.setEntity(picker.getEntityMaker().getEntity());
 		update(action);
 	}
 

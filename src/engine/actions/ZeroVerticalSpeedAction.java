@@ -1,7 +1,6 @@
 package engine.actions;
 
 import engine.Action;
-import engine.Entity;
 
 /**
  * Sets the vertical speed of the corresponding Entity to zero.
@@ -9,14 +8,6 @@ import engine.Entity;
  *
  */
 public class ZeroVerticalSpeedAction extends Action {
-	
-	public ZeroVerticalSpeedAction(){
-		super(null);
-	}
-
-	public ZeroVerticalSpeedAction(Entity entity) {
-		super(entity);
-	}
 
 	@Override
 	public void act() {
@@ -24,5 +15,4 @@ public class ZeroVerticalSpeedAction extends Action {
 			getEntity().setYSpeed(0);
 		}
 	}
-
 }

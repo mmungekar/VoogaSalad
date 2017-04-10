@@ -49,12 +49,20 @@ public class LayerPanel extends View {
 		editorContainer = new VBox();
 		editorContainer.setSpacing(Integer.parseInt(workspace.getResources().getString("SettingsSpacing")));
 		Button addLayerButton = maker.makeButton("AddLayerButton", e -> workspace.addLayer(), true);
+		Button deleteLayerButton = maker.makeButton("DeleteLayerButton", e -> delete(), true);
 		initLayerSelector();
-		configureVelocitySettings(addLayerButton);
+		configureVelocitySettings();
+		editorContainer.getChildren().addAll(addLayerButton, deleteLayerButton);
 		setCenter(editorContainer);
 	}
 
-	private void configureVelocitySettings(Button addLayerButton) {
+	private void delete() {
+		int layer = Integer.parseInt(((String) myBox.getSelectionModel().getSelectedItem()).split(" ")[1]);
+		myBox.setValue((layer == 1 ? String.format("Layer %d", layer) : String.format("Layer %d", layer - 1)));
+		workspace.deleteLayer(layer);
+	}
+
+	private void configureVelocitySettings() {
 		Slider velocitySlider = new Slider() {
 			{
 				setMin(0);
@@ -73,7 +81,7 @@ public class LayerPanel extends View {
 		};
 
 		Button velocityButton = maker.makeButton("SaveLayerSpeed", null, true);
-		editorContainer.getChildren().addAll(addLayerButton, myBox, sliderBox, velocityButton);
+		editorContainer.getChildren().addAll(myBox, sliderBox, velocityButton);
 	}
 
 	public void updateBox(String newLayer) {
@@ -87,7 +95,9 @@ public class LayerPanel extends View {
 
 			@Override
 			public void changed(ObservableValue arg0, Object arg1, Object arg2) {
-				workspace.selectLayer(Integer.parseInt(((String) arg2).split(" ")[1]));
+				if (arg2 != null) {
+					workspace.selectLayer(Integer.parseInt(((String) arg2).split(" ")[1]));
+				}
 			}
 		});
 	}
