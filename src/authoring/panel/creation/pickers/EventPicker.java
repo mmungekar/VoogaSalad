@@ -27,7 +27,7 @@ public class EventPicker extends Picker {
 	private ComponentMaker maker;
 
 	public EventPicker(Workspace workspace, EntityMaker editor) {
-		super(workspace, "EventPickerTitle");
+		super(workspace, "EventPickerTitle", editor);
 		this.editor = editor;
 		maker = new ComponentMaker(workspace.getResources());
 		update();
