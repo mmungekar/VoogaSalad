@@ -10,7 +10,9 @@ public class EntitySaverTest {
 	
 	GameSaver gs = new GameSaver();
 	
-	Entity entity = new CharacterEntity("Guilherme","src/resources/images/mario.png");
+	Entity entity = new CharacterEntity();
+	entity.setName("Guilherme");
+	entity.setImagePath("src/resources/images/mario.png");
 	
 	
 	

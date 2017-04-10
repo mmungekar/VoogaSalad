@@ -16,7 +16,6 @@ public class EntityConverter implements Converter {
 
 	@Override
 	public boolean canConvert(Class arg0) {
-		System.out.println(arg0.getName());
 		return arg0.equals(Entity.class) || arg0.getSuperclass().equals(Entity.class);
 	}
 
@@ -54,7 +53,6 @@ public class EntityConverter implements Converter {
 			}
 			if (value != null) {
 				writer.startNode(name);
-				System.out.println(value);
 				context.convertAnother(value);
 				writer.endNode();
 			}
@@ -66,7 +64,6 @@ public class EntityConverter implements Converter {
 		EngineController controller = new EngineController();
 
 		reader.moveDown();
-		System.out.println(reader.getValue());
 		Entity entity = controller.createEntity(reader.getValue());
 		reader.moveUp();
 
@@ -89,7 +86,7 @@ public class EntityConverter implements Converter {
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 			if (field == null)
 				break;
