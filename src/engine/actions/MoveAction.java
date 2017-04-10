@@ -4,14 +4,6 @@ import engine.Action;
 import engine.Entity;
 
 public class MoveAction extends Action {
-	
-	public MoveAction(){
-		super(null);
-	}
-
-	public MoveAction(Entity entity) {
-		super(entity);
-	}
 
 	@Override
 	public void act() {

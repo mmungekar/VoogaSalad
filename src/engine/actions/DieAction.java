@@ -16,11 +16,7 @@ public class DieAction extends Action{
 	
 
 	public DieAction() {
-		super(null);
-	}
-	
-	public DieAction(Entity entity){
-		super(entity);
+		super();
 	}
 	
 	public void setLevelStepStrategy(LevelStepStrategy levelStepStrategy) {
