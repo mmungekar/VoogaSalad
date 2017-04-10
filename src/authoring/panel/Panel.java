@@ -3,11 +3,12 @@ package authoring.panel;
 import java.util.ArrayList;
 import java.util.List;
 
+import authoring.WelcomeView;
 import authoring.Workspace;
 import authoring.components.ComponentMaker;
 import authoring.panel.chat.Chat;
 import authoring.panel.display.EntityDisplay;
-import authoring.settings.Settings;
+import authoring.panel.settings.Settings;
 import authoring.utils.Direction;
 import authoring.views.CollapsibleView;
 import authoring.views.View;
@@ -17,7 +18,7 @@ public class Panel extends CollapsibleView {
 	private Workspace workspace;
 	private List<View> subviews;
 	private EntityDisplay entityDisplay;
-	private Settings settingsPanel;
+	private Settings settings;
 	private LayerPanel layerPanel;
 
 	/**
@@ -34,7 +35,7 @@ public class Panel extends CollapsibleView {
 				true);
 		this.workspace = workspace;
 		entityDisplay = new EntityDisplay(workspace);
-		settingsPanel = new Settings(workspace);
+		settings = new Settings(workspace);
 		layerPanel = new LayerPanel(workspace);
 		createSubviews();
 		setup();
@@ -49,7 +50,7 @@ public class Panel extends CollapsibleView {
 		subviews.add(entityDisplay);
 		subviews.add(new Chat(workspace));
 		subviews.add(layerPanel);
-		subviews.add(settingsPanel);
+		subviews.add(settings);
 	}
 
 	/**
@@ -58,6 +59,7 @@ public class Panel extends CollapsibleView {
 	private void setup() {
 		ComponentMaker componentMaker = new ComponentMaker(workspace.getResources());
 		setCenter(componentMaker.makeAccordion(subviews));
+		setBottom(new WelcomeView(workspace));
 	}
 	
 	public EntityDisplay getEntityDisplay() {
@@ -68,10 +70,8 @@ public class Panel extends CollapsibleView {
 		layerPanel.updateBox(newLayer);
 	}
 
-
 	public void selectExistingLevelBox(int layerNum) {
 		layerPanel.selectLevelBox(layerNum);
-		
 	}
 
 }

@@ -76,7 +76,7 @@ public class EntityDisplay extends EditableContainer {
 
 	public void addEntity(Entity entity) {
 		if (!getWorkspace().getDefaults().getEntities().contains(entity)) {
-			getWorkspace().getDefaults().getEntities().add(entity);
+			getWorkspace().getDefaults().add(entity);
 		}
 	}
 
@@ -102,7 +102,7 @@ public class EntityDisplay extends EditableContainer {
 	@Override
 	public void delete() {
 		if (selectionExists(table.getSelectionModel().getSelectedItem()))
-			getWorkspace().getDefaults().getEntities().remove(table.getSelectionModel().getSelectedItem());
+			getWorkspace().getDefaults().remove(table.getSelectionModel().getSelectedItem());
 	}
 
 }

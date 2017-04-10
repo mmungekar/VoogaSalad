@@ -14,15 +14,17 @@ import javafx.collections.ObservableList;
  */
 public class DefaultEntities {
 	
+	private Workspace workspace;
 	private ObservableList<Entity> entities;
 	private Entity selected;
 
 	/**
 	 * 
 	 */
-	public DefaultEntities() {
+	public DefaultEntities(Workspace workspace) {
+		this.workspace = workspace;
 		setEntities(new ArrayList<Entity>());
-		entities.add(new CharacterEntity());
+		add(new CharacterEntity());
 	}
 	
 	public ObservableList<Entity> getEntities() {
@@ -39,6 +41,20 @@ public class DefaultEntities {
 	
 	public void setSelectedEntity(Entity entity) {
 		this.selected = entity;
+	}
+	
+	public void add(Entity entity) {
+		entities.add(entity);
+		updateModel();
+	}
+	
+	public void remove(Entity entity) {
+		entities.remove(entity);
+		updateModel();
+	}
+	
+	private void updateModel() {
+		workspace.getGame().setDefaults(new ArrayList<Entity>(entities));
 	}
 
 }
