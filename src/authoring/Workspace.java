@@ -83,13 +83,9 @@ public class Workspace extends View {
 		levelEditor.getCurrentLevel().selectNewLayer(arg2);
 	}
 	
-	public void initNewLayers(int levelCount) {
-		panel.initNewLayerBox(levelCount);
-		
-	}
 
-	public void selectExistingLevel(int levelNum) {
-		panel.selectExistingLevelBox(levelNum);
+	public void selectExistingLevel(int newLevelNum) {
+		panel.selectExistingLevelBox(newLevelNum);
 		
 	}
 }

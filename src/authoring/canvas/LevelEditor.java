@@ -49,7 +49,6 @@ public class LevelEditor extends View {
 		currentLevel = new LayerEditor(workspace);
 		tab.setContent(currentLevel);
 		tab.setOnCloseRequest(e -> closeRequest(e));
-		workspace.initNewLayers(levelCount);
 		return tab;
 	}
 	
@@ -76,9 +75,13 @@ public class LevelEditor extends View {
 				if (newTab.getText().equals("+")) {
 					tabPane.getTabs().add(tabPane.getTabs().size() - 1, newTab());
 					tabPane.getSelectionModel().select(tabPane.getTabs().size() - 2);
+					currentLevel = (LayerEditor) tabPane.getSelectionModel().getSelectedItem().getContent();
+					System.out.println(currentLevel.getLayerCount());
+					workspace.selectExistingLevel(currentLevel.getLayerCount());
 				}
-				else{
-					workspace.selectExistingLevel(Integer.parseInt(newTab.getText().split(" ")[1]));
+				else if (!newTab.getText().equals("+")&& !oldTab.getText().equals("+")){
+					currentLevel = (LayerEditor) tabPane.getSelectionModel().getSelectedItem().getContent();
+					workspace.selectExistingLevel(currentLevel.getLayerCount());
 				}
 			}
 
