@@ -7,7 +7,6 @@
     -fx-faint-focus-color: transparent;
     -fx-accent: #2affce;
     -fx-control-inner-background: #1d1d1d;
-    -fx-border-width: 0;
 }
 
 .text-field, .text-area {
