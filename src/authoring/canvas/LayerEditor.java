@@ -153,5 +153,9 @@ public class LayerEditor extends View {
 		Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message);
 		alert.show();
 	}
+	
+	public int getLayerCount(){
+		return layerCount;
+	}
 
 }

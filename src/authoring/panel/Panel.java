@@ -68,4 +68,10 @@ public class Panel extends CollapsibleView {
 		layerPanel.updateBox(newLayer);
 	}
 
+
+	public void selectExistingLevelBox(int layerNum) {
+		layerPanel.selectLevelBox(layerNum);
+		
+	}
+
 }
