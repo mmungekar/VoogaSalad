@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import engine.Event;
+import engine.entities.CharacterEntity;
 import engine.Action;
 import engine.Entity;
 
@@ -28,6 +29,11 @@ public class EngineController {
 
 	public List<String> getAllEvents() {
 		return findClasses("engine.events", "Event");
+	}
+	
+	
+	public Entity getDefaultEntity() {
+		return new CharacterEntity();
 	}
 
 	public Entity createEntity(String entity) {

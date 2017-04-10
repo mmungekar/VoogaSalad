@@ -7,8 +7,8 @@ import java.util.ResourceBundle;
 import authoring.canvas.LevelEditor;
 import authoring.components.ComponentMaker;
 import authoring.panel.Panel;
-import authoring.utils.EntityWrapper;
 import authoring.views.View;
+import engine.Entity;
 import game_data.Game;
 import game_data.GameData;
 import javafx.geometry.Insets;
@@ -77,7 +77,7 @@ public class Workspace extends View {
 		return pane;
 	}
 
-	public EntityWrapper getSelectedEntity() {
+	public Entity getSelectedEntity() {
 		return panel.getEntityDisplay().getSelectedEntity();
 	}
 
