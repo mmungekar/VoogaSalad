@@ -8,16 +8,16 @@ public class EntitySaverTest {
 	
 	public static void main(String[] args) {
 	
-	GameSaver gs = new GameSaver("");
+	GameSaver gs = new GameSaver();
 	
-	Entity entity = new CharacterEntity();
+	Entity entity = new CharacterEntity("Guilherme","src/resources/images/mario.png");
 	
 	
 	
-	entity.setName("Guilherme");
+	
 	entity.setX(100);
 	entity.setY(55);
-	entity.setImagePath("src/resources/images/mario.png");
+
 	//C:/Users/Michael8417/workspace/voogasalad_duwaldorf/
 	String filepath="data/EntityTesting";
 	gs.saveEntity(entity, filepath);

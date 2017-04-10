@@ -9,23 +9,21 @@ import engine.game.Level;
 
 public class LevelSaverTest {
 	public static void main(String[] args) {
-GameSaver gs = new GameSaver("");
+GameSaver gs = new GameSaver();
 	
-	Entity entity = new CharacterEntity();
+	Entity entity = new CharacterEntity("Guilherme","src/resources/images/mario.png");
 	
-	
-	
-	entity.setName("Guilherme");
+
 	entity.setX(100);
 	entity.setY(55);
-	entity.setImagePath("src/resources/images/mario.png");
-	Entity luigi = new CharacterEntity();
-	luigi.setName("Luigi");
+
+	Entity luigi = new CharacterEntity("Luigi","src/resources/images/luigi.png");
+
 	luigi.setX(100);
 	luigi.setY(55);
-	luigi.setImagePath("src/resources/images/luigi.png");
+
 	//C:/Users/Michael8417/workspace/voogasalad_duwaldorf/
-	String filepath="data/EntityTesting";
+	String filepath="data/SaveTesting";
 	
 	Level l = new Level();
 	l.addEntity(entity);

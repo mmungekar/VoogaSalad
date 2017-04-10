@@ -9,7 +9,7 @@ import engine.entities.CharacterEntity;
 public class EntityConverterTest {
 	public static void main(String[] args) {
 		
-		Entity entity = new CharacterEntity();
+		Entity entity = new CharacterEntity("Mario","src/resources/images/mario.png");
 		entity.setName("Guilherme");
 		entity.setX(100);
 		entity.setY(55);
@@ -19,7 +19,9 @@ public class EntityConverterTest {
 		//xStream.alias("person", Person.class);
 		System.out.println(xStream.toXML(entity));
 		
-		entity = (Entity)xStream.fromXML(xStream.toXML(entity));
+		entity = (Entity) xStream.fromXML(xStream.toXML(entity));
+		
+		
 		//System.out.println(entity.getX());
 		
 	}

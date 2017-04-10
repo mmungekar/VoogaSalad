@@ -57,7 +57,7 @@ public class LevelSaver {
 	private void addLevelEntity(int entitynumber, String entityfilepath, Element rootElement){
 		
 
-			Element levelpath = doc.createElement("LevelPath");
+			Element levelpath = doc.createElement("EntityPath");
 			rootElement.appendChild(levelpath);
 
 			Attr attr = doc.createAttribute("id");
@@ -81,7 +81,6 @@ public class LevelSaver {
 		
 		
 		try{
-			System.out.println("trying");
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		Transformer transformer = transformerFactory.newTransformer();
 		DOMSource source = new DOMSource(doc);
