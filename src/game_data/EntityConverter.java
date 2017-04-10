@@ -60,7 +60,9 @@ public class EntityConverter implements Converter {
 	@Override
 	public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
 		EngineController controller = new EngineController();
+		
 		reader.moveDown();
+		System.out.println(reader.getValue());
 		Entity entity = controller.createEntity(reader.getValue());
 		reader.moveUp();
 	

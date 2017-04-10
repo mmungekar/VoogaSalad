@@ -31,25 +31,7 @@ public class GameSaver {
 	}
 	
 	
-	/*MenuItem cmItem2 = new MenuItem("Save Image");
-    cmItem2.setOnAction(new EventHandler<ActionEvent>() {
-        public void handle(ActionEvent e) {
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Save Image");
-            System.out.println(pic.getId());
-            File file = fileChooser.showSaveDialog(stage);
-            if (file != null) {
-                try {
-                    ImageIO.write(SwingFXUtils.fromFXImage(pic.getImage(),
-                        null), "png", file);
-                } catch (IOException ex) {
-                    System.out.println(ex.getMessage());
-                }
-            }
-        }
-    }
-);
-*/
+
 	//filepath provides the specific directory where the game will be stored
 	public void saveGame(List<Level> levels,String filepath){
 		savelevels(levels,filepath);
@@ -81,27 +63,21 @@ public class GameSaver {
 	
 	
 	public String saveEntity(Entity entity, String filepath){
-		
 		File entityfolder=new File(filepath+"/entities");
 		if(!entityfolder.exists()){
 			entityfolder.mkdirs();
 		}
 		String entityfilepath="";
 		try{
-			
 			saveEntityImage(entity,filepath);
-			
 			entityfilepath=filepath+"/entities/"+entity.getName()+".xml";
 			File entityfile = new File(entityfilepath);
-			
 			XStream xStream = new XStream(new DomDriver());
 			xStream.registerConverter(new EntityConverter());
 			String xmlstring = xStream.toXML(entity);
 			FileWriter fw = new java.io.FileWriter(entityfile);
 		    fw.write(xmlstring);
 		    fw.close();
-			
-			
 			}
 			catch (IOException i) {
 				i.printStackTrace();
