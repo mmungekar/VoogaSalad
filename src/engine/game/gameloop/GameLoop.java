@@ -26,7 +26,7 @@ public class GameLoop {
 	
 	public GameLoop(Scene gameScene, String gameFilename){
 		//Instantiate GraphicsEngine
-		graphicsEngine = new GraphicsEngine(new ScrollingCamera(0,0));
+		graphicsEngine = new GraphicsEngine();
 		
 		// Setup Observables - at beginning of entire game only
 		observableBundle = new ObservableBundle();
@@ -49,7 +49,7 @@ public class GameLoop {
 	}
 	
 	public Label getGameScorebar() {
-		return level1Screen.getGameScorebar();
+		return graphicsEngine.getScorebarDisplay();
 	}
 }
 

@@ -18,7 +18,4 @@ public interface StepStrategy {
 	 * Called from Screen's step() method.
 	 */
 	public void step();
-	
-	public Pane getGameView();
-	public Label getGameScorebar();
 }
