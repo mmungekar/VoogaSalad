@@ -4,6 +4,11 @@ import engine.Action;
 import engine.Entity;
 import engine.Parameter;
 
+/**
+ * Set the vertical speed of an Entity. Meant to simulate jumping.
+ * @author Kyle Finke
+ *
+ */
 public class JumpSpeedAction extends Action {
 	
 	public JumpSpeedAction(){
