@@ -7,8 +7,8 @@ import javafx.scene.input.KeyCode;
 
 public class KeyReleaseEvent extends Event {
 
-	public KeyReleaseEvent(KeyCode keyToListenFor) {
-		addParam(new Parameter("Key", KeyCode.class, keyToListenFor));
+	public KeyReleaseEvent() {
+		addParam(new Parameter("Key", KeyCode.class, null));
 	}
 
 	@Override	
