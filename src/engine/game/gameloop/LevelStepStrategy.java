@@ -9,12 +9,15 @@ import engine.actions.DieAction;
 import engine.actions.JumpAction;
 import engine.actions.MoveAction;
 import engine.actions.ShiftHorizontalAction;
+import engine.actions.WalkAction;
 import engine.actions.ZeroDownSpeedAction;
+import engine.actions.ZeroHorizontalSpeedAction;
 import engine.entities.BlockEntity;
 import engine.entities.CharacterEntity;
 import engine.events.AlwaysEvent;
 import engine.events.CollisionEvent;
-import engine.events.InputEvent;
+import engine.events.KeyPressEvent;
+import engine.events.KeyReleaseEvent;
 import engine.events.TimerEvent;
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
@@ -141,20 +144,29 @@ public class LevelStepStrategy implements StepStrategy{
 		DieAction die = new DieAction(mario);
 		timeRunsOut.addAction(die);
 		
-		InputEvent upPressed = new InputEvent(KeyCode.UP); 
+		KeyPressEvent upPressed = new KeyPressEvent(KeyCode.UP); 
 		mario.addEvent(upPressed);
 		JumpAction jump = new JumpAction(mario, 15.0); 
 		upPressed.addAction(jump);
 		
-		InputEvent rightPressed = new InputEvent(KeyCode.RIGHT);
+		KeyPressEvent rightPressed = new KeyPressEvent(KeyCode.RIGHT);
 		mario.addEvent(rightPressed);
-		ShiftHorizontalAction stepRight = new ShiftHorizontalAction(mario, 10.0);
+		WalkAction stepRight = new WalkAction(mario, 5.0);
 		rightPressed.addAction(stepRight);
 		
-		InputEvent leftPressed = new InputEvent(KeyCode.LEFT);
+		KeyPressEvent leftPressed = new KeyPressEvent(KeyCode.LEFT);
 		mario.addEvent(leftPressed);
-		ShiftHorizontalAction stepLeft = new ShiftHorizontalAction(mario, -10.0);
+		WalkAction stepLeft = new WalkAction(mario, -5.0);
 		leftPressed.addAction(stepLeft);
+		
+		KeyReleaseEvent rightReleased = new KeyReleaseEvent(KeyCode.RIGHT);
+		mario.addEvent(rightReleased);
+		ZeroHorizontalSpeedAction stopWalking = new ZeroHorizontalSpeedAction(mario);
+		rightReleased.addAction(stopWalking);
+		
+		KeyReleaseEvent leftReleased = new KeyReleaseEvent(KeyCode.LEFT);
+		mario.addEvent(leftReleased);
+		leftReleased.addAction(stopWalking);
 		
 		AlwaysEvent movement = new AlwaysEvent();
 		mario.addEvent(movement);

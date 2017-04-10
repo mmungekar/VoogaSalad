@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
-public abstract class Entity extends GameObject implements EntityInterface {
-	
+public abstract class Entity extends GameObject implements EntityInterface, Cloneable {
+
 	public static final Integer ACCELERATION = 1;
 	private SimpleDoubleProperty x, y, width, height, zIndex;
 	private double xSpeed, ySpeed, xAcceleration, yAcceleration;
@@ -27,7 +27,14 @@ public abstract class Entity extends GameObject implements EntityInterface {
 		this.imagePath = imagePath;
 		events = new ArrayList<Event>();
 		addParam(new Parameter("Time Step", Double.class, 0.5));
-	} 
+	}
+
+	public Entity(Entity entity) {
+		this(entity.getName(), entity.getImagePath());
+		for (Event event : entity.events) {
+			this.addEvent(event);
+		}
+	}
 
 	/**
 	 * TODO: make sure to check state and set new state before acting.
@@ -42,8 +49,8 @@ public abstract class Entity extends GameObject implements EntityInterface {
 	public void addEvent(Event event) {
 		this.events.add(event);
 	}
-	
-	public double getZ(){
+
+	public double getZ() {
 		return this.zIndex.get();
 	}
 
@@ -56,13 +63,29 @@ public abstract class Entity extends GameObject implements EntityInterface {
 	public void setX(double x) {
 		this.x.set(x);
 	}
-	
-	public ReadOnlyDoubleProperty xProperty() {
+
+	public ReadOnlyDoubleProperty xReadOnlyProperty() {
 		return ReadOnlyDoubleProperty.readOnlyDoubleProperty(x);
 	}
-	
-	public ReadOnlyDoubleProperty yProperty() {
+
+	public ReadOnlyDoubleProperty yReadOnlyProperty() {
 		return ReadOnlyDoubleProperty.readOnlyDoubleProperty(y);
+	}
+
+	public SimpleDoubleProperty xProperty() {
+		return x;
+	}
+
+	public SimpleDoubleProperty yProperty() {
+		return y;
+	}
+
+	public SimpleDoubleProperty heightProperty() {
+		return height;
+	}
+
+	public SimpleDoubleProperty widthProperty() {
+		return width;
 	}
 
 	@Override
@@ -92,7 +115,8 @@ public abstract class Entity extends GameObject implements EntityInterface {
 
 	@Override
 	public void setHeight(double height) {
-		this.height.set(height);;
+		this.height.set(height);
+		;
 	}
 
 	public double getXSpeed() {

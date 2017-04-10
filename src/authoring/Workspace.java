@@ -70,17 +70,17 @@ public class Workspace extends View {
 		// return canvas's entities (i.e. canvas.getLevel())
 		return new ArrayList<>();
 	}
-	
-	public void setNewLayer(String newLayer){
+
+	public void setNewLayer(String newLayer) {
 		panel.updateLayerPanel(newLayer);
 	}
-	
-	public void addLayer(){
-	levelEditor.getCurrentLevel().makeNewTab();
+
+	public void addLayer() {
+		levelEditor.getCurrentLevel().makeNewTab();
 	}
 
 	public void selectLayer(int arg2) {
 		levelEditor.getCurrentLevel().selectNewLayer(arg2);
 	}
-
+	
 }
