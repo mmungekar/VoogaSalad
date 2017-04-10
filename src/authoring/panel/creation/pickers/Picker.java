@@ -2,6 +2,7 @@ package authoring.panel.creation.pickers;
 
 import authoring.Workspace;
 import authoring.components.EditableContainer;
+import authoring.panel.creation.EntityMaker;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -13,15 +14,21 @@ import javafx.scene.layout.HBox;
  */
 public abstract class Picker extends EditableContainer {
 
+	private EntityMaker maker;
 	private String titleProperty;
 
 	/**
 	 * @param title
 	 */
-	public Picker(Workspace workspace, String titleProperty) {
+	public Picker(Workspace workspace, String titleProperty, EntityMaker maker) {
 		super(workspace, "");
 		this.titleProperty = titleProperty;
+		this.maker = maker;
 		setup();
+	}
+	
+	public EntityMaker getEntityMaker() {
+		return maker;
 	}
 
 	private void setup() {

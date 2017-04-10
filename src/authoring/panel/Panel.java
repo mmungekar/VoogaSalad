@@ -3,7 +3,6 @@ package authoring.panel;
 import java.util.ArrayList;
 import java.util.List;
 
-import authoring.WelcomeView;
 import authoring.Workspace;
 import authoring.components.ComponentMaker;
 import authoring.panel.chat.Chat;
@@ -57,9 +56,9 @@ public class Panel extends CollapsibleView {
 	 * Create the Accordion and add it to the view.
 	 */
 	private void setup() {
-		ComponentMaker componentMaker = new ComponentMaker(workspace.getResources());
-		setCenter(componentMaker.makeAccordion(subviews));
-		setBottom(new WelcomeView(workspace));
+		ComponentMaker maker = new ComponentMaker(workspace.getResources());
+		setCenter(maker.makeAccordion(subviews));
+		setBottom(maker.makeButton("SaveButtonSettings", e -> workspace.save(), true));
 	}
 	
 	public EntityDisplay getEntityDisplay() {
