@@ -4,10 +4,6 @@ import engine.Action;
 import engine.Entity;
 
 public class MoveAction extends Action {
-	
-	public MoveAction(){
-
-	}
 
 	@Override
 	public void act() {

@@ -6,10 +6,6 @@ import engine.game.gameloop.LevelStepStrategy;
 public class NextLevelAction extends Action {
 	private LevelStepStrategy levelStepStrategy;
 	
-	public NextLevelAction(){
-
-	}
-
 	public void setLevelStepStrategy(LevelStepStrategy levelStepStrategy){
 		this.levelStepStrategy = levelStepStrategy;		
 	}

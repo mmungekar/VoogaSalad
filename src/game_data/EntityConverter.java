@@ -25,19 +25,20 @@ public class EntityConverter implements Converter {
 		writer.startNode("EntityType");
 		writer.setValue(entity.getDisplayName());
 		writer.endNode();
-		
+
 		Class<?> objClass = entity.getClass();
 		Field[] fields = objClass.getDeclaredFields();
 		writeFields(entity, fields, writer, context);
-		
+
 		objClass = objClass.getSuperclass();
 		fields = objClass.getDeclaredFields();
 		writeFields(entity, fields, writer, context);
-		
+
 		writer.close();
 	}
 
-	private void writeFields(Object entity, Field[] fields, HierarchicalStreamWriter writer, MarshallingContext context){
+	private void writeFields(Object entity, Field[] fields, HierarchicalStreamWriter writer,
+			MarshallingContext context) {
 		for (Field field : fields) {
 			if (java.lang.reflect.Modifier.isStatic(field.getModifiers()))
 				continue;
@@ -57,36 +58,35 @@ public class EntityConverter implements Converter {
 			}
 		}
 	}
+
 	@Override
 	public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
 		EngineController controller = new EngineController();
-		
+
 		reader.moveDown();
-		System.out.println(reader.getValue());
 		Entity entity = controller.createEntity(reader.getValue());
 		reader.moveUp();
-	
+
 		while (reader.hasMoreChildren()) {
 			reader.moveDown();
 			Field field = null;
 			try {
-			//	System.out.println("reader"+reader.toString());
-			//	System.out.println("readernamenode"+reader.getNodeName());
-				
-				//System.out.println(entity);//
-				//System.out.println("getclass"+ entity.getClass());
-			//	System.out.println("field"+entity.getClass().getDeclaredField(reader.getNodeName()));
-				
+				// System.out.println("reader"+reader.toString());
+				// System.out.println("readernamenode"+reader.getNodeName());
+
+				// System.out.println(entity);//
+				// System.out.println("getclass"+ entity.getClass());
+				// System.out.println("field"+entity.getClass().getDeclaredField(reader.getNodeName()));
+
 				field = entity.getClass().getDeclaredField(reader.getNodeName());
 			} catch (NoSuchFieldException | SecurityException e) {
-				try{
+				try {
 					System.out.println("error here");
-				field = entity.getClass().getSuperclass().getDeclaredField(reader.getNodeName());
-				}
-				catch (Exception e1){
+					field = entity.getClass().getSuperclass().getDeclaredField(reader.getNodeName());
+				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 			if (field == null)
 				break;
@@ -94,9 +94,10 @@ public class EntityConverter implements Converter {
 			Object value;
 			System.out.println("Value: " + reader.getValue());
 			if (field.getType().equals(SimpleDoubleProperty.class))
-				value = (SimpleDoubleProperty)context.convertAnother(entity, SimpleDoubleProperty.class);
-				//value = new SimpleDoubleProperty(Double.parseDouble(reader.getValue()));
-			
+				value = (SimpleDoubleProperty) context.convertAnother(entity, SimpleDoubleProperty.class);
+			// value = new
+			// SimpleDoubleProperty(Double.parseDouble(reader.getValue()));
+
 			else
 				value = context.convertAnother(entity, field.getType());
 			try {
@@ -107,8 +108,7 @@ public class EntityConverter implements Converter {
 			}
 			reader.moveUp();
 		}
-		
-		
+
 		return entity;
 	}
 
