@@ -69,13 +69,10 @@ public class LayerEditor extends View {
 	private void typeToDelete() {
 		workspace.setOnKeyPressed(e -> {
 			if (e.getCode().equals(KeyCode.BACK_SPACE)) {
-				Map<List<EntityDisplay>, EntityDisplay> removedEntities = new HashMap<List<EntityDisplay>, EntityDisplay>();
 				for (List<EntityDisplay> list : layerEntities.values()) {
 					Iterator<EntityDisplay> iter = list.iterator();
-
 					while (iter.hasNext()) {
 						EntityDisplay entity = iter.next();
-
 						if (entity.isSelected()) {
 							iter.remove();
 							canvas.removeEntity(entity);
@@ -87,13 +84,14 @@ public class LayerEditor extends View {
 	}
 
 	private Image getCurrentImage() {
-		return new Image(workspace.getSelectedEntity().getImagePath().get());
+		return new Image(workspace.getSelectedEntity().getImagePath());
 	}
 
 	private void placeEntity(MouseEvent e) {
 		try {
-			addEntity(workspace.getSelectedEntity().getEntity(), e.getX(), e.getY());
+			addEntity(workspace.getSelectedEntity(), e.getX(), e.getY());
 		} catch (Exception exception) {
+			exception.printStackTrace();
 			showSelectMessage();
 		}
 	}
@@ -153,8 +151,8 @@ public class LayerEditor extends View {
 		Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message);
 		alert.show();
 	}
-	
-	public int getLayerCount(){
+
+	public int getLayerCount() {
 		return layerCount;
 	}
 

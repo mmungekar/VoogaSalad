@@ -19,8 +19,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
@@ -135,8 +133,6 @@ public abstract class Editor extends View {
 	}
 
 	protected void update(GameObject object) {
-		System.out.println(object);
-		System.out.println(object.getDisplayDescription());
 		description.setText(object.getDisplayDescription());
 		parameters = object.getParams();
 		table.setItems(FXCollections.observableArrayList(parameters));

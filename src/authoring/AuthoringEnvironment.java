@@ -1,6 +1,3 @@
-/**
- * 
- */
 package authoring;
 
 import java.util.ResourceBundle;
@@ -15,12 +12,18 @@ import javafx.stage.Stage;
 public class AuthoringEnvironment {
 
 	private ResourceBundle resources = ResourceBundle.getBundle("resources/AuthoringEnvironment");
+	private String path;
 	
 	/**
 	 * 
 	 */
-	public AuthoringEnvironment() {
+	public AuthoringEnvironment(String path) {
+		this.path = path;
 		setupStage();
+	}
+	
+	public AuthoringEnvironment() {
+		this("");
 	}
 	
 	private void setupStage() {
@@ -33,7 +36,7 @@ public class AuthoringEnvironment {
 	}
 	
 	private Scene createScene() {
-		Scene scene = new Scene(new Workspace(resources), 1000, 600);
+		Scene scene = new Scene(new Workspace(resources, path), 1000, 600);
 		scene.getStylesheets().add(resources.getString("StylesheetPath"));
 		return scene;
 	}

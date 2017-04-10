@@ -1,6 +1,3 @@
-/**
- * 
- */
 package authoring.panel.creation;
 
 import authoring.Workspace;
@@ -8,9 +5,9 @@ import authoring.components.ComponentMaker;
 import authoring.panel.creation.editors.EntityEditor;
 import authoring.panel.creation.pickers.*;
 import authoring.panel.display.EntityDisplay;
-import authoring.utils.EntityWrapper;
 import authoring.views.ConcreteView;
 import authoring.views.View;
+import engine.Entity;
 import engine.Event;
 import engine.entities.CharacterEntity;
 import engine.game.EngineController;
@@ -31,7 +28,7 @@ public class EntityMaker {
 	private Stage stage;
 	private View view;
 	private SplitPane pane;
-	private EntityWrapper entityWrapper;
+	private Entity entity;
 	private EngineController engine;
 	
 	private EntityInfo entityInfo;
@@ -44,26 +41,26 @@ public class EntityMaker {
 	/**
 	 * 
 	 */
-	public EntityMaker(Workspace workspace, EntityDisplay display, EntityWrapper entity) {
+	public EntityMaker(Workspace workspace, EntityDisplay display, Entity entity) {
 		this.workspace = workspace;
 		this.display = display;
-		this.entityWrapper = entity;
-		if (this.entityWrapper == null) {
-			this.entityWrapper = new EntityWrapper(new CharacterEntity("Mario", "resources/images/Mario.png"));
-		}
+		this.entity = entity;
 		engine = new EngineController();
+		if (this.entity == null) {
+			this.entity = engine.getDefaultEntity();
+		}
 		setupView();
 		setupStage();
 	}
 	
-	public EntityWrapper getEntityWrapper() {
-		return entityWrapper;
+	public Entity getEntity() {
+		return entity;
 	}
 	
 	private void setupView() {
 		view = new ConcreteView(workspace.getResources().getString("EntityMakerTitle"));
 		entityInfo = new EntityInfo(workspace, this);
-		entityEditor = new EntityEditor(workspace, entityWrapper, engine.getAllEntities());
+		entityEditor = new EntityEditor(workspace, entity, engine.getAllEntities());
 		eventPicker = new EventPicker(workspace, this);
 		actionPicker = new ActionPicker(workspace, this);
 		pane = new SplitPane(entityInfo, entityEditor, eventPicker, actionPicker);
@@ -106,9 +103,9 @@ public class EntityMaker {
 	}
 	
 	public void save() {
-		entityWrapper.getName().set(entityInfo.getName());
-		entityWrapper.getImagePath().set(entityInfo.getImagePath());
-		display.addEntity(entityWrapper);
+		entity.nameProperty().set(entityInfo.getName());
+		entity.imagePathProperty().set(entityInfo.getImagePath());
+		display.addEntity(entity);
 		dismiss();
 	}
 	
