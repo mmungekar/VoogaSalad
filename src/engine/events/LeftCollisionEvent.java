@@ -6,7 +6,6 @@ import engine.CollisionSide;
 public class LeftCollisionEvent extends CollisionEvent{
 	
 	public LeftCollisionEvent(){
-		super();
 		setCollision(new Collision(null, null, CollisionSide.LEFT));
 	}	
 }

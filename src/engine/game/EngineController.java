@@ -69,8 +69,11 @@ public class EngineController {
 		try {
 			Class<?> clazz = Class.forName(path);
 			Constructor<?> ctor = clazz.getDeclaredConstructor();
+			System.out.println(ctor);
+			System.out.println(ctor.getName());
 			return ctor.newInstance();
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}
