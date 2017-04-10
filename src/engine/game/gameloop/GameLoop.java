@@ -37,11 +37,14 @@ public class GameLoop {
 		
 		//Setup the first level screen
 		level1Screen = new Screen(new LevelStepStrategy(), observableBundle, levelManager, gameScene, graphicsEngine);
-		
 	}
 	
 	public void startTimeline(){
 		level1Screen.start();
+	}
+	
+	public void pauseTimeline(){
+		level1Screen.pause();
 	}
 	
 	public Pane getGameView() {

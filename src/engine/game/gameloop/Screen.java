@@ -41,6 +41,10 @@ public class Screen{
 		timeline.play();
 	}
 	
+	public void pause(){
+		timeline.pause();
+	}
+	
 	private void step(){
 		currentStepStrategy.step();
 		//Make sure to call start() for the next screen when implement in StepStrategy subclasses! - no need for step() in GameLoop anymore

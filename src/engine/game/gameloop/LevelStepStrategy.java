@@ -51,10 +51,6 @@ public class LevelStepStrategy implements StepStrategy{
 		setupGameView();
 	}
 	
-	public Label getGameScorebar() {
-		return graphicsEngine.getScorebarDisplay();
-	}
-	
 	@Override
 	public void step() {
 		System.out.println("Executing Level's step()");
@@ -124,6 +120,7 @@ public class LevelStepStrategy implements StepStrategy{
 		//TODO: set the camera x/y speed
 		//TODO call graphicsEngine.setCamera() (or something like that) to here
 		graphicsEngine.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
+		graphicsEngine.setScorebar(new Scorebar(levelManager));
 	}
 	
 	public void startNextLevel(){
