@@ -37,7 +37,9 @@ public class EngineController {
 	}
 
 	public Event createEvent(String event) {
-		return (Event) getInstance("engine.events." + getClassName(event, "Event"));
+		Event something = (Event) getInstance("engine.events." + getClassName(event, "Event"));
+		System.out.println(something);
+		return something;
 	}
 
 	public Action createAction(String action) {
@@ -77,8 +79,11 @@ public class EngineController {
 			Constructor intConstr = rf.newConstructorForSerialization(clazz, objDef);
 			return clazz.cast(intConstr.newInstance());
 			
+			/*Constructor<?> ctor = clazz.getDeclaredConstructor();
+			return ctor.newInstance();*/
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}
