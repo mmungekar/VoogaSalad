@@ -3,8 +3,6 @@ package engine.game.gameloop;
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
 
 public interface StepStrategy {
 	/**

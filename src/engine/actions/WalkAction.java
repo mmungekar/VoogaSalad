@@ -7,12 +7,7 @@ import engine.Parameter;
 public class WalkAction extends Action {
 	
 	public WalkAction(){
-		super(null);
-	}
-
-	public WalkAction(Entity entity, double walkSpeed) {
-		super(entity);
-		addParam(new Parameter("Walk Speed", Double.class, walkSpeed));
+		addParam(new Parameter("Walk Speed", Double.class, 0.0));
 	}
 
 	@Override
