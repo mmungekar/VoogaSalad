@@ -1,8 +1,6 @@
 package engine.actions;
 
 import engine.Action;
-import engine.Entity;
-
 public class ZeroHorizontalSpeedAction extends Action {
 
 	@Override

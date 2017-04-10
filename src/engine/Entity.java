@@ -34,16 +34,13 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		addParam(new Parameter("Time Step", Double.class, 0.5));
 	}
 
-	public Entity(Entity entity) {
+	/*public Entity(Entity entity) {
 		this();
 		for (Event event : entity.events) {
 			this.addEvent(event);
 		}
-	}
+	}*/
 
-	/**
-	 * TODO: make sure to check state and set new state before acting.
-	 */
 	@Override
 	public void update() {
 		List<Event> eventsToTrigger = events.stream().filter(s -> s.act()).collect(Collectors.toList());
@@ -74,9 +71,17 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		return this.name.get();
 	}
 	
+	public void setName(String name){
+		this.name.set(name);
+	}
+	
 	@Override
 	public String getImagePath() {
 		return this.imagePath.get();
+	}
+	
+	public void setImagePath(String imagePath){
+		this.imagePath.set(imagePath);
 	}
 
 	public ReadOnlyDoubleProperty xReadOnlyProperty() {
