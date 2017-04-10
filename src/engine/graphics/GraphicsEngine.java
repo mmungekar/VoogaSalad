@@ -6,7 +6,6 @@ import java.util.Collection;
 import engine.graphics.cameras.Camera;
 import engine.graphics.cameras.ScrollingCamera;
 import engine.Entity;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -24,14 +23,19 @@ import javafx.scene.text.Font;
  */
 public class GraphicsEngine {
 
-	private Camera camera;
 	private Collection<Entity> entities;
+	private Camera camera;
+	//private Scorebar scorebar;
+	
 	private Pane displayArea;
+	private Label scorebarDisplay;
 	
 	public GraphicsEngine() {
 		this.camera = new ScrollingCamera(0,0);
-		entities = new ArrayList<Entity>();
+		this.entities = new ArrayList<Entity>();
+		//this.scorebar = new Scorebar();
 		this.setupView();
+		this.setupScorebar();
 	}
 	
 	/**
@@ -41,20 +45,20 @@ public class GraphicsEngine {
 		return displayArea;
 	}
 	
+	public Label getScorebarDisplay() {
+		return scorebarDisplay;
+	}
+	
+	/**
+	 * Sets the camera used to move around the display
+	 * @param newCamera
+	 */
 	public void setCamera(Camera newCamera) {
 		this.camera = newCamera;
 	}
 	
-	public void fillScreenWithText(String text) {
-		this.clearView();
-		Label label = new Label(text);
-		label.setPrefSize(displayArea.getWidth(), displayArea.getHeight());
-		label.setFont(new Font(displayArea.getWidth()/text.length()));
-		displayArea.getChildren().add(label);
-	}
-	
 	/*
-	public void setScoreBar(ScoreBar currentManager) {
+	public void setScorebarManager(ScoreBar currentManager) {
 		this.scorebar = currentManager;
 	}
 	*/
@@ -65,24 +69,45 @@ public class GraphicsEngine {
 	 */
 	public void setEntitiesCollection(Collection<Entity> entities) {
 		this.entities = entities;
-		this.redrawView();
+		this.updateView();
 	}
 	
 	/**
 	 * Call this every frame to animate the camera.
 	 */
 	public void updateFrame() {
-		camera.update();
-		displayArea.setTranslateX(-camera.getX());
-		displayArea.setTranslateY(-camera.getY());
+		this.updateCamera();
+		this.updateScorebar();
+	}
+	
+	/**
+	 * Clears the display and places text on the screen.
+	 * @param text : 
+	 */
+	public void fillScreenWithText(String text) {
+		this.clearView();
+		Label label = new Label(text);
+		label.setPrefSize(displayArea.getWidth(), displayArea.getHeight());
+		label.setFont(new Font(displayArea.getWidth()/text.length()));
+		displayArea.getChildren().add(label);
 	}
 	
 	/**
 	 * Call this conservatively, it seems to require a lot of memory.
 	 */
-	public void redrawView() {
+	public void updateView() {
 		this.clearView();
 		this.drawAllEntities();
+	}
+	
+	private void updateCamera() {
+		camera.update();
+		displayArea.setTranslateX(-camera.getX());
+		displayArea.setTranslateY(-camera.getY());
+	}
+	
+	private void updateScorebar() {
+		scorebarDisplay.setText(String.format("Time: %d \nLives: %d \nScore: %d", 0, 0, 0));
 	}
 	
 	private void clearView() {
@@ -106,6 +131,11 @@ public class GraphicsEngine {
 		VBox.setVgrow(displayArea, Priority.ALWAYS);
 		this.clipAtEdges(displayArea);
 		this.drawAllEntities();
+	}
+	
+	private void setupScorebar() {
+		scorebarDisplay = new Label();
+		this.updateScorebar();
 	}
 	
 	private void clipAtEdges(Pane pane) {

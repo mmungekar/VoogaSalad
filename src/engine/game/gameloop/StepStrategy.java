@@ -2,6 +2,7 @@ package engine.game.gameloop;
 
 import engine.game.LevelManager;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 
 public interface StepStrategy {
@@ -18,4 +19,5 @@ public interface StepStrategy {
 	public void step();
 	
 	public Pane getGameView();
+	public Label getGameScorebar();
 }

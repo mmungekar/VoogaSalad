@@ -8,7 +8,6 @@ import engine.Event;
 import engine.actions.DieAction;
 import engine.actions.JumpAction;
 import engine.actions.MoveAction;
-import engine.actions.ShiftHorizontalAction;
 import engine.actions.WalkAction;
 import engine.actions.ZeroVerticalSpeedAction;
 import engine.actions.ZeroHorizontalSpeedAction;
@@ -23,6 +22,7 @@ import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 import engine.graphics.cameras.ScrollingCamera;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 
@@ -50,6 +50,10 @@ public class LevelStepStrategy implements StepStrategy{
 
 	public Pane getGameView() {
 		return graphicsEngine.getView();
+	}
+	
+	public Label getGameScorebar() {
+		return graphicsEngine.getScorebarDisplay();
 	}
 	
 	@Override
@@ -115,7 +119,6 @@ public class LevelStepStrategy implements StepStrategy{
 	}
 	
 	private void setupGameView() {
-		//TODO: set the camera x/y speed
 		graphicsEngine = new GraphicsEngine();
 		graphicsEngine.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
 	}
