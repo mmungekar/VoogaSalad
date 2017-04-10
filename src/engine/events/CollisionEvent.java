@@ -8,8 +8,9 @@ import engine.CollisionEventInterface;
 
 public class CollisionEvent extends Event implements CollisionEventInterface{
 
-	private Collision collision;
-	public CollisionEvent(){
+	private Collision collision; 
+	
+	public CollisionEvent() {
 		addParam(new Parameter("Entity", String.class, ""));
 	}
 	public void setCollision(Collision collision){
