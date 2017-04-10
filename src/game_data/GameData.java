@@ -1,6 +1,6 @@
 package game_data;
 
-public class GameDataHandler {
+public class GameData {
 	
 	
 	
