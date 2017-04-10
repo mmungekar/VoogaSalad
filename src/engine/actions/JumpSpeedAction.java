@@ -5,6 +5,10 @@ import engine.Entity;
 import engine.Parameter;
 
 public class JumpSpeedAction extends Action {
+	
+	public JumpSpeedAction(){
+		super(null);
+	}
 
 	public JumpSpeedAction(Entity entity) {
 		super(entity);
