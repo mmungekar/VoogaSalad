@@ -88,4 +88,8 @@ public class Workspace extends View {
 		panel.selectExistingLevelBox(newLevelNum);
 		
 	}
+
+	public void deleteLayer(int layer) {
+		levelEditor.getCurrentLevel().deleteLayer(layer);
+	}
 }

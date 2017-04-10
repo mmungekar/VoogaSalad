@@ -46,12 +46,17 @@ public class LayerPanel extends View {
 		editorContainer = new VBox();
 		editorContainer.setSpacing(Integer.parseInt(workspace.getResources().getString("SettingsSpacing")));
 		Button addLayerButton = new ActionButton("Add Layer", event ->workspace.addLayer());
+		Button deleteLayerButton = new ActionButton("Delete Layer", event ->{
+			int layer = Integer.parseInt(((String)myBox.getSelectionModel().getSelectedItem()).split(" ")[1]);
+			workspace.deleteLayer(layer);
+		});
 		initLayerSelector();
-		configureVelocitySettings(addLayerButton);
+		configureVelocitySettings();
+		editorContainer.getChildren().addAll(addLayerButton,deleteLayerButton);
 		setCenter(editorContainer);
 	}
 
-	private void configureVelocitySettings(Button addLayerButton) {
+	private void configureVelocitySettings() {
 		Slider velocitySlider = new Slider(){{
            setMin(0);
            setMax(100);
@@ -66,7 +71,7 @@ public class LayerPanel extends View {
         }};
         
         Button velocityButton = new ActionButton(workspace.getResources().getString("SaveLayerSpeed"));
-		editorContainer.getChildren().addAll(addLayerButton,myBox,sliderBox,velocityButton);
+		editorContainer.getChildren().addAll(myBox,sliderBox,velocityButton);
 	}
 	
 	public void updateBox(String newLayer) {

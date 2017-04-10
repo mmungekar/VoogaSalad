@@ -158,4 +158,14 @@ public class LayerEditor extends View {
 		return layerCount;
 	}
 
+	public void deleteLayer(int layer) {
+		selectNewLayer(layer-1);
+		if(layerEntities.get(layer).size()!=0){
+		layerEntities.get(layer).stream().forEach(id->{
+		canvas.removeEntity(id);
+		});
+		}
+		layerEntities.remove(layer);
+	}
+
 }
