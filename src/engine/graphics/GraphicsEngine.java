@@ -6,6 +6,8 @@ import java.util.Collection;
 import engine.graphics.cameras.Camera;
 import engine.graphics.cameras.ScrollingCamera;
 import engine.Entity;
+import engine.game.LevelManager;
+import engine.game.gameloop.Scorebar;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -25,7 +27,7 @@ public class GraphicsEngine {
 
 	private Collection<Entity> entities;
 	private Camera camera;
-	//private Scorebar scorebar;
+	private Scorebar scorebar;
 	
 	private Pane displayArea;
 	private Label scorebarDisplay;
@@ -33,7 +35,7 @@ public class GraphicsEngine {
 	public GraphicsEngine() {
 		this.camera = new ScrollingCamera(0,0);
 		this.entities = new ArrayList<Entity>();
-		//this.scorebar = new Scorebar();
+		this.scorebar = new Scorebar(null);
 		this.setupView();
 		this.setupScorebar();
 	}
@@ -57,11 +59,9 @@ public class GraphicsEngine {
 		this.camera = newCamera;
 	}
 	
-	/*
-	public void setScorebarManager(ScoreBar currentManager) {
+	public void setScorebar(Scorebar currentManager) {
 		this.scorebar = currentManager;
 	}
-	*/
 	
 	/**
 	 * Sets the collection of entities that will be drawn on every call to update.
@@ -107,7 +107,7 @@ public class GraphicsEngine {
 	}
 	
 	private void updateScorebar() {
-		scorebarDisplay.setText(String.format("Time: %d \nLives: %d \nScore: %d", 0, 0, 0));
+		scorebarDisplay.setText(String.format("Time: %s \nLives: %s \nScore: %s", scorebar.getTime(), scorebar.getLives(), scorebar.getScore()));
 	}
 	
 	private void clearView() {

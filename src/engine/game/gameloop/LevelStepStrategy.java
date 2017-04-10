@@ -9,7 +9,7 @@ import engine.actions.DieAction;
 import engine.actions.JumpAction;
 import engine.actions.MoveAction;
 import engine.actions.WalkAction;
-import engine.actions.ZeroVerticalSpeedAction;
+import engine.actions.ZeroDownSpeedAction;
 import engine.actions.ZeroHorizontalSpeedAction;
 import engine.entities.BlockEntity;
 import engine.entities.CharacterEntity;
@@ -49,10 +49,6 @@ public class LevelStepStrategy implements StepStrategy{
 		setLevelStepStrategyInDieActions();
 		//levelManager.startCurrentLevel(); //TODO sets Entities to initial conditions - need to ask Nikita how to do this
 		setupGameView();
-	}
-	
-	public Label getGameScorebar() {
-		return graphicsEngine.getScorebarDisplay();
 	}
 	
 	@Override
@@ -124,6 +120,7 @@ public class LevelStepStrategy implements StepStrategy{
 		//TODO: set the camera x/y speed
 		//TODO call graphicsEngine.setCamera() (or something like that) to here
 		graphicsEngine.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
+		graphicsEngine.setScorebar(new Scorebar(levelManager));
 	}
 	
 	public void startNextLevel(){
@@ -182,7 +179,7 @@ public class LevelStepStrategy implements StepStrategy{
 		CollisionEvent groundCollision = new CollisionEvent();
 		groundCollision.setCollision(new Collision(mario,block, CollisionSide.TOP));
 		block.addEvent(groundCollision);
-		groundCollision.addAction(new ZeroVerticalSpeedAction(mario));
+		groundCollision.addAction(new ZeroDownSpeedAction(mario));
 		
 		levelManager.getCurrentLevel().getEntities().add(mario);
 		levelManager.getCurrentLevel().getEntities().add(block);
