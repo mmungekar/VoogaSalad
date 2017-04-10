@@ -7,6 +7,7 @@ import java.util.Map;
 import authoring.ActionButton;
 import authoring.Workspace;
 import authoring.canvas.Canvas;
+import authoring.canvas.LayerEditor;
 import authoring.views.View;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -30,11 +31,12 @@ public class LayerPanel extends View {
 	private Workspace workspace;
 	private VBox editorContainer;
 	private ComboBox myBox;
-	Map<Tab, List<Node>> layerEntities;
+	Map<Integer, List<String>> layerOptions;
 	
 	public LayerPanel(Workspace workspace) {
 		super(workspace.getResources().getString("LayerPanelTitle"));
 		this.workspace = workspace;
+		layerOptions = new HashMap<Integer,List<String>>();
 		myBox = new ComboBox();
 		configureEditing();
 	
@@ -81,8 +83,13 @@ public class LayerPanel extends View {
 		            	workspace.selectLayer(Integer.parseInt(((String)arg2).split(" ")[1]));
 		            }
 		        });
-		        
+	}
 
+	public void selectLevelBox(int layerNum) {
+		myBox.getItems().clear();
+		for(int i=0;i<layerNum;i++){
+		myBox.getItems().add(String.format("Layer %d", i+1));
+		}
 	}
 
 }

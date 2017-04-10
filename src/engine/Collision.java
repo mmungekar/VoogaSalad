@@ -19,7 +19,7 @@ public class Collision implements CollisionInterface {
 		firstEntity = one;
 		secondEntity = two;
 		firstRelativeToSecond = side;
-		secondName = secondEntity.getName();
+		secondName = secondEntity == null ? "" : secondEntity.getName();
 	}
 
 	/**

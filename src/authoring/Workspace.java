@@ -83,4 +83,9 @@ public class Workspace extends View {
 		levelEditor.getCurrentLevel().selectNewLayer(arg2);
 	}
 	
+
+	public void selectExistingLevel(int newLevelNum) {
+		panel.selectExistingLevelBox(newLevelNum);
+		
+	}
 }
