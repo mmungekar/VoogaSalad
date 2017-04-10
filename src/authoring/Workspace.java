@@ -41,19 +41,23 @@ public class Workspace extends View {
 		super("Workspace");
 		this.resources = resources;
 		setup();
-		game = new Game();
 		if (!path.equals("")) {
 			load(path);
 		}
+	}
+	
+	public Game getGame() {
+		return game;
 	}
 
 	/**
 	 * Initializes the Workspace's components.
 	 */
 	private void setup() {
+		game = new Game();
 		data = new GameData();
 		maker = new ComponentMaker(resources);
-		defaults = new DefaultEntities();
+		defaults = new DefaultEntities(this);
 		pane = new SplitPane();
 		panel = new Panel(this, 0);
 		levelEditor = new LevelEditor(this);
@@ -71,7 +75,7 @@ public class Workspace extends View {
 	}
 
 	public void save() {
-		// Levels and Settings must already be saved into game.
+		// Levels must already be saved into game. Everything else already is.
 		String path = "";
 		String outputFolder = new File(resources.getString("GamesPath")).getAbsolutePath();
 		DirectoryChooser chooser = maker.makeDirectoryChooser(outputFolder, "GameSaverTitle");
@@ -125,4 +129,7 @@ public class Workspace extends View {
 		panel.selectExistingLevelBox(newLevelNum);
 	}
 
+	public void deleteLayer(int layer) {
+		levelEditor.getCurrentLevel().deleteLayer(layer);
+	}
 }

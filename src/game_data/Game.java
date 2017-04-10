@@ -3,6 +3,7 @@
  */
 package game_data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import engine.Entity;
@@ -23,7 +24,19 @@ public class Game {
 	 * 
 	 */
 	public Game() {
-		// TODO Auto-generated constructor stub
+		// Load these from a properties file.
+		name = "My Game";
+		levels = new ArrayList<Level>();
+		defaults = new ArrayList<Entity>();
+		songPath = "/path/to/song.mp3";
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public List<Level> getLevels() {

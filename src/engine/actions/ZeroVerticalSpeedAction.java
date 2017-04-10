@@ -1,7 +1,6 @@
 package engine.actions;
 
 import engine.Action;
-import engine.Entity;
 
 public class ZeroVerticalSpeedAction extends Action {
 
@@ -11,5 +10,4 @@ public class ZeroVerticalSpeedAction extends Action {
 			getEntity().setYSpeed(0);
 		}
 	}
-
 }

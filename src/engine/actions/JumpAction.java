@@ -7,8 +7,8 @@ import engine.Parameter;
 public class JumpAction extends Action {
 	
 	public JumpAction(){
-		addParam(new Parameter("Max Jump Height", Double.class, 10));
-		addParam(new Parameter("Jump Duration", Double.class, 1.0));
+		addParam(new Parameter("Max Jump Height", Double.class, 0));
+		addParam(new Parameter("Jump Duration", Double.class, 0));
 	}
 
 	@Override

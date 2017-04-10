@@ -7,5 +7,4 @@ public class ZeroHorizontalSpeedAction extends Action {
 	public void act() {
 		getEntity().setXSpeed(0);
 	}
-
 }
