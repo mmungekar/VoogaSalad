@@ -60,7 +60,9 @@ public class EntityConverter implements Converter {
 	@Override
 	public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
 		EngineController controller = new EngineController();
+		
 		reader.moveDown();
+		System.out.println(reader.getValue());
 		Entity entity = controller.createEntity(reader.getValue());
 		reader.moveUp();
 	
@@ -68,15 +70,23 @@ public class EntityConverter implements Converter {
 			reader.moveDown();
 			Field field = null;
 			try {
+			//	System.out.println("reader"+reader.toString());
+			//	System.out.println("readernamenode"+reader.getNodeName());
+				
+				//System.out.println(entity);//
+				//System.out.println("getclass"+ entity.getClass());
+			//	System.out.println("field"+entity.getClass().getDeclaredField(reader.getNodeName()));
+				
 				field = entity.getClass().getDeclaredField(reader.getNodeName());
 			} catch (NoSuchFieldException | SecurityException e) {
 				try{
+					System.out.println("error here");
 				field = entity.getClass().getSuperclass().getDeclaredField(reader.getNodeName());
 				}
 				catch (Exception e1){
-					//e1.printStackTrace();
+					e1.printStackTrace();
 				}
-				//e.printStackTrace();
+				e.printStackTrace();
 			}
 			if (field == null)
 				break;
