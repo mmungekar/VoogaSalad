@@ -47,3 +47,23 @@
     -fx-pref-height: 0;
     -fx-min-height: 0;
 }
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-opacity: 0;
+}
+
+.tab-pane {
+    -fx-tab-min-width:90px;
+}
+
+.tab-pane .tab:selected {
+	-fx-background-color: #3a3a3a;
+}
+
+.tab .tab-label { 
+    -fx-alignment: CENTER;
+}
+
+/*.scroll-pane > .viewport {
+   -fx-background-color: white;
+}*/

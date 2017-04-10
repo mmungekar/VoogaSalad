@@ -9,16 +9,12 @@ import java.util.ResourceBundle;
 
 import authoring.canvas.LevelEditor;
 import authoring.components.ComponentMaker;
-import authoring.components.HTMLDisplay;
 import authoring.panel.Panel;
 import authoring.utils.EntityWrapper;
 import authoring.views.View;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.SplitPane;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyCombination;
 
 /**
  * @author Elliott Bolzan Modified by Mina Mungekar, Jimmy Shackford
@@ -87,4 +83,9 @@ public class Workspace extends View {
 		levelEditor.getCurrentLevel().selectNewLayer(arg2);
 	}
 	
+
+	public void selectExistingLevel(int newLevelNum) {
+		panel.selectExistingLevelBox(newLevelNum);
+		
+	}
 }

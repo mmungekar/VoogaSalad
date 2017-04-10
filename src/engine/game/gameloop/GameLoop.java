@@ -8,6 +8,8 @@ import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 import engine.graphics.cameras.ScrollingCamera;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 
 /**
@@ -44,6 +46,10 @@ public class GameLoop {
 	
 	public Pane getGameView() {
 		return graphicsEngine.getView();
+	}
+	
+	public Label getGameScorebar() {
+		return level1Screen.getGameScorebar();
 	}
 }
 

@@ -135,6 +135,8 @@ public abstract class Editor extends View {
 	}
 
 	protected void update(GameObject object) {
+		System.out.println(object);
+		System.out.println(object.getDisplayDescription());
 		description.setText(object.getDisplayDescription());
 		parameters = object.getParams();
 		table.setItems(FXCollections.observableArrayList(parameters));

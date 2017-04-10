@@ -6,11 +6,14 @@ import java.util.Collection;
 import engine.graphics.cameras.Camera;
 import engine.graphics.cameras.ScrollingCamera;
 import engine.Entity;
-import engine.EntityInterface;
-import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 
 /**
  * @author Jay Doherty
@@ -20,14 +23,19 @@ import javafx.scene.shape.Rectangle;
  */
 public class GraphicsEngine {
 
-	private Camera camera;
 	private Collection<Entity> entities;
-	private Pane displayArea;
+	private Camera camera;
+	//private Scorebar scorebar;
 	
-	public GraphicsEngine(Camera camera) {
-		this.camera = camera;
-		entities = new ArrayList<Entity>();
+	private Pane displayArea;
+	private Label scorebarDisplay;
+	
+	public GraphicsEngine() {
+		this.camera = new ScrollingCamera(0,0);
+		this.entities = new ArrayList<Entity>();
+		//this.scorebar = new Scorebar();
 		this.setupView();
+		this.setupScorebar();
 	}
 	
 	/**
@@ -37,13 +45,23 @@ public class GraphicsEngine {
 		return displayArea;
 	}
 	
-	/**
-	 * Updates the display. This method just redraws all of the JavaFX Nodes for the
-	 * current entities.
-	 */
-	public void update() {
-		this.updateCamera();
+	public Label getScorebarDisplay() {
+		return scorebarDisplay;
 	}
+	
+	/**
+	 * Sets the camera used to move around the display
+	 * @param newCamera
+	 */
+	public void setCamera(Camera newCamera) {
+		this.camera = newCamera;
+	}
+	
+	/*
+	public void setScorebarManager(ScoreBar currentManager) {
+		this.scorebar = currentManager;
+	}
+	*/
 	
 	/**
 	 * Sets the collection of entities that will be drawn on every call to update.
@@ -51,8 +69,45 @@ public class GraphicsEngine {
 	 */
 	public void setEntitiesCollection(Collection<Entity> entities) {
 		this.entities = entities;
+		this.updateView();
+	}
+	
+	/**
+	 * Call this every frame to animate the camera.
+	 */
+	public void updateFrame() {
+		this.updateCamera();
+		this.updateScorebar();
+	}
+	
+	/**
+	 * Clears the display and places text on the screen.
+	 * @param text : 
+	 */
+	public void fillScreenWithText(String text) {
+		this.clearView();
+		Label label = new Label(text);
+		label.setPrefSize(displayArea.getWidth(), displayArea.getHeight());
+		label.setFont(new Font(displayArea.getWidth()/text.length()));
+		displayArea.getChildren().add(label);
+	}
+	
+	/**
+	 * Call this conservatively, it seems to require a lot of memory.
+	 */
+	public void updateView() {
 		this.clearView();
 		this.drawAllEntities();
+	}
+	
+	private void updateCamera() {
+		camera.update();
+		displayArea.setTranslateX(-camera.getX());
+		displayArea.setTranslateY(-camera.getY());
+	}
+	
+	private void updateScorebar() {
+		scorebarDisplay.setText(String.format("Time: %d \nLives: %d \nScore: %d", 0, 0, 0));
 	}
 	
 	private void clearView() {
@@ -63,8 +118,8 @@ public class GraphicsEngine {
 		NodeFactory factory = new NodeFactory();
 		for(Entity e : entities) {
 			ImageView node = (ImageView)factory.getNodeFromEntity(e);
-			node.xProperty().bind(e.xProperty());
-			node.yProperty().bind(e.yProperty());
+			node.xProperty().bind(e.xReadOnlyProperty());
+			node.yProperty().bind(e.yReadOnlyProperty());
 			displayArea.getChildren().add(node);	
 		}
 	}
@@ -72,8 +127,15 @@ public class GraphicsEngine {
 	private void setupView() {
 		displayArea = new Pane();
 		displayArea.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+		HBox.setHgrow(displayArea, Priority.ALWAYS);
+		VBox.setVgrow(displayArea, Priority.ALWAYS);
 		this.clipAtEdges(displayArea);
 		this.drawAllEntities();
+	}
+	
+	private void setupScorebar() {
+		scorebarDisplay = new Label();
+		this.updateScorebar();
 	}
 	
 	private void clipAtEdges(Pane pane) {
@@ -81,11 +143,5 @@ public class GraphicsEngine {
 		clipBoundaries.widthProperty().bind(pane.widthProperty());
 		clipBoundaries.heightProperty().bind(pane.heightProperty());
 		pane.setClip(clipBoundaries);
-	}
-	
-	private void updateCamera() {
-		camera.update();
-		displayArea.setTranslateX(-camera.getX());
-		displayArea.setTranslateY(-camera.getY());
 	}
 }

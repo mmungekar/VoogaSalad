@@ -8,9 +8,8 @@ import engine.Event;
 import engine.actions.DieAction;
 import engine.actions.JumpAction;
 import engine.actions.MoveAction;
-import engine.actions.ShiftHorizontalAction;
 import engine.actions.WalkAction;
-import engine.actions.ZeroDownSpeedAction;
+import engine.actions.ZeroVerticalSpeedAction;
 import engine.actions.ZeroHorizontalSpeedAction;
 import engine.entities.BlockEntity;
 import engine.entities.CharacterEntity;
@@ -23,6 +22,7 @@ import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 import engine.graphics.cameras.ScrollingCamera;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 
@@ -51,6 +51,10 @@ public class LevelStepStrategy implements StepStrategy{
 		setupGameView();
 	}
 	
+	public Label getGameScorebar() {
+		return graphicsEngine.getScorebarDisplay();
+	}
+	
 	@Override
 	public void step() {
 		System.out.println("Executing Level's step()");
@@ -62,7 +66,7 @@ public class LevelStepStrategy implements StepStrategy{
 		
 		observableBundle.getCollisionObservable().getCollisions().clear();
 		observableBundle.getInputObservable().setInputToProcess(false);
-		graphicsEngine.update();
+		graphicsEngine.updateFrame();
 		printStepData(); //TODO Remove after debugging
 	}
 	
@@ -122,6 +126,10 @@ public class LevelStepStrategy implements StepStrategy{
 		graphicsEngine.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
 	}
 	
+	public void startNextLevel(){
+		// TODO start next level
+	}
+	
 	//Temporary, for testing
 	private void instantiateTestEntitesEventsActions(){
 		//TEST - TODO ask Nikita, etc. how GAE does this
@@ -174,7 +182,7 @@ public class LevelStepStrategy implements StepStrategy{
 		CollisionEvent groundCollision = new CollisionEvent();
 		groundCollision.setCollision(new Collision(mario,block, CollisionSide.TOP));
 		block.addEvent(groundCollision);
-		groundCollision.addAction(new ZeroDownSpeedAction(mario));
+		groundCollision.addAction(new ZeroVerticalSpeedAction(mario));
 		
 		levelManager.getCurrentLevel().getEntities().add(mario);
 		levelManager.getCurrentLevel().getEntities().add(block);
