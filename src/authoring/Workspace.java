@@ -1,5 +1,6 @@
 package authoring;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -14,6 +15,7 @@ import game_data.GameData;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.SplitPane;
+import javafx.stage.DirectoryChooser;
 
 /**
  * @author Elliott Bolzan Modified by Mina Mungekar, Jimmy Shackford
@@ -22,11 +24,15 @@ import javafx.scene.control.SplitPane;
 public class Workspace extends View {
 
 	private ResourceBundle resources;
+	private ComponentMaker maker;
+	private GameData data;
+
+	private SplitPane pane;
 	private LevelEditor levelEditor;
 	private Panel panel;
-	private SplitPane pane;
+
 	private Game game;
-	private GameData data;
+	private DefaultEntities defaults;
 
 	/**
 	 * 
@@ -45,6 +51,9 @@ public class Workspace extends View {
 	 * Initializes the Workspace's components.
 	 */
 	private void setup() {
+		data = new GameData();
+		maker = new ComponentMaker(resources);
+		defaults = new DefaultEntities();
 		pane = new SplitPane();
 		panel = new Panel(this, 0);
 		levelEditor = new LevelEditor(this);
@@ -53,20 +62,26 @@ public class Workspace extends View {
 		setPadding(new Insets(Integer.parseInt(resources.getString("WorkSpaceInsets"))));
 		setCenter(pane);
 	}
-	
+
 	private void load(String path) {
 		game = data.loadGame(path);
-		// load defaults entities
+		defaults.setEntities(game.getDefaults());
 		// load levels into canvas
 		// load settings: game name, music
 	}
-	
+
 	public void save() {
-		// things will have been updating Game already
-		// get folder path
-		// use game name
+		// Levels and Settings must already be saved into game.
 		String path = "";
-		data.saveGame(game, path);
+		String outputFolder = new File(resources.getString("GamesPath")).getAbsolutePath();
+		DirectoryChooser chooser = maker.makeDirectoryChooser(outputFolder, "GameSaverTitle");
+		File selectedDirectory = chooser.showDialog(getScene().getWindow());
+		if (selectedDirectory != null) {
+			path = selectedDirectory.getAbsolutePath();
+		}
+		if (!path.equals("")) {
+			data.saveGame(game, path);
+		}
 	}
 
 	public ResourceBundle getResources() {
@@ -77,13 +92,16 @@ public class Workspace extends View {
 		return pane;
 	}
 
+	public DefaultEntities getDefaults() {
+		return defaults;
+	}
+
 	public Entity getSelectedEntity() {
-		return panel.getEntityDisplay().getSelectedEntity();
+		return defaults.getSelectedEntity();
 	}
 
 	public void showMessage(String message) {
-		ComponentMaker componentMaker = new ComponentMaker(resources);
-		componentMaker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message).showAndWait();
+		maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message).showAndWait();
 	}
 
 	public List getEntities() {
@@ -102,10 +120,9 @@ public class Workspace extends View {
 	public void selectLayer(int arg2) {
 		levelEditor.getCurrentLevel().selectNewLayer(arg2);
 	}
-	
 
 	public void selectExistingLevel(int newLevelNum) {
 		panel.selectExistingLevelBox(newLevelNum);
-		
 	}
+
 }

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package authoring.components;
 
 import java.io.File;
@@ -11,7 +8,6 @@ import java.util.ResourceBundle;
 import authoring.views.View;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Alert;
