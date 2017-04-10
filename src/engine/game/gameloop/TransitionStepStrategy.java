@@ -5,7 +5,6 @@ import java.util.ResourceBundle;
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 
 public abstract class TransitionStepStrategy implements StepStrategy {
 	private static final String RESOURCES_NAME =  "resources/TransitionScreen";

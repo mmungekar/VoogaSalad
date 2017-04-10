@@ -78,6 +78,11 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	public String getImagePath() {
 		return this.imagePath.get();
 	}
+	
+	public void setImagePath(String path) {
+		this.imagePath.set(path);
+	}
+	
 
 	public ReadOnlyDoubleProperty xReadOnlyProperty() {
 		return ReadOnlyDoubleProperty.readOnlyDoubleProperty(x);
