@@ -63,7 +63,7 @@ public class LevelStepStrategy implements StepStrategy{
 		
 		observableBundle.getCollisionObservable().getCollisions().clear();
 		observableBundle.getInputObservable().setInputToProcess(false);
-		graphicsEngine.update();
+		graphicsEngine.updateFrame();
 		printStepData(); //TODO Remove after debugging
 	}
 	
@@ -80,6 +80,7 @@ public class LevelStepStrategy implements StepStrategy{
 		}
 		else{
 			System.out.println("You lost a life.");
+			graphicsEngine.fillScreenWithText("GAME OVER");
 			screen.setNextScreen(screen); //TODO set next screen to current one
 		}
 		screen.getTimeline().stop();
@@ -115,7 +116,7 @@ public class LevelStepStrategy implements StepStrategy{
 	
 	private void setupGameView() {
 		//TODO: set the camera x/y speed
-		graphicsEngine = new GraphicsEngine(new ScrollingCamera(0,0));
+		graphicsEngine = new GraphicsEngine();
 		graphicsEngine.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
 	}
 	

@@ -142,7 +142,7 @@ public class OldGameLoopBackup {
 			 timeline.stop();
 		}
 		
-		graphicsEngine.update();
+		graphicsEngine.updateFrame();
 	}
 	
 	/**

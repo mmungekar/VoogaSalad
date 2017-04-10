@@ -6,11 +6,15 @@ import java.util.Collection;
 import engine.graphics.cameras.Camera;
 import engine.graphics.cameras.ScrollingCamera;
 import engine.Entity;
-import engine.EntityInterface;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 
 /**
  * @author Jay Doherty
@@ -24,8 +28,8 @@ public class GraphicsEngine {
 	private Collection<Entity> entities;
 	private Pane displayArea;
 	
-	public GraphicsEngine(Camera camera) {
-		this.camera = camera;
+	public GraphicsEngine() {
+		this.camera = new ScrollingCamera(0,0);
 		entities = new ArrayList<Entity>();
 		this.setupView();
 	}
@@ -37,13 +41,23 @@ public class GraphicsEngine {
 		return displayArea;
 	}
 	
-	/**
-	 * Updates the display. This method just redraws all of the JavaFX Nodes for the
-	 * current entities.
-	 */
-	public void update() {
-		this.updateCamera();
+	public void setCamera(Camera newCamera) {
+		this.camera = newCamera;
 	}
+	
+	public void fillScreenWithText(String text) {
+		this.clearView();
+		Label label = new Label(text);
+		label.setPrefSize(displayArea.getWidth(), displayArea.getHeight());
+		label.setFont(new Font(displayArea.getWidth()/text.length()));
+		displayArea.getChildren().add(label);
+	}
+	
+	/*
+	public void setScoreBar(ScoreBar currentManager) {
+		this.scorebar = currentManager;
+	}
+	*/
 	
 	/**
 	 * Sets the collection of entities that will be drawn on every call to update.
@@ -51,6 +65,22 @@ public class GraphicsEngine {
 	 */
 	public void setEntitiesCollection(Collection<Entity> entities) {
 		this.entities = entities;
+		this.redrawView();
+	}
+	
+	/**
+	 * Call this every frame to animate the camera.
+	 */
+	public void updateFrame() {
+		camera.update();
+		displayArea.setTranslateX(-camera.getX());
+		displayArea.setTranslateY(-camera.getY());
+	}
+	
+	/**
+	 * Call this conservatively, it seems to require a lot of memory.
+	 */
+	public void redrawView() {
 		this.clearView();
 		this.drawAllEntities();
 	}
@@ -63,8 +93,8 @@ public class GraphicsEngine {
 		NodeFactory factory = new NodeFactory();
 		for(Entity e : entities) {
 			ImageView node = (ImageView)factory.getNodeFromEntity(e);
-			node.xProperty().bind(e.xProperty());
-			node.yProperty().bind(e.yProperty());
+			node.xProperty().bind(e.xReadOnlyProperty());
+			node.yProperty().bind(e.yReadOnlyProperty());
 			displayArea.getChildren().add(node);	
 		}
 	}
@@ -72,6 +102,8 @@ public class GraphicsEngine {
 	private void setupView() {
 		displayArea = new Pane();
 		displayArea.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+		HBox.setHgrow(displayArea, Priority.ALWAYS);
+		VBox.setVgrow(displayArea, Priority.ALWAYS);
 		this.clipAtEdges(displayArea);
 		this.drawAllEntities();
 	}
@@ -81,11 +113,5 @@ public class GraphicsEngine {
 		clipBoundaries.widthProperty().bind(pane.widthProperty());
 		clipBoundaries.heightProperty().bind(pane.heightProperty());
 		pane.setClip(clipBoundaries);
-	}
-	
-	private void updateCamera() {
-		camera.update();
-		displayArea.setTranslateX(-camera.getX());
-		displayArea.setTranslateY(-camera.getY());
 	}
 }
