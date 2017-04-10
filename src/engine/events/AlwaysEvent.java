@@ -5,7 +5,7 @@ import engine.Event;
 public class AlwaysEvent extends Event{
 	
 	@Override
-	public boolean act(){
+	public boolean act() {
 		return true;
 	}
 
