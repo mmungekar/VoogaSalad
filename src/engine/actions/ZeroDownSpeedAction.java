@@ -3,9 +3,9 @@ package engine.actions;
 import engine.Action;
 import engine.Entity;
 
-public class ZeroVerticalSpeedAction extends Action {
+public class ZeroDownSpeedAction extends Action {
 
-	public ZeroVerticalSpeedAction(Entity entity) {
+	public ZeroDownSpeedAction(Entity entity) {
 		super(entity);
 	}
 
