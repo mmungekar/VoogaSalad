@@ -25,6 +25,7 @@ public class Screen{
 	public Screen(StepStrategy currentStepStrategy, ObservableBundle observableBundle, LevelManager levelManager, Scene gameScene, GraphicsEngine graphicsEngine){
 		this.currentStepStrategy = currentStepStrategy;
 		setupTimeline();
+		System.out.println(timeline + "Timeline instantiated in Screen with StepStrategy" + this.currentStepStrategy);
 		currentStepStrategy.setup(observableBundle, levelManager, gameScene, this, graphicsEngine);
 	}
 	

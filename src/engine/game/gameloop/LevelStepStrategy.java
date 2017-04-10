@@ -9,7 +9,7 @@ import engine.actions.DieAction;
 import engine.actions.JumpAction;
 import engine.actions.MoveAction;
 import engine.actions.WalkAction;
-import engine.actions.ZeroVerticalSpeedAction;
+import engine.actions.ZeroDownSpeedAction;
 import engine.actions.ZeroHorizontalSpeedAction;
 import engine.entities.BlockEntity;
 import engine.entities.CharacterEntity;
@@ -182,7 +182,7 @@ public class LevelStepStrategy implements StepStrategy{
 		CollisionEvent groundCollision = new CollisionEvent();
 		groundCollision.setCollision(new Collision(mario,block, CollisionSide.TOP));
 		block.addEvent(groundCollision);
-		groundCollision.addAction(new ZeroVerticalSpeedAction(mario));
+		groundCollision.addAction(new ZeroDownSpeedAction(mario));
 		
 		levelManager.getCurrentLevel().getEntities().add(mario);
 		levelManager.getCurrentLevel().getEntities().add(block);

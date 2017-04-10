@@ -27,7 +27,11 @@ public abstract class TransitionStepStrategy implements StepStrategy {
 	@Override
 	public void setup(ObservableBundle newObservableBundle, LevelManager levelManager, Scene gameScene, Screen screen,
 			GraphicsEngine graphicsEngine) {
+		this.observableBundle = newObservableBundle;   //TODO These are just being used to pass to next level - too many parameters in method names; find a better way!
+		this.levelManager = levelManager;
+		this.gameScene = gameScene;
 		this.graphicsEngine = graphicsEngine;
+		this.screen = screen;
 		//TODO Also display number of lives left for lose a life transition
 		graphicsEngine.fillScreenWithText(ResourceBundle.getBundle(RESOURCES_NAME).getString(resourceFileTextName));
 	}
@@ -38,7 +42,7 @@ public abstract class TransitionStepStrategy implements StepStrategy {
 		//TODO Could add animation here
 		if(frameNumber == FRAME_DURATION){
 			System.out.println("move to next screen");
-			 moveToNextScreen();
+			moveToNextScreen();
 		}
 		frameNumber++;
 	}
@@ -49,10 +53,9 @@ public abstract class TransitionStepStrategy implements StepStrategy {
 	
 	private void moveToNextScreen(){
 		screen.getTimeline().stop();
-		/*
 		levelManager.setLevelNumber(nextLevelNumber(levelManager));
 		Screen nextScreen = new Screen(getNextStepStrategy(levelManager), observableBundle, levelManager, gameScene, graphicsEngine);
 		nextScreen.getTimeline().play();
-		*/
+		
 	}
 }
