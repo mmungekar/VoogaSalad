@@ -4,6 +4,11 @@ import engine.Action;
 import engine.Entity;
 import engine.game.gameloop.LevelStepStrategy;
 
+/**
+ * Starts the next level of a game.
+ * @author Kyle Finke
+ *
+ */
 public class NextLevelAction extends Action {
 	private LevelStepStrategy levelStepStrategy;
 	
