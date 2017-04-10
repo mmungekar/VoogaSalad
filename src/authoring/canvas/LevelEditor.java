@@ -24,10 +24,12 @@ public class LevelEditor extends View {
 	Workspace workspace;
 	TabPane tabPane;
 	LayerEditor currentLevel;
+	int levelCount;
 	HelpBar helpBar;
 
 	public LevelEditor(Workspace workspace) {
 		super("");
+		levelCount = 0;
 		this.workspace = workspace;
 		setup();
 	}
@@ -42,10 +44,12 @@ public class LevelEditor extends View {
 
 	private Tab newTab() {
 		Tab tab = new Tab();
-		tab.setText("untitled");
+		levelCount++;
+		tab.setText(String.format("Level %d", levelCount));
 		currentLevel = new LayerEditor(workspace);
 		tab.setContent(currentLevel);
 		tab.setOnCloseRequest(e -> closeRequest(e));
+		workspace.initNewLayers(levelCount);
 		return tab;
 	}
 	
@@ -72,6 +76,9 @@ public class LevelEditor extends View {
 				if (newTab.getText().equals("+")) {
 					tabPane.getTabs().add(tabPane.getTabs().size() - 1, newTab());
 					tabPane.getSelectionModel().select(tabPane.getTabs().size() - 2);
+				}
+				else{
+					workspace.selectExistingLevel(Integer.parseInt(newTab.getText().split(" ")[1]));
 				}
 			}
 
