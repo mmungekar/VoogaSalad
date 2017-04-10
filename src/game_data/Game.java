@@ -14,6 +14,7 @@ import engine.game.Level;
  */
 public class Game {
 	
+	private String name;
 	private List<Level> levels;
 	private List<Entity> defaults;
 	private String songPath;
