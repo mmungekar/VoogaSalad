@@ -2,9 +2,18 @@ package player;
 
 import java.util.ResourceBundle;
 
+import authoring.components.ComponentMaker;
 import engine.game.gameloop.GameLoop;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
+import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 
 /**
@@ -28,6 +37,8 @@ public class Player extends BorderPane {
 		gameLoop = new GameLoop(scene, "FIXME");
 		this.setCenter(gameLoop.getGameView());
 		
+		this.setTop(this.buildControlBar());
+		
 		gameLoop.startTimeline();
 	}
 	
@@ -44,5 +55,22 @@ public class Player extends BorderPane {
 		scene = new Scene(this, 600, 600);
 		scene.getStylesheets().add(stylesheetPath);
 		return scene;
+	}
+	
+	private HBox buildControlBar() {
+		HBox controls = new HBox();
+		
+		ImageView playImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(resources.getString("PlayPausePath"))));
+		Button playButton = new Button("", playImage);
+		playButton.setPrefSize(50, 50);
+		
+		Separator s = new Separator();
+		HBox.setHgrow(s, Priority.ALWAYS);
+		
+		Label scorebar = gameLoop.getGameScorebar();
+		
+		controls.getChildren().addAll(playButton, s, scorebar);
+		
+		return controls;
 	}
 }

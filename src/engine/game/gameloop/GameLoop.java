@@ -6,6 +6,8 @@ import java.util.List;
 import engine.game.Level;
 import engine.game.LevelManager;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 
 /**
@@ -50,6 +52,10 @@ public class GameLoop {
 	
 	public Pane getGameView() {
 		return level1Screen.getGameView();
+	}
+	
+	public Label getGameScorebar() {
+		return level1Screen.getGameScorebar();
 	}
 }
 
