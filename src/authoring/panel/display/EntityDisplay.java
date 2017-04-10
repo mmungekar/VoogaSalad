@@ -4,7 +4,6 @@ import authoring.Workspace;
 import authoring.components.EditableContainer;
 import authoring.components.thumbnail.LiveThumbnail;
 import authoring.components.thumbnail.Thumbnail;
-import authoring.panel.DefaultEntities;
 import authoring.panel.creation.EntityMaker;
 import engine.Entity;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -25,7 +24,6 @@ import javafx.scene.layout.VBox;
 public class EntityDisplay extends EditableContainer {
 
 	private TableView<Entity> table;
-	private DefaultEntities entities;
 
 	/**
 	 * 
@@ -34,10 +32,6 @@ public class EntityDisplay extends EditableContainer {
 		super(workspace, workspace.getResources().getString("EntityDisplayTitle"));
 	}
 	
-	public Entity getSelectedEntity() {
-		return entities.getSelectedEntity();
-	}
-
 	/**
 	 * @return a TableView.
 	 */
@@ -50,7 +44,7 @@ public class EntityDisplay extends EditableContainer {
 		table.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				entities.setSelectedEntity(table.getSelectionModel().getSelectedItem());
+				getWorkspace().getDefaults().setSelectedEntity(table.getSelectionModel().getSelectedItem());
 			}
 		});
 		return table;
@@ -81,16 +75,15 @@ public class EntityDisplay extends EditableContainer {
 	}
 
 	public void addEntity(Entity entity) {
-		if (!entities.getEntities().contains(entity)) {
-			entities.getEntities().add(entity);
+		if (!getWorkspace().getDefaults().getEntities().contains(entity)) {
+			getWorkspace().getDefaults().getEntities().add(entity);
 		}
 	}
 
 	@Override
 	public void createContainer() {
-		entities = new DefaultEntities();
 		table = makeTable();
-		table.setItems(entities.getEntities());
+		table.setItems(getWorkspace().getDefaults().getEntities());
 		table.getColumns().add(makeEntityColumn());
 		setCenter(table);
 	}
@@ -109,7 +102,7 @@ public class EntityDisplay extends EditableContainer {
 	@Override
 	public void delete() {
 		if (selectionExists(table.getSelectionModel().getSelectedItem()))
-			entities.getEntities().remove(table.getSelectionModel().getSelectedItem());
+			getWorkspace().getDefaults().getEntities().remove(table.getSelectionModel().getSelectedItem());
 	}
 
 }

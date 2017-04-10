@@ -9,7 +9,6 @@ import authoring.views.ConcreteView;
 import authoring.views.View;
 import engine.Entity;
 import engine.Event;
-import engine.entities.CharacterEntity;
 import engine.game.EngineController;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
@@ -103,6 +102,10 @@ public class EntityMaker {
 	}
 	
 	public void save() {
+		if (entityInfo.getName().trim().equals("")) {
+			showMessage(workspace.getResources().getString("EmptyName"));
+			return;
+		}
 		entity.nameProperty().set(entityInfo.getName());
 		entity.imagePathProperty().set(entityInfo.getImagePath());
 		display.addEntity(entity);

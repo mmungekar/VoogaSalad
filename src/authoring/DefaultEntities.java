@@ -1,6 +1,7 @@
-package authoring.panel;
+package authoring;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import engine.Entity;
 import engine.entities.CharacterEntity;
@@ -20,12 +21,16 @@ public class DefaultEntities {
 	 * 
 	 */
 	public DefaultEntities() {
-		entities = FXCollections.observableArrayList(new ArrayList<Entity>());
+		setEntities(new ArrayList<Entity>());
 		entities.add(new CharacterEntity());
 	}
 	
 	public ObservableList<Entity> getEntities() {
 		return entities;
+	}
+	
+	public void setEntities(List<Entity> entities) {
+		this.entities = FXCollections.observableArrayList(entities);
 	}
 	
 	public Entity getSelectedEntity() {
