@@ -4,6 +4,10 @@ import engine.Action;
 import engine.Entity;
 
 public class ZeroHorizontalSpeedAction extends Action {
+	
+	public ZeroHorizontalSpeedAction(){
+		super(null);
+	}
 
 	public ZeroHorizontalSpeedAction(Entity entity) {
 		super(entity);

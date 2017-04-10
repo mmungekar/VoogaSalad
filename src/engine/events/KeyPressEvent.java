@@ -7,6 +7,8 @@ import javafx.scene.input.KeyCode;
 
 public class KeyPressEvent extends Event {
 	
+	public KeyPressEvent(){}
+	
 	public KeyPressEvent(KeyCode keyToListenFor) {
 		addParam(new Parameter("Key", KeyCode.class, keyToListenFor));
 	}

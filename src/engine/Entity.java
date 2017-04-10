@@ -14,8 +14,6 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	private double xSpeed, ySpeed, xAcceleration, yAcceleration;
 	private List<Event> events;
 	private String name, imagePath;
-	
-	public Entity(){}
 
 	public Entity(String name, String imagePath) {
 		super("Entity");
