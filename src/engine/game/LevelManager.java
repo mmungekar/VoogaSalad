@@ -44,13 +44,19 @@ public class LevelManager {
 	public Level getCurrentLevel() {
 		return levels.get(currentLevel - 1);
 	}
-
-	public void moveToNextLevel(){
-		currentLevel++;
-	}
 	
-	public void setLevelNumber(int currentLevel){
-		 this.currentLevel = currentLevel;
+	/**
+	 * Returns true if in range and successfully set level. Otherwise, returns false and 
+	 * currentLevel remains unchanged.
+	 * @param currentLevel
+	 * @return
+	 */
+	public boolean setLevelNumber(int currentLevel){
+		boolean inRange = !(currentLevel <= 1 || currentLevel > levels.size());
+		if(inRange){
+			this.currentLevel = currentLevel;
+		}
+		return inRange;
 	}
 	
 	public int getLevelNumber(){
