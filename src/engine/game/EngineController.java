@@ -20,15 +20,15 @@ public class EngineController {
 	}
 
 	public List<String> getAllEntities() {
-		return findClasses("engine.entities");
+		return findClasses("engine.entities", "Entity");
 	}
 
 	public List<String> getAllActions() {
-		return findClasses("engine.actions");
+		return findClasses("engine.actions", "Action");
 	}
 
 	public List<String> getAllEvents() {
-		return findClasses("engine.events");
+		return findClasses("engine.events", "Event");
 	}
 
 	public Entity createEntity(String entity) {
@@ -36,7 +36,9 @@ public class EngineController {
 	}
 
 	public Event createEvent(String event) {
-		return (Event) getInstance("engine.events." + getClassName(event, "Event"));
+		Event something = (Event) getInstance("engine.events." + getClassName(event, "Event"));
+		System.out.println(something);
+		return something;
 	}
 
 	public Action createAction(String action) {
@@ -55,15 +57,11 @@ public class EngineController {
 		return "";
 	}
 
-	private List<String> findClasses(String path) {
+	private List<String> findClasses(String path, String type) {
 		List<Class<?>> classes = finder.find(path);
 		return classes.stream().map(s -> {
-			try {
-				GameObject obj = (GameObject) s.getDeclaredConstructor().newInstance();
-				return obj.getDisplayName();
-			} catch (Exception e) {
-				return null;
-			}
+			resources = ResourceBundle.getBundle("resources/" + type);
+			return resources.getString(s.getSimpleName().toString());
 		}).collect(Collectors.toList());
 	}
 
