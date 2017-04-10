@@ -5,7 +5,11 @@ import java.util.List;
 
 import engine.game.Level;
 import engine.game.LevelManager;
+import engine.graphics.GraphicsEngine;
+import engine.graphics.cameras.ScrollingCamera;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 
 /**
@@ -18,38 +22,37 @@ public class GameLoop {
 	private ObservableBundle observableBundle;
 	private LevelManager levelManager;
 	private Screen level1Screen;
-	//private Screen levelSelectionScreen;
-	//private List<Screen> levelScreens;
+	private GraphicsEngine graphicsEngine;
 	
 	public GameLoop(Scene gameScene, String gameFilename){
+		//Instantiate GraphicsEngine
+		graphicsEngine = new GraphicsEngine();
+		
 		// Setup Observables - at beginning of entire game only
 		observableBundle = new ObservableBundle();
 		
 		// Setup levelManager
-		levelManager = new LevelManager();
-		levelManager.loadAllSavedLevels(gameFilename);
+		levelManager = new LevelManager(gameFilename);
+		//levelManager.loadAllSavedLevels();  //now done within LevelStepStrategy to refresh levels when they restart
 		
-		//Instantiate Screens and their StepStrategies  //TODO Add LevelSelectionStrategy screen
-		//levelSelectionScreen.setNextScreen(nextScreen);
-		/*
-		levelSelectionScreen = new Screen(new LevelSelectionStrategy(), null, observableBundle, levelManager, gameScene);
-		for(Level level : levelManager.getLevels().getListRepresentation()){ //TODO replace with custom iterator!
-			levelManage
-			levelManager.moveToNextLevel();
-		}
-		*/
-		List<Screen> screenList = new ArrayList<>();
-		level1Screen = new Screen(new LevelStepStrategy(), screenList, observableBundle, levelManager, gameScene);
-		screenList.add(level1Screen);
-		
+		//Setup the first level screen
+		level1Screen = new Screen(new LevelStepStrategy(), observableBundle, levelManager, gameScene, graphicsEngine);
 	}
 	
 	public void startTimeline(){
 		level1Screen.start();
 	}
 	
+	public void pauseTimeline(){
+		level1Screen.pause();
+	}
+	
 	public Pane getGameView() {
-		return level1Screen.getGameView();
+		return graphicsEngine.getView();
+	}
+	
+	public Label getGameScorebar() {
+		return graphicsEngine.getScorebarDisplay();
 	}
 }
 

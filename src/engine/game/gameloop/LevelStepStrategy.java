@@ -8,9 +8,8 @@ import engine.Event;
 import engine.actions.DieAction;
 import engine.actions.JumpAction;
 import engine.actions.MoveAction;
-import engine.actions.ShiftHorizontalAction;
 import engine.actions.WalkAction;
-import engine.actions.ZeroVerticalSpeedAction;
+import engine.actions.ZeroDownSpeedAction;
 import engine.actions.ZeroHorizontalSpeedAction;
 import engine.entities.BlockEntity;
 import engine.entities.CharacterEntity;
@@ -23,6 +22,7 @@ import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 import engine.graphics.cameras.ScrollingCamera;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 
@@ -34,22 +34,21 @@ public class LevelStepStrategy implements StepStrategy{
 	private Screen screen;
 
 	@Override
-	public void setup(ObservableBundle newObservableBundle, LevelManager levelManager, Scene gameScene, Screen screen) {
+	public void setup(ObservableBundle newObservableBundle, LevelManager levelManager, Scene gameScene, Screen screen, GraphicsEngine graphicsEngine) {
 		this.observableBundle = newObservableBundle;
 		this.levelManager = levelManager;
 		this.gameScene = gameScene;
+		this.graphicsEngine = graphicsEngine;
 		this.screen = screen;
+		
+		levelManager.loadAllSavedLevels(); //To reset initial state of level TODO get filename here
 		
 		instantiateTestEntitesEventsActions();
 		
 		connectObservablesToLevels();
 		setLevelStepStrategyInDieActions();
-		levelManager.startCurrentLevel(); //TODO sets Entities to initial conditions - need to ask Nikita how to do this
+		//levelManager.startCurrentLevel(); //TODO sets Entities to initial conditions - need to ask Nikita how to do this
 		setupGameView();
-	}
-
-	public Pane getGameView() {
-		return graphicsEngine.getView();
 	}
 	
 	@Override
@@ -74,17 +73,20 @@ public class LevelStepStrategy implements StepStrategy{
 	 */
 	public void endLevel(boolean gameOver){
 		//Do not check timeIsUp() here, rather, set up TimerEvent with time = 0 and attach a DieAction, which will call this method when appropriate
+		StepStrategy nextStepStrategy;
 		if(gameOver){
-			System.out.println("Out of lives -- Game over!");  //TODO set next screen here
-			screen.setNextScreen(screen);  //TODO set next screen to level selection screen
+			System.out.println("Out of lives -- Game over!");
+			//screen.setNextScreen(screen);   //TODO get rid of next screen parameter - no need to keep track of!
+			nextStepStrategy = new GameOverStepStrategy();
 		}
 		else{
 			System.out.println("You lost a life.");
-			graphicsEngine.fillScreenWithText("GAME OVER");
-			screen.setNextScreen(screen); //TODO set next screen to current one
+			//screen.setNextScreen(screen);
+			nextStepStrategy = new LoseLifeStepStrategy();
 		}
 		screen.getTimeline().stop();
-		//screen.getNextScreen().getTimeline().play();
+		Screen nextScreen = new Screen(nextStepStrategy, observableBundle, levelManager, gameScene, graphicsEngine);
+		nextScreen.getTimeline().play();
 	}
 	
 	private void printStepData(){
@@ -116,8 +118,9 @@ public class LevelStepStrategy implements StepStrategy{
 	
 	private void setupGameView() {
 		//TODO: set the camera x/y speed
-		graphicsEngine = new GraphicsEngine();
+		//TODO call graphicsEngine.setCamera() (or something like that) to here
 		graphicsEngine.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
+		graphicsEngine.setScorebar(new Scorebar(levelManager));
 	}
 	
 	public void startNextLevel(){
@@ -176,7 +179,7 @@ public class LevelStepStrategy implements StepStrategy{
 		CollisionEvent groundCollision = new CollisionEvent();
 		groundCollision.setCollision(new Collision(mario,block, CollisionSide.TOP));
 		block.addEvent(groundCollision);
-		groundCollision.addAction(new ZeroVerticalSpeedAction(mario));
+		groundCollision.addAction(new ZeroDownSpeedAction(mario));
 		
 		levelManager.getCurrentLevel().getEntities().add(mario);
 		levelManager.getCurrentLevel().getEntities().add(block);

@@ -111,7 +111,7 @@ public class OldGameLoopBackup {
 	}
 	
 	private void setupGameView() {
-		graphicsEngine = new GraphicsEngine(new ScrollingCamera(0.5,0));
+		graphicsEngine = new GraphicsEngine();
 		graphicsEngine.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
 		//TODO: Remove the following (just for tests)
 		Entity mario = new CharacterEntity("Mario", "file:" + System.getProperty("user.dir") + "/src/resources/images/mario.png");
