@@ -12,6 +12,8 @@ public abstract class GameObject {
 	private Entity entity;
 	private ResourceBundle gameObjectExceptions = ResourceBundle.getBundle("resources/GameObjectExceptions");
 
+	public GameObject(){}
+	
 	public GameObject(String name) {
 		resources = ResourceBundle.getBundle("resources/" + name);
 		params = new ArrayList<Parameter>();
