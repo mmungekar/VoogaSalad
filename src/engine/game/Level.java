@@ -18,10 +18,12 @@ import engine.game.timer.TimerManager;
 public class Level implements LevelInterface, Selectable{
 	private List<Entity> entities;
 	private TimerManager timerManager;
+	private Level initialState;
 	
 	public Level(){
 		entities = new ArrayList<>();
 		timerManager = new TimerManager(10, false); //TODO figure out how to get "60" from Authoring
+		initialState = null;
 	}
 	
 	/**
@@ -77,13 +79,16 @@ public class Level implements LevelInterface, Selectable{
 		
 	}
 	
+	/*
 	public void start(){
-		setToInitialConditions();
+		setToInitialState();
 	}
 	
-	private void setToInitialConditions(){
-		System.out.println("Setting to initial conditions");  //TODO For testing
+	private void setToInitialState(){
+		System.out.println("Setting to initial conditions");
+		
 	}
+	*/
 	
 	public TimerManager getTimerManager(){
 		return timerManager;

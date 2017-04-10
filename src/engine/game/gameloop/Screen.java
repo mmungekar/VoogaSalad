@@ -3,6 +3,7 @@ package engine.game.gameloop;
 import java.util.List;
 
 import engine.game.LevelManager;
+import engine.graphics.GraphicsEngine;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
@@ -16,23 +17,14 @@ import javafx.util.Duration;
  * @author Matthew Barbano
  */
 public class Screen{
-	public static final int FRAME_TIME_MILLISECONDS = 20;
-	private List<Screen> possibleNextScreens; //immutable
+	public static final int FRAME_TIME_MILLISECONDS = 10;
 	private StepStrategy currentStepStrategy; //immutable
-	private Screen nextScreen; //not immutable
 	private Timeline timeline;
 	
-	public Screen(StepStrategy currentStepStrategy, List<Screen> possibleNextStepStrategies, ObservableBundle observableBundle, LevelManager levelManager, Scene gameScene){
+	public Screen(StepStrategy currentStepStrategy, ObservableBundle observableBundle, LevelManager levelManager, Scene gameScene, GraphicsEngine graphicsEngine){
 		this.currentStepStrategy = currentStepStrategy;
-		this.possibleNextScreens = possibleNextStepStrategies;
-		if(possibleNextStepStrategies == null || possibleNextStepStrategies.size() == 0){
-			nextScreen = null;
-		}
-		else{
-			nextScreen = possibleNextStepStrategies.get(0);
-		}
 		setupTimeline();
-		currentStepStrategy.setup(observableBundle, levelManager, gameScene, this);
+		currentStepStrategy.setup(observableBundle, levelManager, gameScene, this, graphicsEngine);
 	}
 	
 	private void setupTimeline(){
@@ -47,7 +39,7 @@ public class Screen{
 		timeline.play();
 	}
 	
-	public void step(){
+	private void step(){
 		currentStepStrategy.step();
 		//Make sure to call start() for the next screen when implement in StepStrategy subclasses! - no need for step() in GameLoop anymore
 	}
@@ -56,26 +48,7 @@ public class Screen{
 		return currentStepStrategy;
 	}
 	
-	public List<Screen> getPossibleNextScreens(){
-		 return possibleNextScreens;
-	}
-	
-	public Screen getNextScreen(){
-		 return nextScreen;
-	}
-	
 	public Timeline getTimeline(){
 		return timeline;
-	}
-	
-	public void setNextScreen(Screen nextScreen){
-		 if(possibleNextScreens.indexOf(nextScreen) == -1){
-			  //TODO throw a VoogaException
-		 }
-		 this.nextScreen = nextScreen;
-	}
-	
-	public Pane getGameView(){
-		 return currentStepStrategy.getGameView();
 	}
 }

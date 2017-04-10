@@ -34,22 +34,21 @@ public class LevelStepStrategy implements StepStrategy{
 	private Screen screen;
 
 	@Override
-	public void setup(ObservableBundle newObservableBundle, LevelManager levelManager, Scene gameScene, Screen screen) {
+	public void setup(ObservableBundle newObservableBundle, LevelManager levelManager, Scene gameScene, Screen screen, GraphicsEngine graphicsEngine) {
 		this.observableBundle = newObservableBundle;
 		this.levelManager = levelManager;
 		this.gameScene = gameScene;
+		this.graphicsEngine = graphicsEngine;
 		this.screen = screen;
+		
+		levelManager.loadAllSavedLevels(); //To reset initial state of level TODO get filename here
 		
 		instantiateTestEntitesEventsActions();
 		
 		connectObservablesToLevels();
 		setLevelStepStrategyInDieActions();
-		levelManager.startCurrentLevel(); //TODO sets Entities to initial conditions - need to ask Nikita how to do this
+		//levelManager.startCurrentLevel(); //TODO sets Entities to initial conditions - need to ask Nikita how to do this
 		setupGameView();
-	}
-
-	public Pane getGameView() {
-		return graphicsEngine.getView();
 	}
 	
 	@Override
@@ -74,16 +73,20 @@ public class LevelStepStrategy implements StepStrategy{
 	 */
 	public void endLevel(boolean gameOver){
 		//Do not check timeIsUp() here, rather, set up TimerEvent with time = 0 and attach a DieAction, which will call this method when appropriate
+		StepStrategy nextStepStrategy;
 		if(gameOver){
-			System.out.println("Out of lives -- Game over!");  //TODO set next screen here
-			screen.setNextScreen(screen);  //TODO set next screen to level selection screen
+			System.out.println("Out of lives -- Game over!");
+			//screen.setNextScreen(screen);   //TODO get rid of next screen parameter - no need to keep track of!
+			nextStepStrategy = new GameOverStepStrategy();
 		}
 		else{
 			System.out.println("You lost a life.");
-			screen.setNextScreen(screen); //TODO set next screen to current one
+			//screen.setNextScreen(screen);
+			nextStepStrategy = new LoseLifeStepStrategy();
 		}
 		screen.getTimeline().stop();
-		//screen.getNextScreen().getTimeline().play();
+		Screen nextScreen = new Screen(nextStepStrategy, observableBundle, levelManager, gameScene, graphicsEngine);
+		nextScreen.getTimeline().play();
 	}
 	
 	private void printStepData(){
@@ -115,7 +118,7 @@ public class LevelStepStrategy implements StepStrategy{
 	
 	private void setupGameView() {
 		//TODO: set the camera x/y speed
-		graphicsEngine = new GraphicsEngine(new ScrollingCamera(0,0));
+		//TODO call graphicsEngine.setCamera() (or something like that) to here
 		graphicsEngine.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
 	}
 	
