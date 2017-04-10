@@ -5,6 +5,10 @@ import engine.Entity;
 import engine.Parameter;
 
 public class WalkAction extends Action {
+	
+	public WalkAction(){
+		super(null);
+	}
 
 	public WalkAction(Entity entity, double walkSpeed) {
 		super(entity);

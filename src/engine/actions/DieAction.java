@@ -14,6 +14,7 @@ import engine.game.gameloop.LevelStepStrategy;
 public class DieAction extends Action{
 	private LevelStepStrategy levelStepStrategy;
 	
+
 	public DieAction() {
 		super(null);
 	}

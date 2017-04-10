@@ -5,6 +5,10 @@ import engine.Entity;
 import engine.Parameter;
 
 public class JumpAction extends Action {
+	
+	public JumpAction(){
+		super(null);
+	}
 
 	public JumpAction(Entity entity, double jumpHeight) {
 		super(entity);
