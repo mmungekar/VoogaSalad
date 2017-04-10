@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import authoring.Workspace;
 import authoring.components.ComponentMaker;
@@ -157,15 +158,23 @@ public class LayerEditor extends View {
 	public int getLayerCount(){
 		return layerCount;
 	}
-
+/*
+ * ALERT: DO NOT TRY DELETING LAYER 1. NUMBERING OF THE LAYERS MIGHT ALSO BE MESSED UP
+ */
 	public void deleteLayer(int layer) {
-		selectNewLayer(layer-1);
+		//selectNewLayer(layer-1);
 		if(layerEntities.get(layer).size()!=0){
 		layerEntities.get(layer).stream().forEach(id->{
 		canvas.removeEntity(id);
 		});
 		}
 		layerEntities.remove(layer);
+		List<Integer> changedValues = layerEntities.keySet().stream().filter(elt-> elt>layer).map(elt -> elt-1).collect(Collectors.toList());
+		changedValues.stream().forEach(id->{
+			layerEntities.put(id,layerEntities.get(id+1));
+		});
+		layerCount--;
+		workspace.selectExistingLevel(layerCount);
 	}
 
 }

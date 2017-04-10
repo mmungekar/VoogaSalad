@@ -48,6 +48,7 @@ public class LayerPanel extends View {
 		Button addLayerButton = new ActionButton("Add Layer", event ->workspace.addLayer());
 		Button deleteLayerButton = new ActionButton("Delete Layer", event ->{
 			int layer = Integer.parseInt(((String)myBox.getSelectionModel().getSelectedItem()).split(" ")[1]);
+			myBox.setValue((layer==1 ? String.format("Layer %d", layer):String.format("Layer %d", layer-1)));
 			workspace.deleteLayer(layer);
 		});
 		initLayerSelector();
@@ -85,7 +86,9 @@ public class LayerPanel extends View {
 
 		            @Override
 		            public void changed(ObservableValue arg0, Object arg1, Object arg2) {
+		            	if(arg2!=null){
 		            	workspace.selectLayer(Integer.parseInt(((String)arg2).split(" ")[1]));
+		            	}
 		            }
 		        });
 	}
