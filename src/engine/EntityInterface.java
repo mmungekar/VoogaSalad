@@ -27,6 +27,8 @@ public interface EntityInterface {
 
 	void setWidth(double width);
 
+	String getName();
+	
 	String getImagePath();
 
 	double getWidth();

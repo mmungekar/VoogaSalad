@@ -7,7 +7,7 @@ import java.io.File;
 
 import authoring.Workspace;
 import authoring.components.ComponentMaker;
-import authoring.components.Thumbnail;
+import authoring.components.thumbnail.FixedThumbnail;
 import authoring.views.View;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -29,7 +29,7 @@ public class EntityInfo extends View {
 	private EntityMaker editor;
 	private ComponentMaker componentMaker;
 	private TextField nameField;
-	private Thumbnail thumbnail;
+	private FixedThumbnail thumbnail;
 
 	/**
 	 * @param title
@@ -51,12 +51,12 @@ public class EntityInfo extends View {
 		Label nameLabel = new Label(workspace.getResources().getString("TitlePrompt"));
 		nameField = new TextField();
 		nameField.setPrefWidth(100);
-		nameField.setText(editor.getEntityWrapper().getName().get());
+		nameField.setText(editor.getEntity().nameProperty().get());
 		nameBox.getChildren().addAll(nameLabel, nameField);
 		nameBox.setAlignment(Pos.CENTER);
 
 		VBox imageBox = new VBox(20);
-		thumbnail = new Thumbnail(editor.getEntityWrapper().getImagePath(), 50, 50);
+		thumbnail = new FixedThumbnail(editor.getEntity().getImagePath(), 50, 50);
 		Button pickButton = componentMaker.makeButton("PickButton", e -> pickImage(), true);
 		imageBox.getChildren().addAll(thumbnail, pickButton);
 		imageBox.setAlignment(Pos.CENTER);

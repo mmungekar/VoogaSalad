@@ -1,8 +1,6 @@
-/**
- * 
- */
 package authoring;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -10,11 +8,14 @@ import java.util.ResourceBundle;
 import authoring.canvas.LevelEditor;
 import authoring.components.ComponentMaker;
 import authoring.panel.Panel;
-import authoring.utils.EntityWrapper;
 import authoring.views.View;
+import engine.Entity;
+import game_data.Game;
+import game_data.GameData;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.SplitPane;
+import javafx.stage.DirectoryChooser;
 
 /**
  * @author Elliott Bolzan Modified by Mina Mungekar, Jimmy Shackford
@@ -23,23 +24,36 @@ import javafx.scene.control.SplitPane;
 public class Workspace extends View {
 
 	private ResourceBundle resources;
+	private ComponentMaker maker;
+	private GameData data;
+
+	private SplitPane pane;
 	private LevelEditor levelEditor;
 	private Panel panel;
-	private SplitPane pane;
+
+	private Game game;
+	private DefaultEntities defaults;
 
 	/**
 	 * 
 	 */
-	public Workspace(ResourceBundle resources) {
+	public Workspace(ResourceBundle resources, String path) {
 		super("Workspace");
 		this.resources = resources;
 		setup();
+		game = new Game();
+		if (!path.equals("")) {
+			load(path);
+		}
 	}
 
 	/**
 	 * Initializes the Workspace's components.
 	 */
 	private void setup() {
+		data = new GameData();
+		maker = new ComponentMaker(resources);
+		defaults = new DefaultEntities();
 		pane = new SplitPane();
 		panel = new Panel(this, 0);
 		levelEditor = new LevelEditor(this);
@@ -47,6 +61,27 @@ public class Workspace extends View {
 		pane.setDividerPositions(Double.parseDouble(resources.getString("DividerPosition")));
 		setPadding(new Insets(Integer.parseInt(resources.getString("WorkSpaceInsets"))));
 		setCenter(pane);
+	}
+
+	private void load(String path) {
+		game = data.loadGame(path);
+		defaults.setEntities(game.getDefaults());
+		// load levels into canvas
+		// load settings: game name, music
+	}
+
+	public void save() {
+		// Levels and Settings must already be saved into game.
+		String path = "";
+		String outputFolder = new File(resources.getString("GamesPath")).getAbsolutePath();
+		DirectoryChooser chooser = maker.makeDirectoryChooser(outputFolder, "GameSaverTitle");
+		File selectedDirectory = chooser.showDialog(getScene().getWindow());
+		if (selectedDirectory != null) {
+			path = selectedDirectory.getAbsolutePath();
+		}
+		if (!path.equals("")) {
+			data.saveGame(game, path);
+		}
 	}
 
 	public ResourceBundle getResources() {
@@ -57,13 +92,16 @@ public class Workspace extends View {
 		return pane;
 	}
 
-	public EntityWrapper getSelectedEntity() {
-		return panel.getEntityDisplay().getSelectedEntity();
+	public DefaultEntities getDefaults() {
+		return defaults;
+	}
+
+	public Entity getSelectedEntity() {
+		return defaults.getSelectedEntity();
 	}
 
 	public void showMessage(String message) {
-		ComponentMaker componentMaker = new ComponentMaker(resources);
-		componentMaker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message).showAndWait();
+		maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message).showAndWait();
 	}
 
 	public List getEntities() {
@@ -82,5 +120,9 @@ public class Workspace extends View {
 	public void selectLayer(int arg2) {
 		levelEditor.getCurrentLevel().selectNewLayer(arg2);
 	}
-	
+
+	public void selectExistingLevel(int newLevelNum) {
+		panel.selectExistingLevelBox(newLevelNum);
+	}
+
 }

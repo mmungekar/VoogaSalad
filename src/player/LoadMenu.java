@@ -9,7 +9,7 @@ public class LoadMenu extends AbstractMenu{
 		super(stage);
 		
 		//TODO: make a better menu for launching the game
-		Button playButton = this.getFactory().makeButton("StartButton", e -> new Player(), true);
+		Button playButton = this.getFactory().makeButton("StartButton", e -> new Player(), false);
 		this.getRoot().setCenter(playButton);
 	}
 

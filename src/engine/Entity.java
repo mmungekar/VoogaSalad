@@ -6,15 +6,20 @@ import java.util.stream.Collectors;
 
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
 
 public abstract class Entity extends GameObject implements EntityInterface, Cloneable {
 
 	public static final Integer ACCELERATION = 1;
 	private SimpleDoubleProperty x, y, width, height, zIndex;
+	private SimpleStringProperty name, imagePath;
 	private double xSpeed, ySpeed, xAcceleration, yAcceleration;
 	private List<Event> events;
-	private String name, imagePath;
 
+	public Entity() {
+		this("Default", "resources/images/mario.png");
+	}
+	
 	public Entity(String name, String imagePath) {
 		super("Entity");
 		x = new SimpleDoubleProperty();
@@ -23,14 +28,14 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		height = new SimpleDoubleProperty();
 		zIndex = new SimpleDoubleProperty();
 		events = new ArrayList<Event>();
-		this.name = name;
-		this.imagePath = imagePath;
 		events = new ArrayList<Event>();
+		this.name = new SimpleStringProperty(name);
+		this.imagePath = new SimpleStringProperty(imagePath);
 		addParam(new Parameter("Time Step", Double.class, 0.5));
 	}
 
 	public Entity(Entity entity) {
-		this(entity.getName(), entity.getImagePath());
+		this();
 		for (Event event : entity.events) {
 			this.addEvent(event);
 		}
@@ -63,6 +68,16 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	public void setX(double x) {
 		this.x.set(x);
 	}
+	
+	@Override
+	public String getName() {
+		return this.name.get();
+	}
+	
+	@Override
+	public String getImagePath() {
+		return this.imagePath.get();
+	}
 
 	public ReadOnlyDoubleProperty xReadOnlyProperty() {
 		return ReadOnlyDoubleProperty.readOnlyDoubleProperty(x);
@@ -86,6 +101,14 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 
 	public SimpleDoubleProperty widthProperty() {
 		return width;
+	}
+	
+	public SimpleStringProperty nameProperty() {
+		return name;
+	}
+	
+	public SimpleStringProperty imagePathProperty() {
+		return imagePath;
 	}
 
 	@Override
@@ -153,23 +176,6 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	@Override
 	public void setYAcceleration(double yAcceleration) {
 		this.yAcceleration = yAcceleration;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Override
-	public String getImagePath() {
-		return imagePath;
-	}
-
-	public void setImagePath(String imagePath) {
-		this.imagePath = imagePath;
 	}
 
 	@Override
