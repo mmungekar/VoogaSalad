@@ -15,7 +15,7 @@ public class GameLoaderTest {
 		try{
 			
 		String filepath="data/EntityTesting";
-		GameSaver gs = new GameSaver("");
+		GameSaver gs = new GameSaver();
 		Entity mario = new CharacterEntity("Mario","src/resources/images/mario.png");
 		mario.setX(100);
 		mario.setY(55);

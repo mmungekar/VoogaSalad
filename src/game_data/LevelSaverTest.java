@@ -9,7 +9,7 @@ import engine.game.Level;
 
 public class LevelSaverTest {
 	public static void main(String[] args) {
-GameSaver gs = new GameSaver("");
+GameSaver gs = new GameSaver();
 	
 	Entity entity = new CharacterEntity("Guilherme","src/resources/images/mario.png");
 	
