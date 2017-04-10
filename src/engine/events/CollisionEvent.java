@@ -6,7 +6,7 @@ import engine.game.eventobserver.CollisionObservable;
 import engine.Collision;
 import engine.CollisionEventInterface;
 
-public abstract class CollisionEvent extends Event implements CollisionEventInterface {
+public class CollisionEvent extends Event implements CollisionEventInterface {
 
 	private Collision collision;
 
