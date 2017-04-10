@@ -74,7 +74,7 @@ public class Receiver extends Actor implements Runnable {
 		 * (Exception e) { e.printStackTrace(); continue; } } } catch (Exception
 		 * e) { e.printStackTrace(); continue; } }
 		 */
-		socket.setInterface(InetAddress.getByName("10.188.16.255"));
+		socket.setInterface(InetAddress.getByName("10.188.18.167"));
 		socket.joinGroup(InetAddress.getByName(getHost()));
 		return socket;
 	}

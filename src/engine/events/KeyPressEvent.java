@@ -5,19 +5,15 @@ import engine.Parameter;
 import engine.game.eventobserver.InputObservable;
 import javafx.scene.input.KeyCode;
 
-public class InputEvent extends Event {
+public class KeyPressEvent extends Event {
 
-	/**
-	 * need to initialize me with a string, not a keycode (can't instantiate
-	 * KeyCode object)
-	 */
-	public InputEvent() {
-		addParam(new Parameter("Key", KeyCode.class, KeyCode.UNDEFINED));
+	public KeyPressEvent(KeyCode keyToListenFor) {
+		addParam(new Parameter("Key", KeyCode.class, keyToListenFor));
 	}
 
 	@Override	
 	public boolean act(){
-		if (((InputObservable)getEventObservable()).getInputToProcess()){
+		if (((InputObservable)getEventObservable()).isKeyPressToProcess()){
 			if (getParam("Key").equals(((InputObservable) getEventObservable()).getLastPressedKey()))
 				return true;
 		}

@@ -23,9 +23,9 @@ public class CollisionEvent extends Event implements CollisionEventInterface{
 	
 	@Override
 	public boolean act(){
-		collision.setFirstEntity(getEntity());
-		collision.setSecondName((String)getParam("Entity"));
-		for (Collision collision: ((CollisionObservable)getEventObservable()).getCollisions()){ 
+		//collision.setFirstEntity(getEntity());	//TODO: should this just get removed? Currently it doesnt work
+		//collision.setSecondName((String)getParam("Entity"));
+		for (Collision collision : ((CollisionObservable)getEventObservable()).getCollisions()){ 
 			if (collision.equals(this.collision))
 				return true;
 		}
