@@ -27,7 +27,7 @@ public class EventPicker extends Picker {
 	private ComponentMaker maker;
 
 	public EventPicker(Workspace workspace, EntityMaker editor) {
-		super(workspace, "EventPickerTitle");
+		super(workspace, "EventPickerTitle", editor);
 		this.editor = editor;
 		maker = new ComponentMaker(workspace.getResources());
 		update();
@@ -61,7 +61,7 @@ public class EventPicker extends Picker {
 
 	@Override
 	public void createNew() {
-		if (editor.getEntityWrapper() != null) {
+		if (editor.getEntity() != null) {
 			currentlyEditing = null;
 			showEditor();
 		}
@@ -73,14 +73,14 @@ public class EventPicker extends Picker {
 			remove(currentlyEditing);
 		}
 		Event event = (Event) element;
-		event.setEntity(editor.getEntityWrapper().getEntity());
-		editor.getEntityWrapper().getEntity().getEvents().add(event);
+		event.setEntity(editor.getEntity());
+		editor.getEntity().getEvents().add(event);
 		update();
 	}
 
 	@Override
 	public <E> void remove(E element) {
-		editor.getEntityWrapper().getEntity().getEvents().remove((Event) element);
+		editor.getEntity().getEvents().remove((Event) element);
 		update();
 	}
 
@@ -102,7 +102,7 @@ public class EventPicker extends Picker {
 
 	@Override
 	public void update() {
-		list.setItems(FXCollections.observableArrayList(editor.getEntityWrapper().getEntity().getEvents()));
+		list.setItems(FXCollections.observableArrayList(editor.getEntity().getEvents()));
 	}
 	
 	@Override

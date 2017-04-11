@@ -2,10 +2,10 @@ package engine.game.gameloop;
 
 import java.util.ResourceBundle;
 
+import engine.entities.CharacterEntity;
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 
 public abstract class TransitionStepStrategy implements StepStrategy {
 	private static final String RESOURCES_NAME =  "resources/TransitionScreen";
@@ -38,7 +38,7 @@ public abstract class TransitionStepStrategy implements StepStrategy {
 	
 	@Override
 	public void step() {
-		System.out.println("Step in Transition Screen");
+		System.out.println("Step in Transition Screen" + frameNumber);
 		//TODO Could add animation here
 		if(frameNumber == FRAME_DURATION){
 			System.out.println("move to next screen");
@@ -56,6 +56,5 @@ public abstract class TransitionStepStrategy implements StepStrategy {
 		levelManager.setLevelNumber(nextLevelNumber(levelManager));
 		Screen nextScreen = new Screen(getNextStepStrategy(levelManager), observableBundle, levelManager, gameScene, graphicsEngine);
 		nextScreen.getTimeline().play();
-		
 	}
 }

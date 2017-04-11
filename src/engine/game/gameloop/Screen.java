@@ -1,14 +1,10 @@
 package engine.game.gameloop;
 
-import java.util.List;
-
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
 /**
@@ -39,6 +35,10 @@ public class Screen{
 	
 	public void start(){
 		timeline.play();
+	}
+	
+	public void pause(){
+		timeline.pause();
 	}
 	
 	private void step(){

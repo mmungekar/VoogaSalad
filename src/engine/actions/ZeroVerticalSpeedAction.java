@@ -1,13 +1,8 @@
 package engine.actions;
 
 import engine.Action;
-import engine.Entity;
 
-public class ZeroDownSpeedAction extends Action {
-
-	public ZeroDownSpeedAction(Entity entity) {
-		super(entity);
-	}
+public class ZeroVerticalSpeedAction extends Action {
 
 	@Override
 	public void act() {
@@ -15,5 +10,4 @@ public class ZeroDownSpeedAction extends Action {
 			getEntity().setYSpeed(0);
 		}
 	}
-
 }

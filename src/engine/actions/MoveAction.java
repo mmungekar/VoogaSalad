@@ -5,10 +5,6 @@ import engine.Entity;
 
 public class MoveAction extends Action {
 
-	public MoveAction(Entity entity) {
-		super(entity);
-	}
-
 	@Override
 	public void act() {
 		Entity entity = getEntity();

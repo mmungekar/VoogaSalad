@@ -25,7 +25,7 @@ public class ActionPicker extends Picker {
 	private ComponentMaker maker;
 
 	public ActionPicker(Workspace workspace, EntityMaker editor) {
-		super(workspace, "ActionPickerTitle");
+		super(workspace, "ActionPickerTitle", editor);
 		this.editor = editor;
 		maker = new ComponentMaker(workspace.getResources());
 		update();
@@ -53,7 +53,7 @@ public class ActionPicker extends Picker {
 
 	@Override
 	public void createNew() {
-		if (editor.getSelectedEvent() != null && editor.getEntityWrapper() != null) {
+		if (editor.getSelectedEvent() != null && editor.getEntity() != null) {
 			currentlyEditing = null;
 			showEditor();
 		} else {
@@ -67,7 +67,7 @@ public class ActionPicker extends Picker {
 			remove(currentlyEditing);
 		}
 		Action action = (Action) element;
-		action.setEntity(editor.getEntityWrapper().getEntity());
+		action.setEntity(editor.getEntity());
 		editor.getSelectedEvent().getActions().add(action);
 		update();
 	}

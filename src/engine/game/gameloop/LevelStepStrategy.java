@@ -9,8 +9,8 @@ import engine.actions.DieAction;
 import engine.actions.JumpAction;
 import engine.actions.MoveAction;
 import engine.actions.WalkAction;
-import engine.actions.ZeroDownSpeedAction;
 import engine.actions.ZeroHorizontalSpeedAction;
+import engine.actions.ZeroVerticalSpeedAction;
 import engine.entities.BlockEntity;
 import engine.entities.CharacterEntity;
 import engine.events.AlwaysEvent;
@@ -20,11 +20,8 @@ import engine.events.KeyReleaseEvent;
 import engine.events.TimerEvent;
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
-import engine.graphics.cameras.ScrollingCamera;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.Pane;
 
 public class LevelStepStrategy implements StepStrategy{
 	private ObservableBundle observableBundle;
@@ -49,10 +46,6 @@ public class LevelStepStrategy implements StepStrategy{
 		setLevelStepStrategyInDieActions();
 		//levelManager.startCurrentLevel(); //TODO sets Entities to initial conditions - need to ask Nikita how to do this
 		setupGameView();
-	}
-	
-	public Label getGameScorebar() {
-		return graphicsEngine.getScorebarDisplay();
 	}
 	
 	@Override
@@ -121,9 +114,9 @@ public class LevelStepStrategy implements StepStrategy{
 	}
 	
 	private void setupGameView() {
-		//TODO: set the camera x/y speed
-		//TODO call graphicsEngine.setCamera() (or something like that) to here
+		//TODO call graphicsEngine.setCamera() here
 		graphicsEngine.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
+		graphicsEngine.setScorebar(new Scorebar(levelManager));
 	}
 	
 	public void startNextLevel(){
@@ -133,56 +126,75 @@ public class LevelStepStrategy implements StepStrategy{
 	//Temporary, for testing
 	private void instantiateTestEntitesEventsActions(){
 		//TEST - TODO ask Nikita, etc. how GAE does this
-		Entity mario = new CharacterEntity("Mario", "file:" + System.getProperty("user.dir") + "/src/resources/images/mario.png");
+		Entity mario = new CharacterEntity();
 		mario.setX(200);
 		mario.setY(200);
 		mario.setWidth(100);
 		mario.setHeight(100);
 		
-		Entity block = new BlockEntity("Block", "file:" + System.getProperty("user.dir") + "/src/resources/images/block.png");
+		Entity block = new BlockEntity();
 		block.setX(200);
 		block.setY(400);
 		block.setWidth(100);
 		block.setHeight(100);
+		block.setImagePath("resources/images/block.png");
 		
 		TimerEvent timeRunsOut = new TimerEvent(); //trigger time currently hardcoded to 0 in constructor
 		timeRunsOut.setComparsion(true, true);
 		mario.addEvent(timeRunsOut);
-		DieAction die = new DieAction(mario);
+		DieAction die = new DieAction();
+		die.setEntity(mario);
 		timeRunsOut.addAction(die);
 		
-		KeyPressEvent upPressed = new KeyPressEvent(KeyCode.UP); 
+		KeyPressEvent upPressed = new KeyPressEvent(); 
+		upPressed.updateParam("Key", KeyCode.UP);
 		mario.addEvent(upPressed);
-		JumpAction jump = new JumpAction(mario, 15.0); 
+		JumpAction jump = new JumpAction(); 
+		jump.setEntity(mario);
+		jump.updateParam("Max Jump Height", 15.0);
+		jump.updateParam("Jump Duration", 1.0);
 		upPressed.addAction(jump);
 		
-		KeyPressEvent rightPressed = new KeyPressEvent(KeyCode.RIGHT);
+		KeyPressEvent rightPressed = new KeyPressEvent();
+		rightPressed.updateParam("Key", KeyCode.RIGHT);
 		mario.addEvent(rightPressed);
-		WalkAction stepRight = new WalkAction(mario, 5.0);
+		WalkAction stepRight = new WalkAction();
+		stepRight.setEntity(mario);
+		stepRight.updateParam("Walk Speed", 5.0);
 		rightPressed.addAction(stepRight);
 		
-		KeyPressEvent leftPressed = new KeyPressEvent(KeyCode.LEFT);
+		KeyPressEvent leftPressed = new KeyPressEvent();
+		leftPressed.updateParam("Key", KeyCode.LEFT);
 		mario.addEvent(leftPressed);
-		WalkAction stepLeft = new WalkAction(mario, -5.0);
+		WalkAction stepLeft = new WalkAction();
+		stepLeft.setEntity(mario);
+		stepLeft.updateParam("Walk Speed", -5.0);
 		leftPressed.addAction(stepLeft);
 		
-		KeyReleaseEvent rightReleased = new KeyReleaseEvent(KeyCode.RIGHT);
+		KeyReleaseEvent rightReleased = new KeyReleaseEvent();
+		rightReleased.updateParam("Key", KeyCode.RIGHT);
 		mario.addEvent(rightReleased);
-		ZeroHorizontalSpeedAction stopWalking = new ZeroHorizontalSpeedAction(mario);
+		ZeroHorizontalSpeedAction stopWalking = new ZeroHorizontalSpeedAction();
+		stopWalking.setEntity(mario);
 		rightReleased.addAction(stopWalking);
 		
-		KeyReleaseEvent leftReleased = new KeyReleaseEvent(KeyCode.LEFT);
+		KeyReleaseEvent leftReleased = new KeyReleaseEvent();
+		leftReleased.updateParam("Key", KeyCode.LEFT);
 		mario.addEvent(leftReleased);
 		leftReleased.addAction(stopWalking);
 		
-		AlwaysEvent movement = new AlwaysEvent();
-		mario.addEvent(movement);
-		movement.addAction(new MoveAction(mario));
+		AlwaysEvent marioAlways = new AlwaysEvent();
+		mario.addEvent(marioAlways);
+		MoveAction movement = new MoveAction();
+		movement.setEntity(mario);
+		marioAlways.addAction(movement);
 		
 		CollisionEvent groundCollision = new CollisionEvent();
 		groundCollision.setCollision(new Collision(mario,block, CollisionSide.TOP));
 		block.addEvent(groundCollision);
-		groundCollision.addAction(new ZeroDownSpeedAction(mario));
+		ZeroVerticalSpeedAction stopFalling = new ZeroVerticalSpeedAction();
+		stopFalling.setEntity(mario);
+		groundCollision.addAction(stopFalling);
 		
 		levelManager.getCurrentLevel().getEntities().add(mario);
 		levelManager.getCurrentLevel().getEntities().add(block);

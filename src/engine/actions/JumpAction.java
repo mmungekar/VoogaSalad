@@ -5,11 +5,10 @@ import engine.Entity;
 import engine.Parameter;
 
 public class JumpAction extends Action {
-
-	public JumpAction(Entity entity, double jumpHeight) {
-		super(entity);
-		addParam(new Parameter("Max Jump Height", Double.class, jumpHeight));
-		addParam(new Parameter("Jump Duration", Double.class, 1.0));
+	
+	public JumpAction(){
+		addParam(new Parameter("Max Jump Height", Double.class, 0));
+		addParam(new Parameter("Jump Duration", Double.class, 0));
 	}
 
 	@Override
