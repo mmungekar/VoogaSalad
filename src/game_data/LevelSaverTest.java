@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import engine.Entity;
+import engine.Event;
 import engine.entities.CharacterEntity;
+import engine.events.AlwaysEvent;
 import engine.game.Level;
 
 public class LevelSaverTest {
@@ -21,7 +23,10 @@ GameSaver gs = new GameSaver();
 
 	luigi.setX(100);
 	luigi.setY(55);
-
+	
+	AlwaysEvent event = new AlwaysEvent();
+	luigi.addEvent(event);
+	
 	//C:/Users/Michael8417/workspace/voogasalad_duwaldorf/
 	String filepath="data/SaveTesting";
 	
