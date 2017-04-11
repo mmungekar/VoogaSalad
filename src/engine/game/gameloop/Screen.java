@@ -1,14 +1,10 @@
 package engine.game.gameloop;
 
-import java.util.List;
-
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
 /**
@@ -47,6 +43,7 @@ public class Screen{
 	
 	private void step(){
 		currentStepStrategy.step();
+		game.setCurrentStepStrategy(currentStepStrategy);
 		//Make sure to call start() for the next screen when implement in StepStrategy subclasses! - no need for step() in GameLoop anymore
 	}
 	

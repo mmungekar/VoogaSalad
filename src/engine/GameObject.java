@@ -7,10 +7,10 @@ import java.util.ResourceBundle;
 import exceptions.GameObjectException;
 
 public abstract class GameObject {
-	private ResourceBundle resources;
+	private transient ResourceBundle resources;
 	private List<Parameter> params;
 	private Entity entity;
-	private ResourceBundle gameObjectExceptions = ResourceBundle.getBundle("resources/GameObjectExceptions");
+	private transient ResourceBundle gameObjectExceptions = ResourceBundle.getBundle("resources/GameObjectExceptions");
 
 	public GameObject() {
 	}
