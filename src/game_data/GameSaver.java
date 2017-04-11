@@ -5,6 +5,7 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -38,7 +39,6 @@ public class GameSaver {
 		for (int i = 0; i < levels.size(); i++) {
 
 			List<Entity> entities = new ArrayList<Entity>(levels.get(i).getEntities());
-			System.out.println(levels.get(i).getEntities());
 			List<String> entityfilepaths = new ArrayList<String>();
 
 			for (int j = 0; j < entities.size(); j++) {
@@ -81,8 +81,8 @@ public class GameSaver {
 	public void saveEntityImage(Entity entity, String filepath) {
 		try {
 
-			String sourcepathstring = entity.getImagePath();
-			Path sourcepath = Paths.get(sourcepathstring);
+			String sourcePath = new File(new URI(entity.getImagePath())).getAbsolutePath();
+			Path sourcepath = Paths.get(sourcePath);
 
 			String targetpathstring = filepath + "/images/" + entity.getName() + "image.png";
 			File entityimagefile = new File(targetpathstring);
@@ -93,7 +93,7 @@ public class GameSaver {
 			Path targetpath = Paths.get(targetpathstring);
 			Files.copy(sourcepath, targetpath, REPLACE_EXISTING);
 
-		} catch (IOException i) {
+		} catch (Exception i) {
 			i.printStackTrace();
 		}
 

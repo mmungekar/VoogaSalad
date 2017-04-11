@@ -39,12 +39,10 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		addParam(new Parameter("Time Step", Double.class, 0.5));
 	}
 
-	/*public Entity(Entity entity) {
-		this();
-		for (Event event : entity.events) {
-			this.addEvent(event);
-		}
-	}*/
+	/*
+	 * public Entity(Entity entity) { this(); for (Event event : entity.events)
+	 * { this.addEvent(event); } }
+	 */
 
 	@Override
 	public void update()
@@ -81,18 +79,20 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	{
 		return this.name.get();
 	}
-	
-	public void setName(String name){
+
+	public void setName(String name)
+	{
 		this.name.set(name);
 	}
-	
+
 	@Override
 	public String getImagePath()
 	{
 		return this.imagePath.get();
 	}
-	
-	public void setImagePath(String imagePath){
+
+	public void setImagePath(String imagePath)
+	{
 		this.imagePath.set(imagePath);
 	}
 
@@ -223,11 +223,19 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		return events;
 	}
 
+	public void setEvents(List<Event> events)
+	{
+		this.events = events;
+	}
+
 	@Override
 	public Entity clone()
 	{
 		try {
-			return getClass().getDeclaredConstructor().newInstance();
+			Entity returnedEntity = getClass().getDeclaredConstructor().newInstance();
+			returnedEntity.setImagePath(this.getImagePath());
+			returnedEntity.setName(this.getName());
+			returnedEntity.setEvents(this.getEvents());
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException e) {
 			// TODO: PUT ACTUAL ALERT HERE (this one is fake so that I don't
