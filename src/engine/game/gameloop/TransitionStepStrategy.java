@@ -50,11 +50,19 @@ public abstract class TransitionStepStrategy implements StepStrategy {
 	//protected abstract String getSubclassSpecificText();
 	protected abstract StepStrategy getNextStepStrategy(LevelManager levelManager);
 	protected abstract int nextLevelNumber(LevelManager levelManager);
+	protected abstract boolean hasNextScreen();
 	
 	private void moveToNextScreen(){
 		screen.getTimeline().stop();
-		levelManager.setLevelNumber(nextLevelNumber(levelManager));
-		Screen nextScreen = new Screen(getNextStepStrategy(levelManager), observableBundle, levelManager, gameScene, graphicsEngine);
-		nextScreen.getTimeline().play();
+		boolean hasNextLevel = levelManager.setLevelNumber(nextLevelNumber(levelManager));  //this boolean is just a safety measure, but TransitionStepStrategies should only stay on current level if moving to a new level at all
+		System.out.println("Levelnum = " + levelManager.getLevelNumber());
+		if(hasNextLevel && hasNextScreen()){
+			Screen nextScreen = new Screen(getNextStepStrategy(levelManager), observableBundle, levelManager, gameScene, graphicsEngine);
+			System.out.println(nextScreen);
+			nextScreen.getTimeline().play();
+		}
+		//TODO Throw exception here or do something...
 	}
+	
+	
 }

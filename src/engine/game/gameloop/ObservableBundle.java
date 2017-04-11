@@ -58,6 +58,12 @@ public class ObservableBundle {
 		timerObservable.attach(entity);
 	}
 	
+	public void detachEntityFromAll(Entity entity){
+		inputObservable.detach(entity);
+		collisionObservable.detach(entity);
+		timerObservable.detach(entity);
+	}
+	
 	/**
 	 * Put observable action methods in here to avoid using getters and setters, thus reducing dependencies.
 	 * @param levelManager

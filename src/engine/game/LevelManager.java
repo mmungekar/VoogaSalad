@@ -52,7 +52,7 @@ public class LevelManager {
 	 * @return
 	 */
 	public boolean setLevelNumber(int currentLevel){
-		boolean inRange = !(currentLevel <= 1 || currentLevel > levels.size());
+		boolean inRange = currentLevel >= 1 && currentLevel <= levels.size();
 		if(inRange){
 			this.currentLevel = currentLevel;
 		}

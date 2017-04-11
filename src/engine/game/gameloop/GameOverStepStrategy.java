@@ -28,4 +28,9 @@ public class GameOverStepStrategy extends TransitionStepStrategy {
 	protected int nextLevelNumber(LevelManager levelManager) {
 		return 1;
 	}
+
+	@Override
+	protected boolean hasNextScreen() {   //TODO set to true when add LevelSelectionStrategy - actually get rid of this method then - this is TEMPORARY
+		return false;
+	}
 }

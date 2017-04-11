@@ -70,6 +70,7 @@ public class LevelStepStrategy implements StepStrategy{
 	 */
 	public void endLevel(boolean gameOver){
 		//Do not check timeIsUp() here, rather, set up TimerEvent with time = 0 and attach a DieAction, which will call this method when appropriate
+		detachObservablesFromEntities();
 		StepStrategy nextStepStrategy;
 		if(gameOver){
 			System.out.println("Out of lives -- Game over!");
@@ -97,7 +98,19 @@ public class LevelStepStrategy implements StepStrategy{
 		observableBundle.levelObservableSetup(gameScene, levelManager);
 		observableBundle.setObservablesInEvents(levelManager);
 		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
-			observableBundle.attachEntityToAll(entity);
+			observableBundle.attachEntityToAll(entity);   //TODO Just attach to observables where you need it
+		}
+	}
+	
+	private void detachObservablesFromEntities(){
+		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
+			try{
+			observableBundle.detachEntityFromAll(entity);   //TODO Just detach from those observables where attached (see above comment)
+			}
+			catch(ArrayIndexOutOfBoundsException e){
+				System.out.println("List of Entities in current level: " + levelManager.getCurrentLevel().getEntities());
+				System.out.println("Exception for Entity: " + entity);
+			}
 		}
 	}
 	
@@ -125,7 +138,7 @@ public class LevelStepStrategy implements StepStrategy{
 	
 	//Temporary, for testing
 	private void instantiateTestEntitesEventsActions(){
-		//TEST - TODO ask Nikita, etc. how GAE does this
+		//--------Create the first level---------------
 		Entity mario = new CharacterEntity();
 		mario.setX(200);
 		mario.setY(200);
