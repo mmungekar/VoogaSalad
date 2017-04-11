@@ -40,7 +40,6 @@ public class GameSaver {
 		for (int i = 0; i < levels.size(); i++) {
 
 			List<Entity> entities = new ArrayList<Entity>(levels.get(i).getEntities());
-			System.out.println(levels.get(i).getEntities());
 			List<String> entityfilepaths = new ArrayList<String>();
 
 			for (int j = 0; j < entities.size(); j++) {
