@@ -26,8 +26,7 @@ public abstract class AbstractMenu implements Menu{
 		ImageView image = new ImageView(
 				new Image(getClass().getClassLoader().getResourceAsStream(getResources().getString("BackPath"))));
 		
-		back = new Button("Back", image);
-		backButton().setOnAction(e -> back(stage));
+		back = factory.makeImageButton("Back", image, e -> back(stage), false);
 		getRoot().setBottom(backButton());
 		
 		
