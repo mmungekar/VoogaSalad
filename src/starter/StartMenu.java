@@ -103,13 +103,28 @@ public class StartMenu extends BorderPane {
 			return selectedDirectory.getAbsolutePath();
 		}
 	}
+	
+	private boolean isSelected(String selectedDirectory){
+		if(selectedDirectory == ""){
+			return false;
+		}else{
+			return true;
+		}
+	}
 
 	private void editGame() {
-		new AuthoringEnvironment(chooseGame());
+		String chosen = chooseGame();
+		if(isSelected(chosen)){
+			new AuthoringEnvironment(chosen);
+		}
+		
 	}
 
 	private void playGame() {
-		new PlayerMenu();
+		String chosen = chooseGame();
+		if(isSelected(chosen)){
+			new PlayerMenu(chosen);
+		}
 	}
 
 	private Button makeButton(String label, EventHandler<ActionEvent> handler) {

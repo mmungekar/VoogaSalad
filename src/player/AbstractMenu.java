@@ -17,6 +17,10 @@ public abstract class AbstractMenu implements Menu{
 	private Button back;
 	
 	public AbstractMenu(Stage stage){
+		setupView(stage);
+	}
+	
+	private void setupView(Stage stage){
 		root = new BorderPane();
 		factory = new ComponentMaker(resources);
 		ImageView image = new ImageView(
@@ -25,6 +29,8 @@ public abstract class AbstractMenu implements Menu{
 		back = new Button("Back", image);
 		backButton().setOnAction(e -> back(stage));
 		getRoot().setBottom(backButton());
+		
+		
 	}
 	
 	protected BorderPane getRoot(){
