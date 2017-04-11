@@ -27,6 +27,7 @@ public class EventEditor extends Editor {
 	@Override
 	public void selected(String string) {
 		event = engine.createEvent(string);
+		event.setEntity(picker.getEntityMaker().getEntity());
 		update(event);
 	}
 

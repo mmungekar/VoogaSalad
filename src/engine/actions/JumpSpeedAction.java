@@ -11,6 +11,6 @@ public class JumpSpeedAction extends Action {
 
 	@Override
 	public void act() {
-		getEntity().setYSpeed((Double) getParam("Max Jump Height"));
+		getEntity().setYSpeed((Double) getParam("Initial Jump Speed"));
 	}
 }

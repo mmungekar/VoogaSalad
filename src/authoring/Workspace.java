@@ -21,7 +21,8 @@ import javafx.stage.DirectoryChooser;
  * @author Elliott Bolzan Modified by Mina Mungekar, Jimmy Shackford
  *
  */
-public class Workspace extends View {
+public class Workspace extends View
+{
 
 	private ResourceBundle resources;
 	private ComponentMaker maker;
@@ -37,7 +38,8 @@ public class Workspace extends View {
 	/**
 	 * 
 	 */
-	public Workspace(ResourceBundle resources, String path) {
+	public Workspace(ResourceBundle resources, String path)
+	{
 		super("Workspace");
 		this.resources = resources;
 		setup();
@@ -45,15 +47,17 @@ public class Workspace extends View {
 			load(path);
 		}
 	}
-	
-	public Game getGame() {
+
+	public Game getGame()
+	{
 		return game;
 	}
 
 	/**
 	 * Initializes the Workspace's components.
 	 */
-	private void setup() {
+	private void setup()
+	{
 		game = new Game();
 		data = new GameData();
 		maker = new ComponentMaker(resources);
@@ -67,14 +71,16 @@ public class Workspace extends View {
 		setCenter(pane);
 	}
 
-	private void load(String path) {
+	private void load(String path)
+	{
 		game = data.loadGame(path);
 		defaults.setEntities(game.getDefaults());
 		// load levels into canvas
 		// load settings: game name, music
 	}
 
-	public void save() {
+	public void save()
+	{
 		// Levels must already be saved into game. Everything else already is.
 		String path = "";
 		String outputFolder = new File(resources.getString("GamesPath")).getAbsolutePath();
@@ -83,53 +89,65 @@ public class Workspace extends View {
 		if (selectedDirectory != null) {
 			path = selectedDirectory.getAbsolutePath();
 		}
+		game.setLevels(levelEditor.getLevels());
 		if (!path.equals("")) {
 			data.saveGame(game, path);
 		}
 	}
 
-	public ResourceBundle getResources() {
+	public ResourceBundle getResources()
+	{
 		return resources;
 	}
 
-	public SplitPane getPane() {
+	public SplitPane getPane()
+	{
 		return pane;
 	}
 
-	public DefaultEntities getDefaults() {
+	public DefaultEntities getDefaults()
+	{
 		return defaults;
 	}
 
-	public Entity getSelectedEntity() {
+	public Entity getSelectedEntity()
+	{
 		return defaults.getSelectedEntity();
 	}
 
-	public void showMessage(String message) {
+	public void showMessage(String message)
+	{
 		maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message).showAndWait();
 	}
 
-	public List getEntities() {
+	public List getEntities()
+	{
 		// return canvas's entities (i.e. canvas.getLevel())
 		return new ArrayList<>();
 	}
 
-	public void setNewLayer(String newLayer) {
+	public void setNewLayer(String newLayer)
+	{
 		panel.updateLayerPanel(newLayer);
 	}
 
-	public void addLayer() {
+	public void addLayer()
+	{
 		levelEditor.getCurrentLevel().makeNewTab();
 	}
 
-	public void selectLayer(int arg2) {
-		levelEditor.getCurrentLevel().selectNewLayer(arg2);
+	public void selectLayer(int arg2)
+	{
+		levelEditor.getCurrentLevel().selectLayer(arg2);
 	}
 
-	public void selectExistingLevel(int newLevelNum) {
+	public void selectExistingLevel(int newLevelNum)
+	{
 		panel.selectExistingLevelBox(newLevelNum);
 	}
 
-	public void deleteLayer(int layer) {
+	public void deleteLayer(int layer)
+	{
 		levelEditor.getCurrentLevel().deleteLayer(layer);
 	}
 }
