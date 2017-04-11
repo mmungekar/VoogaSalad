@@ -1,15 +1,10 @@
 package engine.actions;
 
 import engine.Action;
-import engine.Entity;
 import engine.game.gameloop.LevelStepStrategy;
 
 public class NextLevelAction extends Action {
 	private LevelStepStrategy levelStepStrategy;
-
-	public NextLevelAction(Entity entity) {
-		super(entity);
-	}
 	
 	public void setLevelStepStrategy(LevelStepStrategy levelStepStrategy){
 		this.levelStepStrategy = levelStepStrategy;		
@@ -17,6 +12,7 @@ public class NextLevelAction extends Action {
 
 	@Override
 	public void act() {
+		getGame().getLevelStepStrategy().startNextLevel();
 		levelStepStrategy.startNextLevel();
 	}
 

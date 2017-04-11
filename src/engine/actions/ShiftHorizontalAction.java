@@ -1,7 +1,6 @@
 package engine.actions;
 
 import engine.Action;
-import engine.Entity;
 import engine.Parameter;
 
 /**
@@ -12,10 +11,10 @@ import engine.Parameter;
  */
 public class ShiftHorizontalAction extends Action {
 	
-	public ShiftHorizontalAction(Entity entity, double shiftAmount){
-		super(entity);
-		addParam(new Parameter("Move amount", Double.class, shiftAmount));
+	public ShiftHorizontalAction(){
+		addParam(new Parameter("Move amount", Double.class, 0));
 	}
+	
 	public void act() {
 		System.out.println( (Double)getParam("Move amount"));
 		getEntity().setX(getEntity().getX() + (Double)getParam("Move amount"));

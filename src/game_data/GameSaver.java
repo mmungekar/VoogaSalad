@@ -1,15 +1,15 @@
 package game_data;
 
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import com.thoughtworks.xstream.XStream;
@@ -17,20 +17,16 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import engine.Entity;
 import engine.game.Level;
-import static java.nio.file.StandardCopyOption.*;
 
 public class GameSaver {
 
-
-	
-	
-	public void saveGame(Game game, String filepath){
-	
+	public void saveGame(Game game, String filepath) {
+		this.saveGame(game.getLevels(), filepath);
 	}
-	//filepath provides the specific directory where the game will be stored
-	public void saveGame(List<Level> levels,String filepath){
-		savelevels(levels,filepath);
-		
+
+	// filepath provides the specific directory where the game will be stored
+	public void saveGame(List<Level> levels, String filepath) {
+		savelevels(levels, filepath);
 
 	}
 
@@ -57,19 +53,17 @@ public class GameSaver {
 		}
 	}
 
-	
-	
-	public String saveEntity(Entity entity, String filepath){
-		File entityfolder=new File(filepath+"/entities");
-		if(!entityfolder.exists()){
+	public String saveEntity(Entity entity, String filepath) {
+		File entityfolder = new File(filepath + "/entities");
+		if (!entityfolder.exists()) {
 			entityfolder.mkdirs();
 		}
-		String entityfilepath="";
-		try{
-			saveEntityImage(entity,filepath);
-			entityfilepath=filepath+"/entities/"+entity.getName()+".xml";
+		String entityfilepath = "";
+		try {
+			saveEntityImage(entity, filepath);
+			entityfilepath = filepath + "/entities/" + entity.getName() + ".xml";
 			File entityfile = new File(entityfilepath);
-			
+
 			XStream xStream = new XStream(new DomDriver());
 			xStream.registerConverter(new EntityConverter());
 			String xmlstring = xStream.toXML(entity);
@@ -88,8 +82,8 @@ public class GameSaver {
 	public void saveEntityImage(Entity entity, String filepath) {
 		try {
 
-			String sourcepathstring = entity.getImagePath();
-			Path sourcepath = Paths.get(sourcepathstring);
+			String sourcePath = new File(new URI(entity.getImagePath())).getAbsolutePath();
+			Path sourcepath = Paths.get(sourcePath);
 
 			String targetpathstring = filepath + "/images/" + entity.getName() + "image.png";
 			File entityimagefile = new File(targetpathstring);
@@ -100,7 +94,7 @@ public class GameSaver {
 			Path targetpath = Paths.get(targetpathstring);
 			Files.copy(sourcepath, targetpath, REPLACE_EXISTING);
 
-		} catch (IOException i) {
+		} catch (Exception i) {
 			i.printStackTrace();
 		}
 

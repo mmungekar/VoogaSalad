@@ -1,7 +1,6 @@
 package engine.actions;
 
 import engine.Action;
-import engine.Entity;
 import engine.entities.CharacterEntity;
 import engine.game.gameloop.LevelStepStrategy;
 
@@ -14,8 +13,8 @@ import engine.game.gameloop.LevelStepStrategy;
 public class DieAction extends Action{
 	private LevelStepStrategy levelStepStrategy;
 	
-	public DieAction(Entity entity){
-		super(entity);
+	public DieAction() {
+
 	}
 	
 	public void setLevelStepStrategy(LevelStepStrategy levelStepStrategy) {

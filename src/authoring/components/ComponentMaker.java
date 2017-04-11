@@ -1,6 +1,3 @@
-/**
- * 
- */
 package authoring.components;
 
 import java.io.File;
@@ -11,7 +8,6 @@ import java.util.ResourceBundle;
 import authoring.views.View;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Alert;
@@ -176,6 +172,25 @@ public class ComponentMaker {
 		Button button = new Button("", imageView);
 		button.setOnAction(action);
 		button.getStyleClass().add(style);
+		return button;
+	}
+	
+	/**
+	 * @param property
+	 *            the property that provides the title of the Button.
+	 * @param handler
+	 *            the handler executed when the button is clicked.
+	 * @param fill
+	 *            whether the button should fill its available space.
+	 * @return a Button.
+	 */
+	public Button makeImageButton(String property, ImageView image, EventHandler<ActionEvent> handler, boolean fill) {
+		Button button = new Button(resources.getString(property), image);
+		button.setOnAction(handler);
+		if (fill) {
+			HBox.setHgrow(button, Priority.ALWAYS);
+			button.setMaxWidth(Double.MAX_VALUE);
+		}
 		return button;
 	}
 

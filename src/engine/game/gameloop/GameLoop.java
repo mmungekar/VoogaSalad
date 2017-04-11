@@ -1,15 +1,9 @@
 package engine.game.gameloop;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import engine.game.Level;
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
-import engine.graphics.cameras.ScrollingCamera;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 
 /**
@@ -37,11 +31,14 @@ public class GameLoop {
 		
 		//Setup the first level screen
 		level1Screen = new Screen(new LevelStepStrategy(), observableBundle, levelManager, gameScene, graphicsEngine);
-		
 	}
 	
 	public void startTimeline(){
 		level1Screen.start();
+	}
+	
+	public void pauseTimeline(){
+		level1Screen.pause();
 	}
 	
 	public Pane getGameView() {

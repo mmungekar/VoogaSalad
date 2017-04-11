@@ -9,36 +9,41 @@ import engine.entities.CharacterEntity;
 import engine.events.AlwaysEvent;
 import engine.game.Level;
 
-public class LevelSaverTest {
-	public static void main(String[] args) {
-GameSaver gs = new GameSaver();
-	
-	Entity entity = new CharacterEntity("Guilherme","src/resources/images/mario.png");
-	
 
-	entity.setX(100);
-	entity.setY(55);
+public class LevelSaverTest
+{
+	public static void main(String[] args)
+	{
+		GameSaver gs = new GameSaver();
 
-	Entity luigi = new CharacterEntity("Luigi","src/resources/images/luigi.png");
+		// Entity entity = new
+		// CharacterEntity("Guilherme","src/resources/images/mario.png");
+		Entity entity = new CharacterEntity();
+		entity.setName("Guilherme");
+		entity.setImagePath("src/resources/images/mario.png");
 
-	luigi.setX(100);
-	luigi.setY(55);
-	
-	AlwaysEvent event = new AlwaysEvent();
-	luigi.addEvent(event);
-	
-	//C:/Users/Michael8417/workspace/voogasalad_duwaldorf/
-	String filepath="data/SaveTesting";
-	
-	Level l = new Level();
-	l.addEntity(entity);
-	l.addEntity(luigi);
-	
-	List<Level> levels= new ArrayList<Level>();
-	levels.add(l);
-	gs.saveGame(levels, filepath);
-	
-	
-	
+		entity.setX(100);
+		entity.setY(55);
+
+		// Entity luigi = new
+		// CharacterEntity("Luigi","src/resources/images/luigi.png");
+		Entity luigi = new CharacterEntity();
+		luigi.setName("Luigi");
+		luigi.setImagePath("src/resources/images/luigi.png");
+
+		luigi.setX(100);
+		luigi.setY(55);
+
+		// C:/Users/Michael8417/workspace/voogasalad_duwaldorf/
+		String filepath = "data/SaveTesting";
+
+		Level l = new Level();
+		l.addEntity(entity);
+		l.addEntity(luigi);
+
+		List<Level> levels = new ArrayList<Level>();
+		levels.add(l);
+		gs.saveGame(levels, filepath);
+
 	}
 }

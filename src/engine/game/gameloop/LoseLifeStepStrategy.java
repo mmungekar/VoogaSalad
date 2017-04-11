@@ -3,7 +3,7 @@ package engine.game.gameloop;
 import engine.game.LevelManager;
 
 public class LoseLifeStepStrategy extends TransitionStepStrategy {
-	private static final String RESOURCE_NAME = "GameOver";
+	private static final String RESOURCE_NAME = "LivesLeft";
 	
 	public LoseLifeStepStrategy() {
 		super(RESOURCE_NAME);
@@ -26,9 +26,7 @@ public class LoseLifeStepStrategy extends TransitionStepStrategy {
 
 	@Override
 	protected int nextLevelNumber(LevelManager levelManager) {
-		return levelManager.getLevelNumber() + 1;
+		return levelManager.getLevelNumber();
 	}
 
-	
-	
 }

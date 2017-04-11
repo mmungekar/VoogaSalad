@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import engine.Event;
-import engine.GameObject;
+import engine.entities.CharacterEntity;
 import engine.Action;
 import engine.Entity;
 
@@ -30,19 +30,23 @@ public class EngineController {
 	public List<String> getAllEvents() {
 		return findClasses("engine.events", "Event");
 	}
+	
+	
+	public Entity getDefaultEntity() {
+		return new CharacterEntity();
+	}
 
 	public Entity createEntity(String entity) {
-		return (Entity) getInstance("engine.entities." + getClassName(entity, "Entity"));
+		return (Entity) getInstance("engine.entities." + getClassName(entity, "Entity"), "Entity");
+		
 	}
 
 	public Event createEvent(String event) {
-		Event something = (Event) getInstance("engine.events." + getClassName(event, "Event"));
-		System.out.println(something);
-		return something;
+		return (Event) getInstance("engine.events." + getClassName(event, "Event"), "Event");
 	}
 
 	public Action createAction(String action) {
-		return (Action) getInstance("engine.actions." + getClassName(action, "Action"));
+		return (Action) getInstance("engine.actions." + getClassName(action, "Action"), "Action");
 	}
 
 	private String getClassName(String string, String type) {
@@ -65,13 +69,12 @@ public class EngineController {
 		}).collect(Collectors.toList());
 	}
 
-	private Object getInstance(String path) {
+	private Object getInstance(String path, String type) {
 		try {
 			Class<?> clazz = Class.forName(path);
 			Constructor<?> ctor = clazz.getDeclaredConstructor();
-			System.out.println(ctor);
-			System.out.println(ctor.getName());
 			return ctor.newInstance();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
