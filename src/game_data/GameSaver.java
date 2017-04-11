@@ -27,7 +27,6 @@ public class GameSaver {
 	// filepath provides the specific directory where the game will be stored
 	public void saveGame(List<Level> levels, String filepath) {
 		savelevels(levels, filepath);
-
 	}
 
 	private void savelevels(List<Level> levels, String filepath) {
@@ -99,5 +98,4 @@ public class GameSaver {
 		}
 
 	}
-
 }
