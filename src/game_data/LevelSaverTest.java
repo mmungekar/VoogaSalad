@@ -11,14 +11,15 @@ public class LevelSaverTest {
 	public static void main(String[] args) {
 GameSaver gs = new GameSaver();
 	
-	Entity entity = new CharacterEntity("Guilherme","src/resources/images/mario.png");
-	
+	Entity entity = new CharacterEntity();
+	entity.setImagePath("resources/images/mario.png");
 
 	entity.setX(100);
 	entity.setY(55);
 
-	Entity luigi = new CharacterEntity("Luigi","src/resources/images/luigi.png");
-
+	Entity luigi = new CharacterEntity();
+	luigi.setImagePath("resources/images/luigi.png");
+	
 	luigi.setX(100);
 	luigi.setY(55);
 
