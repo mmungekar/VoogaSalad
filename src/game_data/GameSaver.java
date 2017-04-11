@@ -17,23 +17,19 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 import engine.Entity;
 import engine.game.Level;
 
-public class GameSaver
-{
+public class GameSaver {
 
-	public void saveGame(Game game, String filepath)
-	{
+	public void saveGame(Game game, String filepath) {
 		this.saveGame(game.getLevels(), filepath);
 	}
 
 	// filepath provides the specific directory where the game will be stored
-	public void saveGame(List<Level> levels, String filepath)
-	{
+	public void saveGame(List<Level> levels, String filepath) {
 		savelevels(levels, filepath);
 
 	}
 
-	private void savelevels(List<Level> levels, String filepath)
-	{
+	private void savelevels(List<Level> levels, String filepath) {
 		File entityfolder = new File(filepath + "/levels");
 		if (!entityfolder.exists()) {
 			entityfolder.mkdirs();
@@ -57,8 +53,7 @@ public class GameSaver
 		}
 	}
 
-	public String saveEntity(Entity entity, String filepath)
-	{
+	public String saveEntity(Entity entity, String filepath) {
 		File entityfolder = new File(filepath + "/entities");
 		if (!entityfolder.exists()) {
 			entityfolder.mkdirs();
@@ -84,8 +79,7 @@ public class GameSaver
 		return entityfilepath;
 	}
 
-	public void saveEntityImage(Entity entity, String filepath)
-	{
+	public void saveEntityImage(Entity entity, String filepath) {
 		try {
 
 			String sourcepathstring = entity.getImagePath();
