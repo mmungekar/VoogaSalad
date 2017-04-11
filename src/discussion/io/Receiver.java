@@ -1,4 +1,5 @@
 package discussion.io;
+
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
@@ -6,6 +7,7 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.net.NetworkInterface;
+import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -18,57 +20,65 @@ import discussion.response.Delegate;
  *
  */
 public class Receiver extends Actor implements Runnable {
-	
+
 	private String ID;
 	private Collection<Delegate> delegates;
-	private MulticastSocket socket;
-	
+
 	public Receiver(String ID, String host, int port, int bufferSize) {
 		super(host, port, bufferSize);
 		this.ID = ID;
 		delegates = new ArrayList<Delegate>();
+		System.setProperty("java.net.preferIPv4Stack", "true");
 	}
-	
+
 	public void addReceiver(Connectable connectable, String key) {
 		delegates.add(new Delegate(key, connectable));
 	}
 
 	@Override
 	public void run() {
-		System.setProperty("java.net.preferIPv4Stack", "true");
 		try {
 			byte[] buffer = new byte[getBufferSize()];
 			DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
-			setupSocket();
+			MulticastSocket socket = setupSocket();
 			while (true) {
-				socket.receive(packet);
-				Message message = getMessageFromBuffer(buffer);
-				processMessage(message);
-		        packet.setLength(buffer.length);
+				try {
+					socket.receive(packet);
+					System.out.println("Received something.");
+					Message message = getMessageFromBuffer(buffer);
+					processMessage(message);
+					packet.setLength(buffer.length);
+				} catch (Exception e) {
+					continue;
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	private void setupSocket() throws Exception {
-		socket = new MulticastSocket(getPort());
-		//socket.joinGroup(InetAddress.getByName(getHost()));
-		Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
-		while (interfaces.hasMoreElements()) {
-			NetworkInterface iface = interfaces.nextElement();
-			if (iface.isLoopback() || !iface.isUp()) {
-				continue;
-			}
-			Enumeration<InetAddress> addresses = iface.getInetAddresses();
-			while (addresses.hasMoreElements()) {
-				InetAddress address = addresses.nextElement();
-				socket.setInterface(address);
-				socket.joinGroup(InetAddress.getByName(getHost()));
-			}
-		}
+
+	private MulticastSocket setupSocket() throws Exception {
+		MulticastSocket socket = new MulticastSocket(getPort());
+		socket.setReuseAddress(true);
+		/*
+		 * Enumeration<NetworkInterface> interfaces =
+		 * NetworkInterface.getNetworkInterfaces(); while
+		 * (interfaces.hasMoreElements()) { try { NetworkInterface iface =
+		 * interfaces.nextElement(); if (iface.isLoopback() || !iface.isUp()) {
+		 * continue; } Enumeration<InetAddress> addresses =
+		 * iface.getInetAddresses(); while (addresses.hasMoreElements()) { try {
+		 * InetAddress address = addresses.nextElement();
+		 * System.out.println("Trying to sign up for: " + address);
+		 * socket.setInterface(address);
+		 * socket.joinGroup(InetAddress.getByName(getHost())); } catch
+		 * (Exception e) { e.printStackTrace(); continue; } } } catch (Exception
+		 * e) { e.printStackTrace(); continue; } }
+		 */
+		socket.setInterface(InetAddress.getByName("10.188.18.167"));
+		socket.joinGroup(InetAddress.getByName(getHost()));
+		return socket;
 	}
-	
+
 	private Message getMessageFromBuffer(byte[] buffer) throws Exception {
 		ByteArrayInputStream byteStream = new ByteArrayInputStream(buffer);
 		ObjectInputStream is = new ObjectInputStream(new BufferedInputStream(byteStream));
@@ -76,7 +86,7 @@ public class Receiver extends Actor implements Runnable {
 		is.close();
 		return message;
 	}
-	
+
 	private void processMessage(Message message) {
 		for (Delegate delegate : delegates) {
 			if (message.getKey().equals(delegate.getKey()) && !message.getSenderID().equals(ID)) {

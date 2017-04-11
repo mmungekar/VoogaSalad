@@ -16,6 +16,7 @@ public class Sender extends Actor {
 	
 	public Sender(String host, int port, int bufferSize) {
 		super(host, port, bufferSize);
+		System.setProperty("java.net.preferIPv4Stack", "true");
 	}
 	
 	public void send(Message message) {
@@ -55,6 +56,7 @@ public class Sender extends Actor {
 				InetAddress address = addresses.nextElement();
 				socket.setInterface(address);
 				socket.send(packet);
+				System.out.println("Sent on: " + address);
 			}
 		}
 	}

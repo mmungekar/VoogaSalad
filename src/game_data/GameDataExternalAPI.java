@@ -2,10 +2,9 @@ package game_data;
 import java.util.Collection;
 import java.util.List;
 
-import engine.Entity;
-import engine.Level;
+import engine.*;
+import engine.game.Level;
 import javafx.scene.Node;
-import object_mockups.*;
 
 public interface GameDataExternalAPI{
 	

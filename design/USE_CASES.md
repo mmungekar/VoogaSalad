@@ -1,6 +1,4 @@
 Use Cases
-===========
-
 
 **Written by:** Elliott Bolzan (eab91), Jesse Yue (jty4), Jay Doherty (jld60), Mina Mungekar(mem94), Nikita Zemlevskiy (naz7), Jimmy Shackford (jas199), Kyle Finke (kwf10), Matthew Barbano (meb100), Dennis Ling (dl186)
 
@@ -271,4 +269,3 @@ Matthew Barbano (meb100)
 - In this Action's act():
     - A reference to the LevelManager calls its progressToNextLevel(), which attempts to set the current level to the next one but discovered there are no more left.
     - Therefore, the LevelManager's terminateGame() is called, which calls a method in the GamePlayer's I/O module to set the current scene to a title screen.
- 

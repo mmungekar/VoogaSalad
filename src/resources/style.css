@@ -1,0 +1,69 @@
+.root {
+    -fx-font-size: 10pt;
+    -fx-font-family: Helvetica, Arial, sans-serif;
+    -fx-base: #1d1d1d;
+    -fx-background: #1d1d1d;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-accent: #2affce;
+    -fx-control-inner-background: #1d1d1d;
+}
+
+.text-field, .text-area {
+	-fx-control-inner-background: white;
+}
+
+.minimize, .tab-button {
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
+
+.tab-button:hover, .minimize:hover {
+    -fx-background-color: lightgray;
+}
+
+.split-pane > .split-pane-divider {  
+    -fx-padding: 0 2 0 2;  
+} 
+
+#entity-table .table-column {
+ 	-fx-alignment: CENTER;
+}
+
+#entity-table .table-row-cell {
+    -fx-cell-size: 60px;
+}
+
+#entity-table .table-cell {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent -fx-table-cell-border-color -fx-table-cell-border-color transparent;
+    -fx-table-cell-border-color:transparent;
+}
+
+#entity-table .column-header-background {
+    -fx-max-height: 0;
+    -fx-pref-height: 0;
+    -fx-min-height: 0;
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-opacity: 0;
+}
+
+.tab-pane {
+    -fx-tab-min-width:90px;
+}
+
+.tab-pane .tab:selected {
+	-fx-background-color: #3a3a3a;
+}
+
+.tab .tab-label { 
+    -fx-alignment: CENTER;
+}
+
+/*.scroll-pane > .viewport {
+   -fx-background-color: white;
+}*/
